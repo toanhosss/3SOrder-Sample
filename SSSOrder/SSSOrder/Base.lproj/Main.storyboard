@@ -55,15 +55,18 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="qhh-ie-5Hp"/>
+                    <connections>
+                        <segue destination="8rp-pH-Rac" kind="show" identifier="login_to_register" action="showDetailViewController:sender:" id="VAf-zX-zMh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="455.19999999999999" y="21.139430284857571"/>
         </scene>
-        <!--View Controller-->
+        <!--Register View Controller-->
         <scene sceneID="99u-e3-3hN">
             <objects>
-                <viewController id="8rp-pH-Rac" sceneMemberID="viewController">
+                <viewController id="8rp-pH-Rac" customClass="RegisterViewController" customModule="SSSOrder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QOC-xb-aaB"/>
                         <viewControllerLayoutGuide type="bottom" id="1ck-6x-I9w"/>
@@ -73,6 +76,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" customClass="register_to_login" id="tV2-ZT-1ha"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mah-Am-IcU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -196,4 +202,7 @@
             <point key="canvasLocation" x="1357.5999999999999" y="21.139430284857571"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="tV2-ZT-1ha"/>
+    </inferredMetricsTieBreakers>
 </document>

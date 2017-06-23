@@ -25,6 +25,10 @@ enum ImageConstant {
     static let IconRoundFB = UIImage(named: "fb_round_icon")
     static let IconRoundTW = UIImage(named: "twitter_round_icon")
     static let IconRoundGG = UIImage(named: "google_plus_round_icon")
+
+    static let IconCamera = UIImage(named: "camera")
+    static let IconPhone = UIImage(named: "mobile")
+
 }
 
 /// Constant Color
@@ -38,4 +42,6 @@ enum ColorConstant {
 /// Constant SegueId
 enum SegueNameConstant {
     static let SplashToLogin = "splash_to_login"
+    static let LoginToRegister = "login_to_register"
+    static let RegisterToLogin = "register_to_login"
 }

@@ -55,7 +55,7 @@ class BaseController: UIViewController {
             return
         }
         overlayView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
-        overlayView.backgroundColor = .white
+        overlayView.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.5)
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: overlayView.bounds.width*0.1, height: overlayView.bounds.width*0.1)
         activityIndicator.activityIndicatorViewStyle = indicatorViewStyle

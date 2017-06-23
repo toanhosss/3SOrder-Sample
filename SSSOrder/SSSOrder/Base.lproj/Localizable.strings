@@ -14,3 +14,9 @@
 "forgotPass" = "Forgot Password?";
 "or" = "or";
 "text2" = "Connect with us";
+
+/* register */
+"name" = "Full Name";
+"confirmPass" = "Confirm Password";
+"register" = "Register";
+"labelBack" = "Already have an Account? Sign in";

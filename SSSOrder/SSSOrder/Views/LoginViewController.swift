@@ -199,6 +199,11 @@ class LoginViewController: BaseController {
 
     @objc func createAccountTouched(sender: UITapGestureRecognizer) {
         print("REGISTER")
+        self.showOverlayLoading()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+            self.removeOverlayLoading()
+            self.performSegue(withIdentifier: SegueNameConstant.LoginToRegister, sender: nil)
+        }
     }
 
     @objc func forgotPasswordTouched(sender: UITapGestureRecognizer) {

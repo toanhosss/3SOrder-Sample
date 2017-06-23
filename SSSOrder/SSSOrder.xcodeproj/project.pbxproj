@@ -14,6 +14,7 @@
 		17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B5181EFD6E8A00183139 /* LoginViewController.swift */; };
 		17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B51B1EFD778000183139 /* CustomInputField.swift */; };
 		17F6B51F1EFD832B00183139 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 17F6B5211EFD832B00183139 /* Localizable.strings */; };
+		17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B5221EFDA45300183139 /* RegisterViewController.swift */; };
 		385938621EFCF76800087743 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938611EFCF76800087743 /* AppDelegate.swift */; };
 		385938671EFCF76800087743 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385938651EFCF76800087743 /* Main.storyboard */; };
 		385938691EFCF76800087743 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385938681EFCF76800087743 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		17F6B5181EFD6E8A00183139 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		17F6B51B1EFD778000183139 /* CustomInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInputField.swift; sourceTree = "<group>"; };
 		17F6B5201EFD832B00183139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		17F6B5221EFDA45300183139 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		31D8A477D870A20A83859563 /* Pods-SSSOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSSOrderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSSOrderTests/Pods-SSSOrderTests.release.xcconfig"; sourceTree = "<group>"; };
 		3859385E1EFCF76800087743 /* SSSOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSSOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385938611EFCF76800087743 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				38CB8B641EFCF8760052D5FC /* BaseController.swift */,
 				172141BD1EFD55DB005B1CC2 /* SplashScreenViewController.swift */,
 				17F6B5181EFD6E8A00183139 /* LoginViewController.swift */,
+				17F6B5221EFDA45300183139 /* RegisterViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */,
 				38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */,
 				385938621EFCF76800087743 /* AppDelegate.swift in Sources */,
+				17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */,
 				172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */,
 				17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */,
 				172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */,
