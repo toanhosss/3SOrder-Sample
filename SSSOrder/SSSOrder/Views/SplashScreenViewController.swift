@@ -10,50 +10,33 @@ import UIKit
 
 class SplashScreenViewController: BaseController {
 
-    var overlayView: UIView!
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        checkUserLoggedIn()
+
+        indicatorView.startAnimating()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    /// Override set layout page
+    override func setLayoutPage() {
+        // set background
+        self.view.backgroundColor = ColorConstant.BackgroundColor
 
-    /*
-     * Show Overlay loading view
-     */
-    func showOverlayLoading(_ indicatorViewStyle: UIActivityIndicatorViewStyle = .whiteLarge) {
-        if overlayView != nil {
-            return
-        }
-        overlayView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.SCREEN_WIDTH, height: ScreenSize.SCREEN_HEIGHT))
-        overlayView.backgroundColor = .white
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: overlayView.bounds.width*0.1, height: overlayView.bounds.width*0.1)
-        activityIndicator.activityIndicatorViewStyle = indicatorViewStyle
-        activityIndicator.center = CGPoint(x: overlayView.bounds.width / 2, y: overlayView.bounds.height / 2)
-        overlayView.addSubview(activityIndicator)
-        self.view.addSubview(overlayView)
-        activityIndicator.startAnimating()
+        // set logo app
+        let logo = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.1304, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.287856))
+        logo.image = ImageConstant.AppLogo
+        self.view.addSubview(logo)
     }
-    
-    /*
-     * Remove Overlay loading view
-     */
-    func removeOverlayLoading() {
-        if overlayView == nil {
-            return
+
+    func checkUserLoggedIn() {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+            self.performSegue(withIdentifier: SegueNameConstant.SplashToLogin, sender: nil)
         }
-        
-        self.overlayView.removeFromSuperview()
-        self.overlayView = nil
     }
-    
+
     /*
     // MARK: - Navigation
 

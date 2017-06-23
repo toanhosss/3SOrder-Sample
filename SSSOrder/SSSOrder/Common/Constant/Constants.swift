@@ -12,17 +12,30 @@ import UIKit
 /// Constant screen size
 enum ScreenSize {
 
-    static let SCREEN_WIDTH = UIScreen.main.bounds.width
-    static let SCREEN_HEIGHT = UIScreen.main.bounds.height
+    static let ScreenWidth = UIScreen.main.bounds.width
+    static let ScreenHeight = UIScreen.main.bounds.height
 }
 
 /// Constant Image
 enum ImageConstant {
-    static let APP_LOGO = UIImage(named: "logo")
+    static let AppLogo = UIImage(named: "logo")
+    static let IconUser = UIImage(named: "user")
+    static let IconPassword = UIImage(named: "lock")
+
+    static let IconRoundFB = UIImage(named: "fb_round_icon")
+    static let IconRoundTW = UIImage(named: "twitter_round_icon")
+    static let IconRoundGG = UIImage(named: "google_plus_round_icon")
 }
 
 /// Constant Color
-
 enum ColorConstant {
-    static let BACKGROUND_COLOR = UIColor.hexStringToUIColor("#000000")
+    static let BackgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.75)
+    static let BackgroundColorAdded = UIColor.hexStringToUIColor("#767676")
+
+    static let ButtonPrimary = UIColor.hexStringToUIColor("#FF3366")
+}
+
+/// Constant SegueId
+enum SegueNameConstant {
+    static let SplashToLogin = "splash_to_login"
 }

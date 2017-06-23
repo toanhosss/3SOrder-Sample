@@ -1,0 +1,7 @@
+# implicitly
+line_length: 200
+
+# or they can set both explicitly
+file_length:
+  warning: 500
+  error: 1200
