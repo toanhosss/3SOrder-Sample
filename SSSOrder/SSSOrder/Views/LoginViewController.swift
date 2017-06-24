@@ -186,7 +186,7 @@ class LoginViewController: BaseController {
     @objc func signInButtonTouched(sender: UIButton) {
         print("SIGN IN")
         self.showOverlayLoading()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.removeOverlayLoading()
             self.performSegue(withIdentifier: SegueNameConstant.LoginToHome, sender: nil)
         }

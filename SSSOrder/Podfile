@@ -9,6 +9,8 @@ target 'SSSOrder' do
   pod 'SwiftLint'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'Kingfisher', '~> 3.0'
+  pod 'HMSegmentedControl'
 
   target 'SSSOrderTests' do
     inherit! :search_paths

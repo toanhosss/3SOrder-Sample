@@ -154,7 +154,7 @@ class RegisterViewController: BaseController {
     @objc func registerButtonTouched(sender: UIButton) {
         print("REGISTER")
         self.showOverlayLoading()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.removeOverlayLoading()
             self.performSegue(withIdentifier: SegueNameConstant.RegisterToHome, sender: nil)
         }

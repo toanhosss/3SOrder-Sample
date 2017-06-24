@@ -20,3 +20,8 @@
 "confirmPass" = "Confirm Password";
 "register" = "Register";
 "labelBack" = "Already have an Account? Sign in";
+
+/* title label */
+"home" = "Nearest Salon";
+"back" = "Back";
+"service" = "Services";

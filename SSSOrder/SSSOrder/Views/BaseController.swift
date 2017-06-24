@@ -11,10 +11,60 @@ import UIKit
 class BaseController: UIViewController {
 
     var overlayView: UIView!
+    var navigationBarView: UIView?
+    var titleLabel: UILabel?
+
+    private var _backTitle = ""
+    var backTitle: String {
+        get {
+            return _backTitle
+        }
+
+        set {
+            _backTitle = newValue
+            setBacktitle()
+        }
+    }
+
+    private var _titleText: String = ""
+    var titlePage: String {
+        get {
+            return _titleText
+        }
+
+        set {
+            _titleText = newValue
+            setTitlePage()
+        }
+    }
+
+    private var _titleColor = UIColor.white
+    var titleColor: UIColor {
+
+        get {
+            return _titleColor
+        }
+
+        set {
+            _titleColor = newValue
+            setTitlePage()
+        }
+    }
+
+    private var _navigationBG = ColorConstant.NavigationBG
+    var navigationBG: UIColor {
+        get {
+            return _navigationBG
+        }
+
+        set {
+            _navigationBG = newValue
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
         setLayoutPage()
 
         setEventAndDelegate()
@@ -31,11 +81,87 @@ class BaseController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    /// Set Navigation information bar
+    func setNavigationBar() {
+
+        if navigationBarView != nil {
+            navigationBarView!.removeFromSuperview()
+            navigationBarView = nil
+        }
+
+        navigationBarView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth,
+                                                 height: ScreenSize.ScreenHeight*0.1))
+        self.view.addSubview(navigationBarView!)
+
+        setNavigationBackground()
+
+        setTitlePage()
+    }
+
+    /// Set Back Title
+    func setBacktitle() {
+        guard self.navigationBarView != nil else {
+            return
+        }
+
+        let backLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.025, width: ScreenSize.ScreenWidth*0.25, height: ScreenSize.ScreenHeight*0.075))
+        backLabel.text = "< " + backTitle
+        backLabel.textColor = titleColor
+        let tapBackButton = UITapGestureRecognizer(target: self, action: #selector(backButtonTouched(sender:)))
+        backLabel.isUserInteractionEnabled = true
+        backLabel.addGestureRecognizer(tapBackButton)
+        self.navigationBarView!.addSubview(backLabel)
+    }
+
+    /// Set title page
+    func setTitlePage() {
+
+        guard self.navigationBarView != nil else {
+            return
+        }
+
+        if titleLabel == nil {
+            titleLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.025, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.075))
+        }
+        titleLabel!.textAlignment = .center
+        titleLabel!.text = self.titlePage
+        titleLabel!.textColor = titleColor
+        self.navigationBarView!.addSubview(titleLabel!)
+    }
+
+    /// Set background navigation
+    func setNavigationBackground() {
+        guard self.navigationBarView != nil else {
+            return
+        }
+
+        self.navigationBarView!.backgroundColor = navigationBG
+        self.tabBarController!.tabBar.barTintColor = navigationBG
+    }
+
+    /// Set tabbar Icon
+    func setTabbarIcon(icons: [UIImage]) {
+
+        for i in 0..<icons.count {
+
+            let customTabBarItem: UITabBarItem = UITabBarItem(title: nil, image: icons[i].withRenderingMode(.alwaysTemplate),
+                                                              selectedImage: icons[i].withRenderingMode(.alwaysOriginal))
+
+            self.tabBarController!.viewControllers![i].tabBarItem = customTabBarItem
+            self.tabBarController!.viewControllers![i].tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+            self.tabBarController?.tabBar.tintColor = .gray
+        }
+
+    }
+
     /// Combo Set Layout for current page:
     /// - Set background
     /// - Set view element
     func setLayoutPage() {
+        // set background
+        self.view.backgroundColor = ColorConstant.BackgroundColor
 
+        setNavigationBar()
     }
 
     /// Set Delegate and NotificationCenter
@@ -75,6 +201,16 @@ class BaseController: UIViewController {
 
         self.overlayView.removeFromSuperview()
         self.overlayView = nil
+    }
+
+    // MARK: General Handler Button
+    func backButtonTouched(sender: UITapGestureRecognizer) {
+        print("Navigation back")
+        guard self.navigationController != nil else {
+            return
+        }
+
+        self.navigationController!.popViewController(animated: true)
     }
 }
 

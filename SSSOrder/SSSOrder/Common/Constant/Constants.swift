@@ -28,6 +28,10 @@ enum ImageConstant {
 
     static let IconCamera = UIImage(named: "camera")
     static let IconPhone = UIImage(named: "mobile")
+    static let IconHome = UIImage(named: "home")
+    static let IconOrderList = UIImage(named: "historyOrder")
+    static let IconMenu = UIImage(named: "menu")
+    static let IconBooking = UIImage(named: "booking")
 
 }
 
@@ -37,6 +41,7 @@ enum ColorConstant {
     static let BackgroundColorAdded = UIColor.hexStringToUIColor("#767676")
 
     static let ButtonPrimary = UIColor.hexStringToUIColor("#FF3366")
+    static let NavigationBG = UIColor.hexStringToUIColor("#FF3366")
 }
 
 /// Constant SegueId
@@ -46,4 +51,6 @@ enum SegueNameConstant {
     static let RegisterToLogin = "register_to_login"
     static let LoginToHome = "login_to_home"
     static let RegisterToHome = "register_to_home"
+    static let HomeToStore = "home_to_store"
+    static let StoreToCart = "store_to_cart"
 }
