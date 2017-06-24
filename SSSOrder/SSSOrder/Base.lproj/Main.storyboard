@@ -57,6 +57,7 @@
                     <navigationItem key="navigationItem" id="qhh-ie-5Hp"/>
                     <connections>
                         <segue destination="8rp-pH-Rac" kind="show" identifier="login_to_register" action="showDetailViewController:sender:" id="VAf-zX-zMh"/>
+                        <segue destination="76W-5g-OfU" kind="show" identifier="login_to_home" id="Pjs-V1-Dv0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -78,6 +79,7 @@
                     </view>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="show" customClass="register_to_login" id="tV2-ZT-1ha"/>
+                        <segue destination="76W-5g-OfU" kind="show" identifier="register_to_home" id="QG9-B2-27G"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mah-Am-IcU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -204,5 +206,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="tV2-ZT-1ha"/>
+        <segue reference="QG9-B2-27G"/>
     </inferredMetricsTieBreakers>
 </document>

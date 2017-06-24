@@ -153,6 +153,11 @@ class RegisterViewController: BaseController {
     // MARK: Event Handler Touches
     @objc func registerButtonTouched(sender: UIButton) {
         print("REGISTER")
+        self.showOverlayLoading()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+            self.removeOverlayLoading()
+            self.performSegue(withIdentifier: SegueNameConstant.RegisterToHome, sender: nil)
+        }
     }
 
     @objc func backToSignInTouched(sender: UITapGestureRecognizer) {

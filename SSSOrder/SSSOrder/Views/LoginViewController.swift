@@ -185,6 +185,11 @@ class LoginViewController: BaseController {
     // MARK: Event Handler Touches
     @objc func signInButtonTouched(sender: UIButton) {
         print("SIGN IN")
+        self.showOverlayLoading()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0) {
+            self.removeOverlayLoading()
+            self.performSegue(withIdentifier: SegueNameConstant.LoginToHome, sender: nil)
+        }
     }
 
     @objc func signInFBButtonTouched(sender: UIButton) {
