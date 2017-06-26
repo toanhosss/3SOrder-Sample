@@ -36,7 +36,7 @@ class StoreWithProductViewController: BaseController {
     func addCartIconToNavigationBar() {
         let width = ScreenSize.ScreenWidth*0.06
         cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.9, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
-        cartButton.setImage(ImageConstant.IconBooking, for: .normal)
+        cartButton.setImage(ImageConstant.IconCart, for: .normal)
         cartButton.addTarget(self, action: #selector(cartButtonNavigationTouched(sender:)), for: .touchUpInside)
         self.navigationBarView?.addSubview(cartButton)
     }
@@ -69,13 +69,13 @@ class StoreWithProductViewController: BaseController {
         segmentHeader = HMSegmentedControl(sectionTitles: dataItem.getDataCategories())
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth]
-        segmentHeader!.backgroundColor = UIColor.hexStringToUIColor("#6563A4")
-        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        segmentHeader!.backgroundColor = .gray
+        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
         segmentHeader!.selectionStyle = .fullWidthStripe
         segmentHeader!.selectionIndicatorLocation = .down
         segmentHeader!.isVerticalDividerEnabled = true
-        segmentHeader!.verticalDividerColor = .white
-        segmentHeader!.selectionIndicatorColor = .white
+        segmentHeader!.verticalDividerColor = .black
+        segmentHeader!.selectionIndicatorColor = .black
         segmentHeader!.addTarget(self, action: #selector(segmentHeaderValueChanged(sender:)), for: .valueChanged)
         self.view.addSubview(segmentHeader!)
     }
@@ -171,7 +171,8 @@ extension StoreWithProductViewController: UITableViewDataSource {
         let item = dataItem.getProductListByStore(index: tableView.tag)[indexPath.section]
         let cell = ProductTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: self.pageScrollCollection.frame.height/3)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.25)
+
         if item.image != "" {
             cell.imageProduct.kf.setImage(with: URL(string: item.image))
         }

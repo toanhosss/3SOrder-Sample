@@ -66,8 +66,8 @@ extension CartViewController: UITableViewDataSource {
         let cell = CartTableViewCell(style: .default, reuseIdentifier: "CartCell")
         cell.delegate = self
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.backgroundColor = .clear
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.itemData = item
         cell.nameProduct.text = item.name
         cell.priceLabel.text = "$\(item.price)"

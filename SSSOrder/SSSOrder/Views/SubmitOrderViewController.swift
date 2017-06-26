@@ -54,55 +54,45 @@ class SubmitOrderViewController: BaseController {
     }
 
     func createPersonalInput() {
-        let placeHolderTextAttribute = [NSForegroundColorAttributeName: UIColor.white]
-        nameInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.0224,
-                                                   width: ScreenSize.ScreenWidth*0.872,
-                                                   height: ScreenSize.ScreenHeight*0.084707),
-                                     icon: ImageConstant.IconUser!)
-
-        nameInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name", comment: ""),
-                                                                            attributes: placeHolderTextAttribute)
-        nameInputField.inputTextField.textColor = .white
+        let placeHolderTextAttribute = [NSForegroundColorAttributeName: UIColor.black]
+        nameInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.0224, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707), icon: ImageConstant.IconUser!.withRenderingMode(.alwaysTemplate))
+        nameInputField.icon.tintColor = .black
+        nameInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name", comment: ""), attributes: placeHolderTextAttribute)
+        nameInputField.inputTextField.textColor = .black
         nameInputField.inputTextField.tag = 1
         nameInputField.layer.cornerRadius = nameInputField.frame.height*0.5
-        nameInputField.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
+        nameInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
         nameInputField.inputTextField.delegate = self
 
-        mobileInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                           y: ScreenSize.ScreenHeight*0.1198505,
-                                                           width: ScreenSize.ScreenWidth*0.872,
-                                                           height: ScreenSize.ScreenHeight*0.084707),
-                                             icon: ImageConstant.IconPhoneNumber!)
-
-        mobileInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"),
-                                                                                    attributes: placeHolderTextAttribute)
-        mobileInputField.inputTextField.textColor = .white
+        mobileInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.1198505, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707), icon: ImageConstant.IconPhoneNumber!.withRenderingMode(.alwaysTemplate))
+        mobileInputField.icon.tintColor = .black
+        mobileInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"), attributes: placeHolderTextAttribute)
+        mobileInputField.inputTextField.textColor = .black
         mobileInputField.inputTextField.tag = 2
         mobileInputField.inputTextField.keyboardType = .phonePad
         mobileInputField.layer.cornerRadius = mobileInputField.frame.height*0.5
-        mobileInputField.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
+        mobileInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
         mobileInputField.inputTextField.delegate = self
 
         noteInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.217301, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707),
-                                         icon: ImageConstant.IconNote!)
-
-        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"),
-                                                                                attributes: placeHolderTextAttribute)
-        noteInputField.inputTextField.textColor = .white
+                                         icon: ImageConstant.IconNote!.withRenderingMode(.alwaysTemplate))
+        noteInputField.icon.tintColor = .black
+        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"), attributes: placeHolderTextAttribute)
+        noteInputField.inputTextField.textColor = .black
         noteInputField.inputTextField.tag = 3
         noteInputField.layer.cornerRadius = noteInputField.frame.height*0.5
-        noteInputField.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
+        noteInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
         noteInputField.inputTextField.delegate = self
 
         let pickerView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.3147515, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: pickerView.frame.width*0.35, height: pickerView.frame.height))
         label.text = NSLocalizedString("payment", comment: "")
-        label.textColor = .white
+        label.textColor = .black
         let pickPayment = UIPickerView(frame: CGRect(x: pickerView.frame.width*0.45, y: 0, width: pickerView.frame.width*0.4, height: pickerView.frame.height))
         pickPayment.dataSource = self
         pickPayment.delegate = self
-        pickPayment.tintColor = .white
-        pickPayment.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
+        pickPayment.tintColor = .black
+        pickPayment.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
 
         pickerView.addSubview(label)
         pickerView.addSubview(pickPayment)
@@ -115,9 +105,10 @@ class SubmitOrderViewController: BaseController {
 
     func createCalendar() {
         calendar = FSCalendar(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.41, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.3))
-        calendar.appearance.titleDefaultColor = .white
+        calendar.appearance.titleDefaultColor = .black
         calendar.appearance.selectionColor = ColorConstant.ButtonPrimary
         calendar.appearance.todaySelectionColor = ColorConstant.ButtonPrimary
+        calendar.appearance.titleWeekendColor = .red
         calendar.appearance.weekdayTextColor = UIColor.hexStringToUIColor("#6563A4")
         calendar.appearance.headerTitleColor = UIColor.hexStringToUIColor("#6563A4")
         calendar.dataSource = self
@@ -162,7 +153,9 @@ class SubmitOrderViewController: BaseController {
         self.showOverlayLoading()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
             self.removeOverlayLoading()
-            NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: DateFormatter().string(from: Date()), isRead: false)])
+            let formatter = DateFormatter()
+            formatter.dateFormat = "hh:mm, dd MMM yyyy"
+            NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
             _ = self.navigationController?.popToRootViewController(animated: true)
             self.showInfoMessage("Submited")
         }
@@ -185,7 +178,7 @@ extension SubmitOrderViewController: UIPickerViewDataSource {
     }
 
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        return NSAttributedString(string: self.paymentMethod[row], attributes: [NSForegroundColorAttributeName: UIColor.white])
+        return NSAttributedString(string: self.paymentMethod[row], attributes: [NSForegroundColorAttributeName: UIColor.black])
     }
 }
 

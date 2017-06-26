@@ -17,12 +17,8 @@ class NotificationItemViewController: BaseController {
         self.titlePage = data.name
         self.backTitle = NSLocalizedString("back", comment: "")
 
-        let content = UITextView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.12, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.8))
+        let content = UITextView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.12, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.5))
         content.isEditable = false
-        content.textColor = .white
-        content.backgroundColor = .clear
-        content.layer.borderColor = UIColor.white.cgColor
-        content.layer.borderWidth = 1
         content.text = data.content
         content.font = UIFont.systemFont(ofSize: 16)
         self.view.addSubview(content)

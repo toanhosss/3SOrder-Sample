@@ -12,12 +12,12 @@ import HMSegmentedControl
 class NotificationViewController: BaseController {
 
     var listData: [NotificationModel] = [
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03 16 June, 2017", isRead: true),
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03 16 June, 2017", isRead: true),
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03 16 June, 2017", isRead: true)
+        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
+        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
+        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
+        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
+        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
+        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true)
     ]
 
     var notificationItemSelected: NotificationModel?
@@ -37,13 +37,13 @@ class NotificationViewController: BaseController {
         segmentHeader = HMSegmentedControl(sectionTitles: ["Promotion", "System Notification"])
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth]
-        segmentHeader!.backgroundColor = UIColor.hexStringToUIColor("#6563A4")
-        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        segmentHeader!.backgroundColor = UIColor.gray
+        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
         segmentHeader!.selectionStyle = .fullWidthStripe
         segmentHeader!.selectionIndicatorLocation = .down
         segmentHeader!.isVerticalDividerEnabled = true
-        segmentHeader!.verticalDividerColor = .white
-        segmentHeader!.selectionIndicatorColor = .white
+        segmentHeader!.verticalDividerColor = .black
+        segmentHeader!.selectionIndicatorColor = .black
         segmentHeader!.addTarget(self, action: #selector(segmentHeaderValueChanged(sender:)), for: .valueChanged)
         self.view.addSubview(segmentHeader!)
     }
@@ -157,7 +157,9 @@ extension NotificationViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
         cell.backgroundColor = .clear
         cell.data = item
-        cell.icon.image = item.icon
+        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
+        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
+        cell.icon.tintColor = .black
         cell.name.text = item.name
         cell.time.text = item.dateString
         return cell
@@ -183,6 +185,7 @@ extension NotificationViewController: UITableViewDelegate {
         self.notificationItemSelected = data[indexPath.section]
         let index = self.listData.index(of: self.notificationItemSelected!)
         self.listData[index!].isReadable = true
+        tableView.reloadData()
 
         let count = self.listData.filter({ $0.isReadable == false }).count
 

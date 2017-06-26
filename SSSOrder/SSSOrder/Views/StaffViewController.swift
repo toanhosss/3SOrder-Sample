@@ -11,6 +11,7 @@ import UIKit
 class StaffViewController: BaseController {
 
     var staffList: [StaffModel] = [
+        StaffModel(name: "Any Staff", avatar: ""),
         StaffModel(name: "Staff A", avatar: ""),
         StaffModel(name: "Staff B", avatar: ""),
         StaffModel(name: "Staff C", avatar: ""),

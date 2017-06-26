@@ -17,6 +17,8 @@ class ProductTableViewCell: UITableViewCell {
     var durationLabel: UILabel!
     var addButton: UIButton!
 
+    var backgroundCardView: UIView!
+
     var salonProduct: SalonProductModel!
 
     weak var delegate: ProductItemDelegate?
@@ -30,21 +32,34 @@ class ProductTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         let width = ScreenSize.ScreenWidth*0.98
-        let height = ScreenSize.ScreenHeight*0.24
+        let height = ScreenSize.ScreenHeight*0.25
 
-        imageProduct = UIImageView(frame: CGRect(x: width*0.025, y: height*0.01, width: width*0.45, height: height*0.98))
+        backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
+
+        backgroundCardView.backgroundColor = .white
+        backgroundCardView.layer.cornerRadius = 3
+        backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        backgroundCardView.layer.shadowRadius = 3
+        backgroundCardView.layer.shadowOpacity = 1
+        backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 3).cgPath
+
+        let cardView = UIView(frame: CGRect(x: 0, y: 0, width: width*0.975 - 6, height: height - 6))
+        cardView.layer.masksToBounds = true
+        cardView.layer.cornerRadius = 3
+        backgroundCardView.addSubview(cardView)
+
+        imageProduct = UIImageView(frame: CGRect(x: 0, y: 0, width: width*0.45, height: height))
         imageProduct.backgroundColor = .green
+        imageProduct.contentMode = .scaleAspectFill
+        imageProduct.clipsToBounds = true
 
-        nameLabel = UILabel(frame: CGRect(x: width*0.5, y: height*0.01, width: width*0.4, height: height*0.2))
+        nameLabel = UILabel(frame: CGRect(x: width*0.48, y: 0, width: width*0.475, height: height*0.2))
         nameLabel.textAlignment = .left
-        nameLabel.textColor = .white
         nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
 
         descriptionView = UITextView(frame: CGRect(x: nameLabel.frame.origin.x, y: height*0.22, width: nameLabel.frame.width, height: height*0.4))
-        descriptionView.textColor = .white
         descriptionView.backgroundColor = .clear
-        descriptionView.layer.borderColor = UIColor.white.cgColor
-        descriptionView.layer.borderWidth = 1
         descriptionView.isEditable = false
 
         priceLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: height*0.62, width: nameLabel.frame.width*0.75, height: height*0.2))
@@ -53,22 +68,21 @@ class ProductTableViewCell: UITableViewCell {
 
         durationLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: height*0.82, width: nameLabel.frame.width*0.75, height: height*0.2))
         durationLabel.font = UIFont.systemFont(ofSize: 12)
-        durationLabel.textColor = .white
 
-        addButton = UIButton(frame: CGRect(x: width*0.9, y: priceLabel.frame.origin.y + height*0.1, width: width*0.1, height: width*0.1))
-        addButton.setImage(ImageConstant.IconBooking, for: .normal)
+        addButton = UIButton(frame: CGRect(x: width*0.85, y: priceLabel.frame.origin.y + height*0.1, width: width*0.1, height: width*0.1))
+        addButton.setImage(ImageConstant.IconAdd?.withRenderingMode(.alwaysTemplate), for: .normal)
+        addButton.tintColor = ColorConstant.ButtonPrimary
         addButton.addTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)
         addButton.imageView!.contentMode = .scaleAspectFit
 
-        contentView.addSubview(imageProduct)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(descriptionView)
-        contentView.addSubview(priceLabel)
-        contentView.addSubview(durationLabel)
-        contentView.addSubview(addButton)
-        contentView.backgroundColor = .clear
-        contentView.layer.borderColor = UIColor.white.cgColor
-        contentView.layer.borderWidth = 1
+        cardView.addSubview(imageProduct)
+        cardView.addSubview(nameLabel)
+        cardView.addSubview(descriptionView)
+        cardView.addSubview(priceLabel)
+        cardView.addSubview(durationLabel)
+        cardView.addSubview(addButton)
+        contentView.addSubview(backgroundCardView)
+
     }
 
     required init?(coder aDecoder: NSCoder) {
