@@ -1,4 +1,5 @@
 PODS:
+  - FSCalendar (2.7.7)
   - GoogleMaps (2.2.0):
     - GoogleMaps/Maps (= 2.2.0)
   - GoogleMaps/Base (2.2.0)
@@ -11,6 +12,7 @@ PODS:
   - SwiftLint (0.19.0)
 
 DEPENDENCIES:
+  - FSCalendar
   - GoogleMaps
   - GooglePlaces
   - HMSegmentedControl
@@ -18,12 +20,13 @@ DEPENDENCIES:
   - SwiftLint
 
 SPEC CHECKSUMS:
+  FSCalendar: 8bda3534e8590b87124af9a236887314e0359a27
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
   GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
   HMSegmentedControl: b25bc4ec44766e073d62c473188fb354ee244b76
   Kingfisher: 6729a0baaa458245bfb8cd5a1296c71c10d6eb6c
   SwiftLint: 3537a05b34060e78e7510f04fb7537d738247803
 
-PODFILE CHECKSUM: 3e012c44dec281b9fe4ee91c8a396888985d20f0
+PODFILE CHECKSUM: 3a1eb3102761a9b9ab3abde3a31dde80296d3f03
 
 COCOAPODS: 1.2.0

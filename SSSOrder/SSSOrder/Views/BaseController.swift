@@ -14,6 +14,8 @@ class BaseController: UIViewController {
     var navigationBarView: UIView?
     var titleLabel: UILabel?
 
+    let tapInputKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
     private var _backTitle = ""
     var backTitle: String {
         get {
@@ -159,16 +161,13 @@ class BaseController: UIViewController {
     /// - Set view element
     func setLayoutPage() {
         // set background
-        self.view.backgroundColor = ColorConstant.BackgroundColor
+        self.view.backgroundColor = ColorConstant.BackgroundPage
 
         setNavigationBar()
     }
 
     /// Set Delegate and NotificationCenter
     func setEventAndDelegate() {
-        // Set event to hide keyboard
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
 
         // Set notification for show/hide keyboard
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -201,6 +200,12 @@ class BaseController: UIViewController {
 
         self.overlayView.removeFromSuperview()
         self.overlayView = nil
+    }
+
+    func showInfoMessage(_ message: String) {
+
+        present(PopupUtil.showAlerPopup(PopupUtil.PopupInfoTitle, message: message), animated: true, completion: nil)
+
     }
 
     // MARK: General Handler Button
@@ -250,6 +255,8 @@ extension BaseController: UITextFieldDelegate {
 
     // Set move up frame when keyboard show
     func keyboardWillShow(_ notification: Notification) {
+        // Set event to hide keyboard
+        view.addGestureRecognizer(tapInputKeyboard)
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if view.frame.origin.y == 0 {
                 self.view.frame.origin.y = 0
@@ -263,7 +270,7 @@ extension BaseController: UITextFieldDelegate {
 
     // Set move up frame when keyboard hide
     func keyboardWillHide(_ notification: Notification) {
-
+        view.removeGestureRecognizer(tapInputKeyboard)
         if ((notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue) != nil && view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }

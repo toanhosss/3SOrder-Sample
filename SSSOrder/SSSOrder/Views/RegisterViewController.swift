@@ -96,7 +96,7 @@ class RegisterViewController: BaseController {
         passwordInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"),
                                                                                     attributes: placeHolderTextAttribute)
         passwordInput.inputTextField.textColor = .white
-        passwordInput.inputTextField.tag = 2
+        passwordInput.inputTextField.tag = 3
         passwordInput.isSecureText = true
         passwordInput.layer.cornerRadius = passwordInput.frame.height*0.5
         passwordInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
@@ -111,7 +111,7 @@ class RegisterViewController: BaseController {
         confirmPassInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("confirmPass", comment: "user label"),
                                                                                 attributes: placeHolderTextAttribute)
         confirmPassInput.inputTextField.textColor = .white
-        confirmPassInput.inputTextField.tag = 2
+        confirmPassInput.inputTextField.tag = 4
         confirmPassInput.isSecureText = true
         confirmPassInput.layer.cornerRadius = confirmPassInput.frame.height*0.5
         confirmPassInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)

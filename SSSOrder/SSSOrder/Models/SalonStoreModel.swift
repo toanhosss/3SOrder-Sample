@@ -13,12 +13,14 @@ class SalonStoreModel: NSObject {
     var address: String!
     var image: String!
     var descriptionText: String!
+    var distance: Float!
 
-    init(name: String, address: String, image: String, description: String) {
+    init(name: String, address: String, distance: Float, image: String, description: String) {
 
         super.init()
         self.name = name
         self.address = address
+        self.distance = distance
         self.image = image
         self.descriptionText = description
     }

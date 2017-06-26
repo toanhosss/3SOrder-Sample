@@ -26,22 +26,27 @@ class HomeViewController: BaseController {
     var dataSource: [SalonStoreModel] = [
         SalonStoreModel(name: "The Upkeep Shoppe",
                         address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+                        distance: 1,
                         image: "https://www.mallcribbs.com/images/storeprofile/store-image/store-image-regis-salon",
                         description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
         SalonStoreModel(name: "The Upkeep Shoppe",
                         address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+                        distance: 1.1,
                         image: "http://www.cpp-luxury.com/wp-content/uploads/2016/07/Harry-Winston-salon-store-Houston-at-River-Oaks-3.jpg",
                         description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
         SalonStoreModel(name: "The Upkeep Shoppe",
                         address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+                        distance: 1.3,
                         image: "https://s-media-cache-ak0.pinimg.com/originals/64/fb/ee/64fbee1b276fcfcc1025144d9bd4e18b.jpg",
                         description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
         SalonStoreModel(name: "The Upkeep Shoppe",
                         address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+                        distance: 1.5,
                         image: "https://s-media-cache-ak0.pinimg.com/originals/0d/b1/6d/0db16df7e8fdb33f28cd21e7ca461e4f.jpg",
                         description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
         SalonStoreModel(name: "The Upkeep Shoppe",
                         address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+                        distance: 2.1,
                         image: "https://www.intelligentnutrients.com/media/extendware/ewimageopt/media/template/4d/7/where-to-buy-horst-and-friends-img.jpg",
                         description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed.")
     ]
@@ -67,21 +72,10 @@ class HomeViewController: BaseController {
 
         let locationCamera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 6)
         mapView = GMSMapView.map(withFrame: CGRect(x: ScreenSize.ScreenWidth*0.025,
-                                                   y: self.navigationController!.navigationBar.frame.height + 30,
-                                                   width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.45), camera: locationCamera)
+                                                   y: ScreenSize.ScreenHeight*0.1,
+                                                   width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.5), camera: locationCamera)
 
         mapView.layer.cornerRadius = 10
-
-        do {
-            // Set the map style by passing the URL of the local file.
-            if let styleURL = Bundle.main.url(forResource: "MapStyle", withExtension: "json") {
-                mapView.mapStyle = try GMSMapStyle(contentsOfFileURL: styleURL)
-            } else {
-                NSLog("Unable to find style.json")
-            }
-        } catch {
-            NSLog("One or more of the map styles failed to load. \(error)")
-        }
 
         self.view.addSubview(mapView)
     }
@@ -89,19 +83,21 @@ class HomeViewController: BaseController {
     /// create PageView List
     func createListDataSource() {
 
-        listItemView = UIScrollView(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.58, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.3))
+        let itemWidth = ScreenSize.ScreenWidth*0.95
+        let itemHeight = ScreenSize.ScreenHeight*0.25
+
+        listItemView = UIScrollView(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.62, width: itemWidth, height: itemHeight))
+        listItemView.showsHorizontalScrollIndicator = false
         listItemView.isScrollEnabled = true
         listItemView.isPagingEnabled = true
         listItemView.delegate = self
 
-        listItemView.contentSize = CGSize(width: ScreenSize.ScreenWidth*0.95*CGFloat(dataSource.count), height: ScreenSize.ScreenHeight*0.3)
-        let itemWidth = ScreenSize.ScreenWidth*0.95
-        let itemHeight = ScreenSize.ScreenHeight*0.3
+        listItemView.contentSize = CGSize(width: itemWidth*CGFloat(dataSource.count), height: itemHeight)
+
         for i in 0..<dataSource.count {
             let container = UIView(frame: CGRect(x: CGFloat(i)*itemWidth, y: 0, width: itemWidth, height: itemHeight))
             container.tag = i
-            container.layer.borderWidth = 1
-            container.layer.borderColor = UIColor.white.cgColor
+            container.backgroundColor = .clear
             let tapStoreRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadStoreProduct(sender:)))
             container.isUserInteractionEnabled = true
             container.addGestureRecognizer(tapStoreRecognizer)
@@ -113,6 +109,8 @@ class HomeViewController: BaseController {
         // Draw page control
         pageControl = UIPageControl(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.869, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.06))
         pageControl.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        pageControl.currentPageIndicatorTintColor = ColorConstant.ButtonPrimary
+        pageControl.pageIndicatorTintColor = .white
         pageControl.numberOfPages = dataSource.count
         pageControl.currentPage = 0
 
@@ -123,32 +121,47 @@ class HomeViewController: BaseController {
     // create data Source
     func loadDataSource(item: SalonStoreModel, container: UIView) {
 
-        let imageStore = UIImageView(frame: CGRect(x: container.frame.width*0.02,
-                                                   y: container.frame.height*0.02,
-                                                   width: container.frame.width*0.5, height: container.frame.height*0.8))
+        let shadowView = UIView(frame: CGRect(x: 3, y: 3, width: container.frame.width - 6, height: container.frame.height - 6))
+
+        shadowView.backgroundColor = .white
+        shadowView.layer.cornerRadius = 3
+        shadowView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
+        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        shadowView.layer.shadowRadius = 3
+        shadowView.layer.shadowOpacity = 1
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 3).cgPath
+
+        let cardView = UIView(frame: CGRect(x: 0, y: 0, width: container.frame.width - 6, height: container.frame.height - 6))
+        cardView.layer.masksToBounds = true
+        cardView.layer.cornerRadius = 3
+        shadowView.addSubview(cardView)
+
+        let imageStore = UIImageView(frame: CGRect(x: 0, y: 0, width: container.frame.width*0.45, height: container.frame.height*0.768))
         imageStore.kf.setImage(with: URL(string: item.image))
 
-        let infodata = UITextView(frame: CGRect(x: container.frame.width*0.55, y: imageStore.frame.origin.y,
-                                                width: container.frame.width*0.42, height: container.frame.height*0.42))
+        let infodata = UITextView(frame: CGRect(x: container.frame.width*0.48, y: 0,
+                                                width: container.frame.width*0.5, height: container.frame.height))
         infodata.isEditable = false
-        infodata.text = item.address
-        infodata.textColor = .white
+        infodata.isScrollEnabled = false
+        infodata.text = item.address + "\n\n" + item.descriptionText
+        infodata.font = UIFont.systemFont(ofSize: 14)
         infodata.backgroundColor = .clear
-        infodata.layer.borderWidth = 1
-        infodata.layer.borderColor = UIColor.white.cgColor
 
-        let descriptionData = UITextView(frame: CGRect(x: container.frame.width*0.55, y: container.frame.height*0.5,
-                                                width: container.frame.width*0.42, height: container.frame.height*0.38))
-        descriptionData.isEditable = false
-        descriptionData.text = item.descriptionText
-        descriptionData.textColor = .white
-        descriptionData.backgroundColor = .clear
-        descriptionData.layer.borderWidth = 1
-        descriptionData.layer.borderColor = UIColor.white.cgColor
+        let distanceIcon = UIImageView(frame: CGRect(x: container.frame.width*0.15, y: container.frame.height*0.8,
+                                                width: container.frame.height*0.1, height: container.frame.height*0.1))
+        distanceIcon.image = ImageConstant.IconNear?.withRenderingMode(.alwaysTemplate)
+        distanceIcon.tintColor = ColorConstant.ButtonPrimary
+        distanceIcon.contentMode = .scaleAspectFit
 
-        container.addSubview(imageStore)
-        container.addSubview(infodata)
-        container.addSubview(descriptionData)
+        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.22, y: container.frame.height*0.8, width: container.frame.width*0.22, height: container.frame.height*0.1))
+        distanceData.text = "\(item.distance!) km"
+        distanceData.textColor = ColorConstant.ButtonPrimary
+
+        cardView.addSubview(imageStore)
+        cardView.addSubview(infodata)
+        cardView.addSubview(distanceData)
+        cardView.addSubview(distanceIcon)
+        container.addSubview(shadowView)
     }
 
     // MARK: Event handler touched

@@ -28,10 +28,15 @@ enum ImageConstant {
 
     static let IconCamera = UIImage(named: "camera")
     static let IconPhone = UIImage(named: "mobile")
+    static let IconPhoneNumber = UIImage(named: "phone")
     static let IconHome = UIImage(named: "home")
     static let IconOrderList = UIImage(named: "historyOrder")
     static let IconMenu = UIImage(named: "menu")
     static let IconBooking = UIImage(named: "booking")
+    static let IconDelete = UIImage(named: "remove")
+    static let IconNote = UIImage(named: "note")
+    static let IconMail = UIImage(named: "mail")
+    static let IconNear = UIImage(named: "near")
 
 }
 
@@ -39,9 +44,12 @@ enum ImageConstant {
 enum ColorConstant {
     static let BackgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.75)
     static let BackgroundColorAdded = UIColor.hexStringToUIColor("#767676")
+    static let BackgroundPage = UIColor.hexStringToUIColor("FAF8EE")
 
     static let ButtonPrimary = UIColor.hexStringToUIColor("#FF3366")
     static let NavigationBG = UIColor.hexStringToUIColor("#FF3366")
+
+    static let ShadowColor = UIColor.hexStringToUIColor("#000000", alpha: 0.2)
 }
 
 /// Constant SegueId
@@ -53,4 +61,13 @@ enum SegueNameConstant {
     static let RegisterToHome = "register_to_home"
     static let HomeToStore = "home_to_store"
     static let StoreToCart = "store_to_cart"
+    static let CartToStaff = "cart_to_staff"
+    static let StaffToSubmit = "staff_to_submit"
+    static let NotificationToNotificationItem = "noti_to_item"
+}
+
+/// Observe Name Notification
+enum ObserveNameConstant {
+    static let CartNotificationUpdate = NSNotification.Name.init("UpdateCartNotification")
+    static let NewNotificationUpdate = NSNotification.Name.init("UpdateNewNotification")
 }

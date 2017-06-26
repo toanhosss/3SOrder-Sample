@@ -11,6 +11,7 @@ target 'SSSOrder' do
   pod 'GooglePlaces'
   pod 'Kingfisher', '~> 3.0'
   pod 'HMSegmentedControl'
+  pod 'FSCalendar'
 
   target 'SSSOrderTests' do
     inherit! :search_paths

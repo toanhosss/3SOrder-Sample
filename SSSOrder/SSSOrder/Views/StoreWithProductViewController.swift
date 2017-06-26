@@ -101,7 +101,26 @@ class StoreWithProductViewController: BaseController {
     }
 
     override func setEventAndDelegate() {
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationUpdateCart(notification:)), name: ObserveNameConstant.CartNotificationUpdate, object: nil)
+    }
 
+    // MARK: Handler Notification
+    @objc func notificationUpdateCart(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let cartProduct = userInfo["cart"] as? [SalonProductModel] else {
+                return
+        }
+
+        self.productSelected = cartProduct
+        for page in pageScrollCollection.subviews {
+            let listPage = page as? UITableView
+            if listPage != nil {
+                listPage?.reloadData()
+            }
+
+        }
+
+        self.updateNumberItemInCart(number: "\(self.productSelected.count)")
     }
 
     // MARK: Handler Button Touched
@@ -113,6 +132,14 @@ class StoreWithProductViewController: BaseController {
     @objc func segmentHeaderValueChanged(sender: HMSegmentedControl) {
         print("Segment value \(sender.selectedSegmentIndex)")
         self.pageScrollCollection.contentOffset = CGPoint(x: CGFloat(sender.selectedSegmentIndex)*ScreenSize.ScreenWidth, y: self.pageScrollCollection.contentOffset.y)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC = segue.destination as? CartViewController
+        if destVC != nil {
+            destVC!.listDataBooking = self.productSelected
+        }
+
     }
 }
 

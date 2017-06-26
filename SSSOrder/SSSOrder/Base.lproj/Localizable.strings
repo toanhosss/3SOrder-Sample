@@ -25,3 +25,9 @@
 "home" = "Nearest Salon";
 "back" = "Back";
 "service" = "Services";
+"continue" = "Continue";
+"submit" = "Submit Order";
+"staff" = "Staff List";
+"payment" = "Payment";
+"booking" = "Booking";
+"notification" = "Notifications";
