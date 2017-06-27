@@ -12,10 +12,16 @@ target 'SSSOrder' do
   pod 'Kingfisher', '~> 3.0'
   pod 'HMSegmentedControl'
   pod 'FSCalendar'
+  pod 'Moya/RxSwift'
+  pod 'Alamofire', '~> 4.4'
+  pod 'RxSwift',    '~> 3.0'
+  pod 'RxCocoa',    '~> 3.0'
 
   target 'SSSOrderTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxBlocking', '~> 3.0'
+    pod 'RxTest',     '~> 3.0'
   end
 
 end

@@ -67,7 +67,7 @@ extension Kingfisher where Base: ImageView {
             return .empty
         }
         
-        var options = KingfisherManager.shared.defaultOptions + (options ?? KingfisherEmptyOptionsInfo)
+        var options = options ?? KingfisherEmptyOptionsInfo
         
         if !options.keepCurrentImageWhileLoading {
             base.image = placeholder
@@ -107,7 +107,7 @@ extension Kingfisher where Base: ImageView {
                         return
                     }
                     
-                    guard let transitionItem = options.lastMatchIgnoringAssociatedValue(.transition(.none)),
+                    guard let transitionItem = options.firstMatchIgnoringAssociatedValue(.transition(.none)),
                         case .transition(let transition) = transitionItem, ( options.forceTransition || cacheType == .none) else
                     {
                         maybeIndicator?.stopAnimatingView()

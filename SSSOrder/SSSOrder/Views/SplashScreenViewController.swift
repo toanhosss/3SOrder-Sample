@@ -32,8 +32,13 @@ class SplashScreenViewController: BaseController {
     }
 
     func checkUserLoggedIn() {
+        let user = UserDefaultUtils.getUser()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-            self.performSegue(withIdentifier: SegueNameConstant.SplashToLogin, sender: nil)
+            if user != nil {
+                self.performSegue(withIdentifier: SegueNameConstant.SplashToHome, sender: nil)
+            } else {
+                self.performSegue(withIdentifier: SegueNameConstant.SplashToLogin, sender: nil)
+            }
         }
     }
 

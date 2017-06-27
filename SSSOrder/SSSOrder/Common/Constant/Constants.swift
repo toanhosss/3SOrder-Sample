@@ -57,6 +57,7 @@ enum ColorConstant {
 /// Constant SegueId
 enum SegueNameConstant {
     static let SplashToLogin = "splash_to_login"
+    static let SplashToHome = "splash_to_home"
     static let LoginToRegister = "login_to_register"
     static let RegisterToLogin = "register_to_login"
     static let LoginToHome = "login_to_home"

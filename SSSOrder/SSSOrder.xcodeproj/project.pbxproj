@@ -40,6 +40,9 @@
 		3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3859386A1EFCF76800087743 /* LaunchScreen.storyboard */; };
 		385938771EFCF76900087743 /* SSSOrderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938761EFCF76900087743 /* SSSOrderTests.swift */; };
 		38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CB8B641EFCF8760052D5FC /* BaseController.swift */; };
+		38E476E91F02464600274CE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476E81F02464600274CE8 /* User.swift */; };
+		38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */; };
+		38E476EE1F02624900274CE8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476ED1F02624900274CE8 /* APIService.swift */; };
 		5BDFA93F4525E288DB8679B0 /* Pods_SSSOrderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9EF06BFDDA08F2BFAFB084 /* Pods_SSSOrderTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +94,9 @@
 		385938761EFCF76900087743 /* SSSOrderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSSOrderTests.swift; sourceTree = "<group>"; };
 		385938781EFCF76900087743 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38CB8B641EFCF8760052D5FC /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
+		38E476E81F02464600274CE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultUtils.swift; sourceTree = "<group>"; };
+		38E476ED1F02624900274CE8 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		4B7073DD9A428B32E4966881 /* Pods_SSSOrder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SSSOrder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D9EF06BFDDA08F2BFAFB084 /* Pods_SSSOrderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SSSOrderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78DCD252694CA64FB63C534 /* Pods-SSSOrder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSSOrder.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSSOrder/Pods-SSSOrder.release.xcconfig"; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 				17B81E9A1F0052870058875D /* PopupUtil.swift */,
 				172141CA1EFD5844005B1CC2 /* ColorExtension.swift */,
 				17B81E8E1EFEF5220058875D /* StringExtension.swift */,
+				38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -152,6 +159,7 @@
 				17B81E841EFEBB550058875D /* SalonProductModel.swift */,
 				17B81E961F0018F20058875D /* StaffModel.swift */,
 				17B81E9C1F00578A0058875D /* NotificationModel.swift */,
+				38E476E81F02464600274CE8 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -191,6 +199,7 @@
 		385938601EFCF76800087743 /* SSSOrder */ = {
 			isa = PBXGroup;
 			children = (
+				38E476EC1F02622500274CE8 /* Services */,
 				17B81E7D1EFE627F0058875D /* Models */,
 				172141C31EFD56F4005B1CC2 /* Common */,
 				38CB8B631EFCF8760052D5FC /* Views */,
@@ -232,6 +241,14 @@
 				17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		38E476EC1F02622500274CE8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				38E476ED1F02624900274CE8 /* APIService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		4A3F7E162DB410843FC57C85 /* Pods */ = {
@@ -476,11 +493,14 @@
 			files = (
 				17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */,
 				17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */,
+				38E476EE1F02624900274CE8 /* APIService.swift in Sources */,
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
 				17B81E931F0017A10058875D /* StaffViewController.swift in Sources */,
+				38E476E91F02464600274CE8 /* User.swift in Sources */,
 				17B81E811EFE7BC00058875D /* NotificationViewController.swift in Sources */,
 				38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */,
+				38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */,
 				17B81E911EFFEE4D0058875D /* CartTableViewCell.swift in Sources */,
 				385938621EFCF76800087743 /* AppDelegate.swift in Sources */,
 				17B81E831EFE89320058875D /* StoreWithProductViewController.swift in Sources */,

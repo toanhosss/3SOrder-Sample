@@ -119,6 +119,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
 - (void)deselectCounterpartDate:(NSDate *)date;
 
 - (void)reloadDataForCell:(FSCalendarCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)reloadVisibleCells;
 
 - (void)adjustMonthPosition;
 - (BOOL)requestBoundingDatesIfNecessary;
@@ -1079,9 +1080,7 @@ typedef NS_ENUM(NSUInteger, FSCalendarOrientation) {
         [self invalidateHeaders];
         [self.collectionView reloadData];
     } else {
-        [UIView performWithoutAnimation:^{
-            [self.collectionView reloadItemsAtIndexPaths:self.collectionView.indexPathsForVisibleItems];
-        }];
+        [self reloadVisibleCells];
     }
 }
 
@@ -1521,6 +1520,8 @@ void FSCalendarRunLoopCallback(CFRunLoopObserverRef observer, CFRunLoopActivity 
 #undef FSCalendarInvalidateCellAppearance
 #undef FSCalendarInvalidateCellAppearanceWithDefault
     
+    [cell configureAppearance];
+    
 }
 
 - (void)reloadDataForCell:(FSCalendarCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -1551,14 +1552,22 @@ void FSCalendarRunLoopCallback(CFRunLoopObserverRef observer, CFRunLoopActivity 
     }
     // Synchronize selecion state to the collection view, otherwise delegate methods would not be triggered.
     if (cell.selected) {
-        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:NO];
     } else {
         [self.collectionView deselectItemAtIndexPath:indexPath animated:NO];
     }
     [self invalidateAppearanceForCell:cell forDate:date];
     [cell configureAppearance];
+    
 }
 
+- (void)reloadVisibleCells
+{
+    [self.visibleCells enumerateObjectsUsingBlock:^(__kindof FSCalendarCell * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:obj];
+        [self reloadDataForCell:obj atIndexPath:indexPath];
+    }];
+}
 
 - (void)handleSwipeToChoose:(UILongPressGestureRecognizer *)pressGesture
 {

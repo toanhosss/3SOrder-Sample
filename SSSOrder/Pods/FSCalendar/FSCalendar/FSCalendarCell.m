@@ -160,10 +160,8 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    if (self.window) { // Avoid interrupt of navigation transition somehow
-        [CATransaction setDisableActions:YES]; // Avoid blink of shape layer.
-    }
-    self.shapeLayer.opacity = 0;
+    [CATransaction setDisableActions:YES];
+    _shapeLayer.opacity = 0;
     [self.contentView.layer removeAnimationForKey:@"opacity"];
 }
 

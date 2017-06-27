@@ -1,5 +1,6 @@
 PODS:
-  - FSCalendar (2.7.7)
+  - Alamofire (4.4.0)
+  - FSCalendar (2.7.6)
   - GoogleMaps (2.2.0):
     - GoogleMaps/Maps (= 2.2.0)
   - GoogleMaps/Base (2.2.0)
@@ -7,26 +8,53 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.2.0):
     - GoogleMaps/Base (= 2.2.0)
-  - HMSegmentedControl (1.5.4)
-  - Kingfisher (3.9.1)
-  - SwiftLint (0.19.0)
+  - HMSegmentedControl (1.5.3)
+  - Kingfisher (3.8.0)
+  - Moya/Core (8.0.4):
+    - Alamofire (~> 4.1)
+    - Result (~> 3.0)
+  - Moya/RxSwift (8.0.4):
+    - Moya/Core
+    - RxSwift (~> 3.0)
+  - Result (3.2.1)
+  - RxBlocking (3.4.1):
+    - RxSwift (~> 3.4)
+  - RxCocoa (3.4.1):
+    - RxSwift (~> 3.4)
+  - RxSwift (3.4.1)
+  - RxTest (3.4.1):
+    - RxSwift (~> 3.4)
+  - SwiftLint (0.18.1)
 
 DEPENDENCIES:
+  - Alamofire (~> 4.4)
   - FSCalendar
   - GoogleMaps
   - GooglePlaces
   - HMSegmentedControl
   - Kingfisher (~> 3.0)
+  - Moya/RxSwift
+  - RxBlocking (~> 3.0)
+  - RxCocoa (~> 3.0)
+  - RxSwift (~> 3.0)
+  - RxTest (~> 3.0)
   - SwiftLint
 
 SPEC CHECKSUMS:
-  FSCalendar: 8bda3534e8590b87124af9a236887314e0359a27
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
+  FSCalendar: feef792968ca0166bafc93e02fcd840b07d256e5
   GoogleMaps: 104c418d61ab8a05dff06ed0784c25ea9d37da45
   GooglePlaces: bca867d5e9da15384c794b945e4226848bc6e9d9
-  HMSegmentedControl: b25bc4ec44766e073d62c473188fb354ee244b76
-  Kingfisher: 6729a0baaa458245bfb8cd5a1296c71c10d6eb6c
-  SwiftLint: 3537a05b34060e78e7510f04fb7537d738247803
+  HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
+  Kingfisher: 7b8a055fc5c2afc61407d1a499e4e0981b1a6ac4
+  Moya: a08bc060c7a44eee27447b239ed33a189b641e2b
+  Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
+  RxBlocking: 1e8c41cfe7ca2fc0e19d0e616c553845c63cbbd3
+  RxCocoa: a8a5f1d061d0043e28f56976829f31ce63e8eb09
+  RxSwift: 656f8fbeca5bc372121a72d9ebdd3cd3bc0ffade
+  RxTest: a6fd6e4069face7c6488f96f6c42296b3e44db48
+  SwiftLint: b467d08f5b25dc3b3cfed243d8e1b74b91714c67
 
-PODFILE CHECKSUM: 3a1eb3102761a9b9ab3abde3a31dde80296d3f03
+PODFILE CHECKSUM: bd55d0d25e278bf32964300c622dd68ca4347339
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.1.1

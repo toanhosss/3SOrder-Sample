@@ -17,7 +17,7 @@ class NotificationModel: NSObject {
     var dateString: String
     var content: String
 
-    init(name: String, icon: UIImage, content: String, type: String, dateString: String, isRead:Bool) {
+    init(name: String, icon: UIImage, content: String, type: String, dateString: String, isRead: Bool) {
         self.name = name
         self.icon = icon
         self.type = type

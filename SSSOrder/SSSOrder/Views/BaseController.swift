@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class BaseController: UIViewController {
 
@@ -63,6 +64,9 @@ class BaseController: UIViewController {
             _navigationBG = newValue
         }
     }
+
+    // MARK: Rx
+    var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
