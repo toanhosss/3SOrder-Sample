@@ -18,6 +18,9 @@ class StoreWithProductViewController: BaseController {
     var cartButton: UIButton!
 
     var productSelected: [SalonProductModel] = []
+    var categories: [(id: Int, name: String, product: [SalonProductModel])] = []
+
+    let productController = ProductController.SharedInstance
 
     override func setLayoutPage() {
         super.setLayoutPage()
@@ -28,9 +31,24 @@ class StoreWithProductViewController: BaseController {
 
         addCartIconToNavigationBar()
 
-        createLabelHeaderTitle()
+        getData()
 
-        createListCollectionProduct()
+//        createListCollectionProduct()
+    }
+
+    func getData() {
+        productController.getData(storeId: self.dataItem.salonId) { (data, error) in
+            if error != nil {
+                 self.showErrorMessage(error!)
+                _ = self.navigationController?.popViewController(animated: true)
+            } else {
+                var categoriesHeader: [String] = []
+                for i in 0..<data!.count {
+                    categoriesHeader.append(data![i].name)
+                }
+                self.createLabelHeaderTitle(headers: categoriesHeader)
+            }
+        }
     }
 
     func addCartIconToNavigationBar() {
@@ -65,8 +83,8 @@ class StoreWithProductViewController: BaseController {
         cartButton.addSubview(notificationNumber!)
     }
 
-    func createLabelHeaderTitle() {
-        segmentHeader = HMSegmentedControl(sectionTitles: dataItem.getDataCategories())
+    func createLabelHeaderTitle(headers: [String]) {
+        segmentHeader = HMSegmentedControl(sectionTitles: headers)
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth]
         segmentHeader!.backgroundColor = .gray
@@ -154,7 +172,7 @@ extension StoreWithProductViewController: UIScrollViewDelegate {
 extension StoreWithProductViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         let index = tableView.tag
-        return dataItem.getProductListByStore(index: index).count
+        return categories[index].product.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -168,7 +186,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = dataItem.getProductListByStore(index: tableView.tag)[indexPath.section]
+        let item = categories[tableView.tag].product[indexPath.section]
         let cell = ProductTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.25)

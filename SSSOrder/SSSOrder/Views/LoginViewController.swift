@@ -13,6 +13,8 @@ class LoginViewController: BaseController {
     var userInput: CustomInputField!
     var passwordInput: CustomInputField!
 
+    let loginController = LoginController.SharedInstance
+
     override func setLayoutPage() {
         // set background
         self.view.backgroundColor = ColorConstant.BackgroundColor
@@ -186,10 +188,19 @@ class LoginViewController: BaseController {
     @objc func signInButtonTouched(sender: UIButton) {
         print("SIGN IN")
         self.showOverlayLoading()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.removeOverlayLoading()
-            self.performSegue(withIdentifier: SegueNameConstant.LoginToHome, sender: nil)
+        DispatchQueue.main.async {
+            self.loginController.login(phone: self.userInput.inputTextField.text, password: self.passwordInput.inputTextField.text, callback: { (user, error) in
+
+                self.removeOverlayLoading()
+                if user != nil {
+                    self.performSegue(withIdentifier: SegueNameConstant.LoginToHome, sender: nil)
+                } else {
+                    self.showErrorMessage(error!)
+                }
+
+            })
         }
+
     }
 
     @objc func signInFBButtonTouched(sender: UIButton) {

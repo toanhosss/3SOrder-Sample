@@ -10,20 +10,13 @@ PODS:
     - GoogleMaps/Base (= 2.2.0)
   - HMSegmentedControl (1.5.3)
   - Kingfisher (3.8.0)
+  - Moya (8.0.4):
+    - Moya/Core (= 8.0.4)
   - Moya/Core (8.0.4):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Moya/RxSwift (8.0.4):
-    - Moya/Core
-    - RxSwift (~> 3.0)
+  - ReachabilitySwift (3)
   - Result (3.2.1)
-  - RxBlocking (3.4.1):
-    - RxSwift (~> 3.4)
-  - RxCocoa (3.4.1):
-    - RxSwift (~> 3.4)
-  - RxSwift (3.4.1)
-  - RxTest (3.4.1):
-    - RxSwift (~> 3.4)
   - SwiftLint (0.18.1)
 
 DEPENDENCIES:
@@ -33,11 +26,8 @@ DEPENDENCIES:
   - GooglePlaces
   - HMSegmentedControl
   - Kingfisher (~> 3.0)
-  - Moya/RxSwift
-  - RxBlocking (~> 3.0)
-  - RxCocoa (~> 3.0)
-  - RxSwift (~> 3.0)
-  - RxTest (~> 3.0)
+  - Moya
+  - ReachabilitySwift (~> 3)
   - SwiftLint
 
 SPEC CHECKSUMS:
@@ -48,13 +38,10 @@ SPEC CHECKSUMS:
   HMSegmentedControl: 7c6145afb50f26cec5f3243082f6f12b9f41318f
   Kingfisher: 7b8a055fc5c2afc61407d1a499e4e0981b1a6ac4
   Moya: a08bc060c7a44eee27447b239ed33a189b641e2b
+  ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
-  RxBlocking: 1e8c41cfe7ca2fc0e19d0e616c553845c63cbbd3
-  RxCocoa: a8a5f1d061d0043e28f56976829f31ce63e8eb09
-  RxSwift: 656f8fbeca5bc372121a72d9ebdd3cd3bc0ffade
-  RxTest: a6fd6e4069face7c6488f96f6c42296b3e44db48
   SwiftLint: b467d08f5b25dc3b3cfed243d8e1b74b91714c67
 
-PODFILE CHECKSUM: bd55d0d25e278bf32964300c622dd68ca4347339
+PODFILE CHECKSUM: c857f162c62a35f21d7cd9adfbe09fac8834fe73
 
 COCOAPODS: 1.1.1

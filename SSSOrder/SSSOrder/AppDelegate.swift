@@ -8,11 +8,18 @@
 
 import UIKit
 import GoogleMaps
+import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var netWorkStatus: Bool = true
+    var reachability: Reachability!
+    var reachability2: Reachability!
+    var locationManager: CLLocationManager!
+    var currentLocation: (lat: String, long: String)?
+
     private let googleAPIKey = "AIzaSyBbq5fIYk6YDVJEY1BCQgoIQ-cIzhjyLg8"
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -20,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set Google SDK
         GMSServices.provideAPIKey(googleAPIKey)
+
+        registerForLocationUpdateBackground()
+
         return true
     }
 
@@ -48,4 +58,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    /// check internet status
+    func detectInternetConnection() {
+
+    }
+
+    // MARK: Register update location
+    func registerForLocationUpdateBackground() {
+        locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.delegate = self
+
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension AppDelegate: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        let userLocation: CLLocation = locations[0]
+        let long = userLocation.coordinate.longitude
+        let lat = userLocation.coordinate.latitude
+        self.currentLocation = (lat: "\(lat)", long: "\(long)")
+    }
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            manager.desiredAccuracy = kCLLocationAccuracyBest
+            manager.startUpdatingLocation()
+        }
+    }
 }

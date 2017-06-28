@@ -9,17 +9,17 @@
 import UIKit
 
 class StaffViewController: BaseController {
-
-    var staffList: [StaffModel] = [
-        StaffModel(name: "Any Staff", avatar: ""),
-        StaffModel(name: "Staff A", avatar: ""),
-        StaffModel(name: "Staff B", avatar: ""),
-        StaffModel(name: "Staff C", avatar: ""),
-        StaffModel(name: "Staff D", avatar: ""),
-        StaffModel(name: "Staff E", avatar: ""),
-        StaffModel(name: "Staff F", avatar: ""),
-        StaffModel(name: "Staff G", avatar: "")
-    ]
+    var staffList: [StaffModel] = []
+//    var staffList: [StaffModel] = [
+//        StaffModel(name: "Any Staff", avatar: ""),
+//        StaffModel(name: "Staff A", avatar: ""),
+//        StaffModel(name: "Staff B", avatar: ""),
+//        StaffModel(name: "Staff C", avatar: ""),
+//        StaffModel(name: "Staff D", avatar: ""),
+//        StaffModel(name: "Staff E", avatar: ""),
+//        StaffModel(name: "Staff F", avatar: ""),
+//        StaffModel(name: "Staff G", avatar: "")
+//    ]
 
     var staffSelected: StaffModel?
 

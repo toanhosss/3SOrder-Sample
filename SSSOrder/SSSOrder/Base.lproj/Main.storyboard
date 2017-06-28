@@ -35,7 +35,7 @@
                     <connections>
                         <outlet property="indicatorView" destination="Ky0-tL-HGK" id="YOJ-rZ-Opu"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="splash_to_login" id="KXt-ea-jcU"/>
-                        <segue destination="Jky-rh-g0m" kind="show" identifier="splash_to_home" id="RC7-x1-xoS"/>
+                        <segue destination="76W-5g-OfU" kind="show" identifier="splash_to_home" id="Bxm-UG-sQC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aJs-lK-nnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -338,8 +338,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RC7-x1-xoS"/>
-        <segue reference="QG9-B2-27G"/>
-        <segue reference="tV2-ZT-1ha"/>
+        <segue reference="Bxm-UG-sQC"/>
+        <segue reference="KXt-ea-jcU"/>
     </inferredMetricsTieBreakers>
 </document>

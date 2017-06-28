@@ -13,6 +13,7 @@ enum APIService {
     case login(phone: String, password: String)
     case register(name: String, phone: String, password: String)
     case getStoreByGPS(lat: String, long: String)
+    case getCategoriesByStore(storeId: String)
 }
 
 // MARK: - TargetType Protocol Implementation
@@ -26,8 +27,10 @@ extension APIService: TargetType {
         switch self {
         case .login, .register:
             return "/api/UserMobile/LoginOrRegister"
-        case .getStoreByGPS(let lat, let long):
-            return "/api/Store/GetStoreByGPS?longitude=\(lat)&latitude=\(long)"
+        case .getStoreByGPS:
+            return "/api/Store/GetStoreByGPS"
+        case .getCategoriesByStore:
+            return "/api/Category/GetCategories"
         }
     }
 
@@ -35,7 +38,7 @@ extension APIService: TargetType {
         switch self {
         case .login, .register:
             return .post
-        case .getStoreByGPS:
+        case .getStoreByGPS, .getCategoriesByStore:
             return .get
         }
     }
@@ -50,8 +53,13 @@ extension APIService: TargetType {
             let user = ["Name": name, "PhoneNumber": phone, "Password": password]
             return ["customer": user,
                     "IsRegister": true]
-        default:
-            return nil
+        case .getStoreByGPS(let lat, let long):
+            var params: [String : AnyObject] = [:]
+            params["longitude"] = long as AnyObject?
+            params["latitude"] = lat as AnyObject?
+            return params
+        case .getCategoriesByStore(let storeId):
+            return ["storeId":storeId]
         }
     }
 
@@ -59,19 +67,19 @@ extension APIService: TargetType {
         switch self {
         case .login, .register:
             return JSONEncoding.default
-        case .getStoreByGPS:
+        case .getStoreByGPS, .getCategoriesByStore:
             return URLEncoding.default
         }
     }
 
     var sampleData: Data {
         switch self {
-        case .login:
+        case .login, .register:
             return "{\"status\": 200,\"message\": \"Success\", \"customerInfor\": {\"Id\": 5,\"Name\":\"Anh Tran\",\"PhoneNumber\": \"1234567890\"}}".data(using: .utf8)!
-        case .register:
-            return "".data(using: .utf8)!
         case .getStoreByGPS:
-            return "".data(using: .utf8)!
+            return "{\"items\": [{\"id\": 1,\"name\": \"Crazy Nails\",\"address\": \"242 Bank Street Ottawa\",\"latitude\": 38.895546,\"longtitude\": -77.037842,\"image\": \"/Content/images/Stores/Store_20172228112226.jpg\",\"isActive\": true,\"owners\": []}]}".data(using: .utf8)!
+        case .getCategoriesByStore:
+            return "{\"message\":\"success\",\"data\":[{\"Name\":\"Nails and Spa\",\"CreatedDate\":\"2017-06-28T11:24:11.953\",\"UpdatedDate\": \"2017-06-28T11:24:11.953\",\"IsActive\": true,\"Description\": \"Nails and Spa\",\"Products\": [{\"CategoryId\": 16,\"Name\": \"Eyebrow Wax Clean Up\",\"Image\": \"null\",\"Description\": \"\",\"Price\": 100,\"Time\": \"10:0\",\"IsActive\": true,\"TimeHour\": 0,\"TimeMinute\": 0,\"Staffs\": [{\"Name\": \"Staff 01\",\"Surname\": \"ss\",\"UserName\": \"Staff\",\"FullName\":\"Staff 01 ss\",\"EmailAddress\": \"Staff01@gmail.com\",\"IsEmailConfirmed\": false,\"LastLoginTime\": null,\"IsActive\": true,\"CreationTime\":\"2017-06-28T16:20:17.537\",\"Id\": 10012}],\"Id\": 1024}],\"Id\": 16}],\"status\": 200}".data(using: .utf8)!
         }
     }
 

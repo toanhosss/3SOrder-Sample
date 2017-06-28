@@ -22,45 +22,68 @@ class HomeViewController: BaseController {
     var justScrollY = false
 
     var itemSelected = 0
+    var dataSource: [SalonStoreModel] = []
 
-    var dataSource: [SalonStoreModel] = [
-        SalonStoreModel(name: "The Upkeep Shoppe",
-                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-                        distance: 1,
-                        image: "https://www.mallcribbs.com/images/storeprofile/store-image/store-image-regis-salon",
-                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-        SalonStoreModel(name: "The Upkeep Shoppe",
-                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-                        distance: 1.1,
-                        image: "http://www.cpp-luxury.com/wp-content/uploads/2016/07/Harry-Winston-salon-store-Houston-at-River-Oaks-3.jpg",
-                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-        SalonStoreModel(name: "The Upkeep Shoppe",
-                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-                        distance: 1.3,
-                        image: "https://s-media-cache-ak0.pinimg.com/originals/64/fb/ee/64fbee1b276fcfcc1025144d9bd4e18b.jpg",
-                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-        SalonStoreModel(name: "The Upkeep Shoppe",
-                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-                        distance: 1.5,
-                        image: "https://s-media-cache-ak0.pinimg.com/originals/0d/b1/6d/0db16df7e8fdb33f28cd21e7ca461e4f.jpg",
-                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-        SalonStoreModel(name: "The Upkeep Shoppe",
-                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-                        distance: 2.1,
-                        image: "https://www.intelligentnutrients.com/media/extendware/ewimageopt/media/template/4d/7/where-to-buy-horst-and-friends-img.jpg",
-                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed.")
-    ]
+    let homeController = StoreController.SharedInstance
+
+//    var dataSource: [SalonStoreModel] = [
+//        SalonStoreModel(name: "The Upkeep Shoppe",
+//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+//                        distance: 1,
+//                        image: "https://www.mallcribbs.com/images/storeprofile/store-image/store-image-regis-salon",
+//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
+//        SalonStoreModel(name: "The Upkeep Shoppe",
+//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+//                        distance: 1.1,
+//                        image: "http://www.cpp-luxury.com/wp-content/uploads/2016/07/Harry-Winston-salon-store-Houston-at-River-Oaks-3.jpg",
+//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
+//        SalonStoreModel(name: "The Upkeep Shoppe",
+//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+//                        distance: 1.3,
+//                        image: "https://s-media-cache-ak0.pinimg.com/originals/64/fb/ee/64fbee1b276fcfcc1025144d9bd4e18b.jpg",
+//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
+//        SalonStoreModel(name: "The Upkeep Shoppe",
+//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+//                        distance: 1.5,
+//                        image: "https://s-media-cache-ak0.pinimg.com/originals/0d/b1/6d/0db16df7e8fdb33f28cd21e7ca461e4f.jpg",
+//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
+//        SalonStoreModel(name: "The Upkeep Shoppe",
+//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
+//                        distance: 2.1,
+//                        image: "https://www.intelligentnutrients.com/media/extendware/ewimageopt/media/template/4d/7/where-to-buy-horst-and-friends-img.jpg",
+//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed.")
+//    ]
 
     override func setLayoutPage() {
         super.setLayoutPage()
 
         titlePage = NSLocalizedString("home", comment: "")
         setTabbarIcon(icons: [ImageConstant.IconHome!, ImageConstant.IconOrderList!, ImageConstant.IconBooking!, ImageConstant.IconMenu!])
+
+        getData()
+
         // Draw map view
         initMapView()
 
-        // Dwaw list
-        createListDataSource()
+    }
+
+    func getData() {
+//        let location = appDelegate?.currentLocation
+        let location = (lat: "1234", long: "12341234")
+        if location != nil {
+            homeController.getStore(lat: location.lat, long: location.long, callback: { (salon, error) in
+            if salon != nil {
+                print("Got data")
+                self.dataSource = salon!
+                self.createListDataSource()
+            } else {
+                print("Got Error")
+                self.showErrorMessage(error!)
+            }
+        })
+        } else {
+            self.showErrorMessage("Can't get current location")
+        }
     }
 
     /// create map view
@@ -82,6 +105,11 @@ class HomeViewController: BaseController {
 
     /// create PageView List
     func createListDataSource() {
+
+        if listItemView != nil {
+            listItemView.removeFromSuperview()
+            listItemView = nil
+        }
 
         let itemWidth = ScreenSize.ScreenWidth*0.95
         let itemHeight = ScreenSize.ScreenHeight*0.25
@@ -147,14 +175,15 @@ class HomeViewController: BaseController {
         infodata.font = UIFont.systemFont(ofSize: 14)
         infodata.backgroundColor = .clear
 
-        let distanceIcon = UIImageView(frame: CGRect(x: container.frame.width*0.15, y: container.frame.height*0.8,
+        let distanceIcon = UIImageView(frame: CGRect(x: container.frame.width*0.05, y: container.frame.height*0.8,
                                                 width: container.frame.height*0.1, height: container.frame.height*0.1))
         distanceIcon.image = ImageConstant.IconNear?.withRenderingMode(.alwaysTemplate)
         distanceIcon.tintColor = ColorConstant.ButtonPrimary
         distanceIcon.contentMode = .scaleAspectFit
 
-        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.22, y: container.frame.height*0.8, width: container.frame.width*0.22, height: container.frame.height*0.1))
+        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.12, y: container.frame.height*0.8, width: container.frame.width*0.32, height: container.frame.height*0.1))
         distanceData.text = "\(item.distance!) km"
+        distanceData.adjustsFontSizeToFitWidth = true
         distanceData.textColor = ColorConstant.ButtonPrimary
 
         cardView.addSubview(imageStore)

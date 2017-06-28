@@ -74,3 +74,7 @@ enum ObserveNameConstant {
     static let CartNotificationUpdate = NSNotification.Name.init("UpdateCartNotification")
     static let NewNotificationUpdate = NSNotification.Name.init("UpdateNewNotification")
 }
+
+enum URLConstant {
+    static let baseURL = "http://192.168.2.65:8889"
+}

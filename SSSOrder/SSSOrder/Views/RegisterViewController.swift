@@ -16,6 +16,8 @@ class RegisterViewController: BaseController {
     var confirmPassInput: CustomInputField!
     var avatarView: UIView!
 
+    var registerController = RegisterController.SharedInstance
+
     override func setLayoutPage() {
         // set background
         self.view.backgroundColor = ColorConstant.BackgroundColor
@@ -154,9 +156,15 @@ class RegisterViewController: BaseController {
     @objc func registerButtonTouched(sender: UIButton) {
         print("REGISTER")
         self.showOverlayLoading()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.removeOverlayLoading()
-            self.performSegue(withIdentifier: SegueNameConstant.RegisterToHome, sender: nil)
+        DispatchQueue.main.async {
+            self.registerController.register(name: self.nameInput.inputTextField.text, phone: self.mobileNumberInput.inputTextField.text, password: self.passwordInput.inputTextField.text, confirmPassword: self.confirmPassInput.inputTextField.text, callback: { (user, error) in
+                self.removeOverlayLoading()
+                if user != nil {
+                    self.performSegue(withIdentifier: SegueNameConstant.RegisterToHome, sender: nil)
+                } else {
+                    self.showErrorMessage(error!)
+                }
+            })
         }
     }
 

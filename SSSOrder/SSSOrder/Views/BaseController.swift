@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import RxSwift
+import ReachabilitySwift
 
 class BaseController: UIViewController {
 
@@ -16,6 +16,8 @@ class BaseController: UIViewController {
     var titleLabel: UILabel?
 
     let tapInputKeyboard: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
+    let appDelegate = UIApplication.shared.delegate as? AppDelegate
 
     private var _backTitle = ""
     var backTitle: String {
@@ -64,9 +66,6 @@ class BaseController: UIViewController {
             _navigationBG = newValue
         }
     }
-
-    // MARK: Rx
-    var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -178,6 +177,11 @@ class BaseController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
 
+    /// Get NetWork status
+    func getNetWorkStatus() -> Bool {
+        return appDelegate!.netWorkStatus
+    }
+
     /// Show Overlay loading view
     func showOverlayLoading(_ indicatorViewStyle: UIActivityIndicatorViewStyle = .whiteLarge) {
         if overlayView != nil {
@@ -207,9 +211,11 @@ class BaseController: UIViewController {
     }
 
     func showInfoMessage(_ message: String) {
-
         present(PopupUtil.showAlerPopup(PopupUtil.PopupInfoTitle, message: message), animated: true, completion: nil)
+    }
 
+    func showErrorMessage(_ error: String) {
+        present(PopupUtil.showAlerPopup(PopupUtil.PopupErrorTitle, message: error), animated: true, completion: nil)
     }
 
     // MARK: General Handler Button
@@ -221,6 +227,9 @@ class BaseController: UIViewController {
 
         self.navigationController!.popViewController(animated: true)
     }
+
+    // MARK: - NOTIFICATION CENTER OBSERVE
+
 }
 
 extension BaseController: UITextFieldDelegate {

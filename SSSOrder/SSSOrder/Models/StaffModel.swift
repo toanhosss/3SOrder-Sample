@@ -9,10 +9,12 @@
 import Foundation
 
 class StaffModel: NSObject {
+    var staffId: Int!
     var name: String!
     var avatar: String!
 
-    init(name: String, avatar: String) {
+    init(staffId: Int, name: String, avatar: String) {
+        self.staffId = staffId
         self.name = name
         self.avatar = avatar
     }
