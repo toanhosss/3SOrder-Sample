@@ -28,7 +28,7 @@ class StoreController: NSObject {
             return
         }
 
-        provider.request(.getStoreByGPS(lat: "38.898556", long: "-77.037852")) { (result) in
+        provider.request(.getStoreByGPS(lat: latitude, long: longitude)) { (result) in
             switch result {
             case .success(let response):
                 do {

@@ -49,6 +49,7 @@
 		38E439E11F03AB2800F4129E /* ProductController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E01F03AB2800F4129E /* ProductController.swift */; };
 		38E439E31F04CD6F00F4129E /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E21F04CD6F00F4129E /* DateUtil.swift */; };
 		38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E41F04D39F00F4129E /* PaymentModel.swift */; };
+		38E439E71F04FB9400F4129E /* SettingItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E61F04FB9400F4129E /* SettingItemTableViewCell.swift */; };
 		38E476E91F02464600274CE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476E81F02464600274CE8 /* User.swift */; };
 		38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */; };
 		38E476EE1F02624900274CE8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476ED1F02624900274CE8 /* APIService.swift */; };
@@ -112,6 +113,7 @@
 		38E439E01F03AB2800F4129E /* ProductController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductController.swift; sourceTree = "<group>"; };
 		38E439E21F04CD6F00F4129E /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		38E439E41F04D39F00F4129E /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
+		38E439E61F04FB9400F4129E /* SettingItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingItemTableViewCell.swift; sourceTree = "<group>"; };
 		38E476E81F02464600274CE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultUtils.swift; sourceTree = "<group>"; };
 		38E476ED1F02624900274CE8 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				17B81E901EFFEE4D0058875D /* CartTableViewCell.swift */,
 				17B81E981F001CCA0058875D /* StaffTableViewCell.swift */,
 				17B81E9E1F005B320058875D /* NotificationTableViewCell.swift */,
+				38E439E61F04FB9400F4129E /* SettingItemTableViewCell.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 			files = (
 				17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */,
 				38E439E11F03AB2800F4129E /* ProductController.swift in Sources */,
+				38E439E71F04FB9400F4129E /* SettingItemTableViewCell.swift in Sources */,
 				38E439DD1F0381D000F4129E /* RegisterController.swift in Sources */,
 				17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */,
 				38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */,

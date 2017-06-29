@@ -12,6 +12,7 @@ class CartViewController: BaseController {
 
     var storeBooked: SalonStoreModel!
     var listDataBooking: [SalonProductModel]!
+    var staffList: [StaffModel]!
     var tableView: UITableView!
     var continueButton: UIButton!
 
@@ -74,7 +75,8 @@ class CartViewController: BaseController {
         if destVC != nil {
             destVC!.productList = self.listDataBooking
             destVC!.storeBooked = self.storeBooked
-            destVC!.staffList += getStaffListAvailableForThisOrder()
+            destVC!.staffList += self.staffList
+//            destVC!.staffList += getStaffListAvailableForThisOrder()
         }
     }
 }

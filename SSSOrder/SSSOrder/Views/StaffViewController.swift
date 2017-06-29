@@ -106,8 +106,8 @@ extension StaffViewController: UITableViewDataSource {
 
 extension StaffViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        staffSelected = staffList[indexPath.section]
-        print("Item selected \(indexPath.section)")
+        staffSelected = staffList[indexPath.row]
+        print("Item selected \(indexPath.row)")
         self.performSegue(withIdentifier: SegueNameConstant.StaffToSubmit, sender: nil)
     }
 }

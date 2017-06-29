@@ -39,7 +39,7 @@ class OrderController: NSObject {
 
         let user = UserDefaultUtils.getUser()
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM-dd-yyyy"
+        formatter.dateFormat = "yyyy-MM-dd"
         let dateString = formatter.string(from: dateBooked)
 
         var sum:Double = 0
@@ -52,7 +52,8 @@ class OrderController: NSObject {
             case .success(let response):
                 do {
                     let data = try response.mapJSON() as? [String:Any]
-
+                    print(data!["message"])
+                    callback(true, nil)
                 } catch {
                     let error = "Cannot map data"
                     callback(false, error)

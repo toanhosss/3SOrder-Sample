@@ -23,6 +23,7 @@ class HomeViewController: BaseController {
 
     var itemSelected = 0
     var dataSource: [SalonStoreModel] = []
+    var dataMarker:[GMSMarker] = []
 
     let homeController = StoreController.SharedInstance
 
@@ -99,7 +100,7 @@ class HomeViewController: BaseController {
         //        let currentLocation = (UIApplication.shared.delegate as! AppDelegate).currentMyLocation
         let currentLocation = CLLocationCoordinate2D(latitude: 32.878626, longitude: -90.41112)
 
-        let locationCamera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 6)
+        let locationCamera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 12)
         mapView = GMSMapView.map(withFrame: CGRect(x: ScreenSize.ScreenWidth*0.025,
                                                    y: ScreenSize.ScreenHeight*0.1,
                                                    width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.5), camera: locationCamera)
@@ -129,6 +130,7 @@ class HomeViewController: BaseController {
             itemMarker.tracksViewChanges = true
             bounds = bounds.includingCoordinate(location)
             itemMarker.map = self.mapView
+            dataMarker.append(itemMarker)
         }
 
         mapView.animate(with: GMSCameraUpdate.fit(bounds))
@@ -301,6 +303,8 @@ extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex: Int = (Int)(self.listItemView.contentOffset.x / self.listItemView.frame.size.width + 0.5)
         self.pageControl.currentPage = currentIndex
+        self.dataMarker[currentIndex].icon = GMSMarker.markerImage(with: .green)
+        self.dataMarker[currentIndex].map = self.mapView
         startX = scrollView.contentOffset.x
         startY = scrollView.contentOffset.y
         justScrollX = false

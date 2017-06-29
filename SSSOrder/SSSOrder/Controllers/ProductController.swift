@@ -18,7 +18,7 @@ class ProductController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-    func getData(storeId: Int, callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ error: String?) -> Void) {
+    func getData(storeId: Int, callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ staffList: [StaffModel], _ error: String?) -> Void) {
         provider.request(.getCategoriesByStore(storeId: storeId)) { (result) in
             switch result {
             case .success(let response):
@@ -26,27 +26,38 @@ class ProductController: NSObject {
                     let data = try response.mapJSON() as? [String:Any]
                     let status = data!["status"] as? Int
                     if status != nil && status! == 200 {
-                        let dataList = data!["data"] as? [[String:Any]]
+                        let dataList = data!["data"] as? [String:Any]
+                        let categoryList = dataList!["Categories"] as? [[String:Any]]
                         var category:[(id: Int, name: String, product: [SalonProductModel])] = []
-                        for item in dataList! {
+                        for item in categoryList! {
                             let nameCategory = item["Name"] as? String
                             let idCategory = item["Id"] as? Int
                              let productList = self.dataToProductObject(data: item["Products"] as? [[String:Any]])
                             category.append((id: idCategory!, name: nameCategory!, product: productList != nil ? productList!:[]))
 
                         }
-                        callback(category, nil)
+
+                        let staffList = dataList!["Staffs"] as? [[String: Any]]
+                        var staffs: [StaffModel] = []
+                        for staff in staffList! {
+                            let staffId = staff["Id"] as? Int
+                            let staffName = staff["Name"] as? String
+                            let staffItem = StaffModel(staffId: staffId!, name: staffName!, avatar: "")
+                            staffs.append(staffItem)
+                        }
+
+                        callback(category, staffs, nil)
                     } else {
                         let error = data!["message"] as? String
-                        callback(nil, error!)
+                        callback(nil, [], error!)
                     }
                 } catch {
                     let error = "Cannot map data"
-                    callback(nil, error)
+                    callback(nil, [], error)
                 }
             case .failure(let error):
                 let errorString = error.errorDescription
-                callback(nil, errorString)
+                callback(nil, [], errorString)
             }
         }
     }

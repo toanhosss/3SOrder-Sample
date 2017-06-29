@@ -40,6 +40,7 @@ enum ImageConstant {
     static let IconAdd = UIImage(named: "add")
     static let IconCart = UIImage(named: "cart")
     static let IconExpand = UIImage(named: "expand")
+    static let IconSignout = UIImage(named: "signout")
 
 }
 
@@ -68,6 +69,7 @@ enum SegueNameConstant {
     static let CartToStaff = "cart_to_staff"
     static let StaffToSubmit = "staff_to_submit"
     static let NotificationToNotificationItem = "noti_to_item"
+    static let SettingToLogin = "setting_to_login"
 }
 
 /// Observe Name Notification

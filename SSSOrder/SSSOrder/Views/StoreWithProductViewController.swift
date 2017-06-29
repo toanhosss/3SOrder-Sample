@@ -19,6 +19,7 @@ class StoreWithProductViewController: BaseController {
 
     var productSelected: [SalonProductModel] = []
     var categories: [(id: Int, name: String, product: [SalonProductModel])] = []
+    var staffList:[StaffModel] = []
 
     let productController = ProductController.SharedInstance
 
@@ -40,7 +41,7 @@ class StoreWithProductViewController: BaseController {
     func getData() {
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.productController.getData(storeId: self.dataItem.salonId) { (data, error) in
+            self.productController.getData(storeId: self.dataItem.salonId) { (data, staff, error) in
                 self.removeOverlayLoading()
                 if error != nil {
                     self.showErrorMessage(error!)
@@ -51,6 +52,7 @@ class StoreWithProductViewController: BaseController {
                         categoriesHeader.append(data![i].name)
                     }
                     self.categories = data!
+                    self.staffList = staff
                     self.createLabelHeaderTitle(headers: categoriesHeader)
                     self.createListCollectionProduct(headers: categoriesHeader)
                 }
@@ -60,8 +62,8 @@ class StoreWithProductViewController: BaseController {
     }
 
     func addCartIconToNavigationBar() {
-        let width = ScreenSize.ScreenWidth*0.06
-        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.9, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
+        let width = ScreenSize.ScreenWidth*0.075
+        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.85, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
         cartButton.setImage(ImageConstant.IconCart, for: .normal)
         cartButton.addTarget(self, action: #selector(cartButtonNavigationTouched(sender:)), for: .touchUpInside)
         self.navigationBarView?.addSubview(cartButton)
@@ -165,6 +167,7 @@ class StoreWithProductViewController: BaseController {
         if destVC != nil {
             destVC!.storeBooked = self.dataItem
             destVC!.listDataBooking = self.productSelected
+            destVC!.staffList = self.staffList
         }
 
     }

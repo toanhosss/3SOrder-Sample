@@ -42,15 +42,16 @@ class SubmitOrderViewController: BaseController {
         super.setLayoutPage()
         self.titlePage = NSLocalizedString("submit", comment: "")
         self.backTitle = NSLocalizedString("back", comment: "")
+        overlayColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
 
         scrollViewPage = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.82))
         scrollViewPage.contentSize = CGSize(width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight)
 
         self.view.addSubview(scrollViewPage)
 
-        createPersonalInput()
         createCalendar()
         createListButtonTimer()
+        createPersonalInput()
 
         submitButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.822, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
         submitButton.setTitle(NSLocalizedString("booking", comment: ""), for: .normal)
@@ -194,14 +195,14 @@ class SubmitOrderViewController: BaseController {
     func submitOrderTouched(sender: UIButton) {
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.orderController.createOrder(nameCustomer: self.nameInputField.inputTextField.text, note: self.nameInputField.inputTextField.text, phoneNumber: self.mobileInputField.inputTextField.text, bookingDate: self.dateSelected, timePickup: self.timerSelected, storeId: self.storeBooked.salonId, productList: self.productList, staffSelected: self.staffSelected, paymentMethod: PaymentModel(type: self.getPaymentMethod(method: self.paymentSelected)), callback: { (status, error) in
+            self.orderController.createOrder(nameCustomer: self.nameInputField.inputTextField.text, note: self.noteInputField.inputTextField.text, phoneNumber: self.mobileInputField.inputTextField.text, bookingDate: self.dateSelected, timePickup: self.timerSelected, storeId: self.storeBooked.salonId, productList: self.productList, staffSelected: self.staffSelected, paymentMethod: PaymentModel(type: self.getPaymentMethod(method: self.paymentSelected)), callback: { (status, error) in
                  self.removeOverlayLoading()
                 if status {
                     let formatter = DateFormatter()
                     formatter.dateFormat = "hh:mm, dd MMM yyyy"
                     NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
                     _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showInfoMessage("Submited")
+                    self.showInfoMessage("Your Order has been submitted successfully.")
                 } else {
                     self.showErrorMessage(error!)
                 }
@@ -222,6 +223,24 @@ class SubmitOrderViewController: BaseController {
         }
     }
 
+    override func keyboardWillShow(_ notification: Notification) {
+        let tapInputKeyboard2: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapInputKeyboard2.cancelsTouchesInView = false
+//        let overlay = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
+//        self.view.insertSubview(overlay, belowSubview: nameInputField)
+        self.scrollViewPage.addGestureRecognizer(tapInputKeyboard2)
+    }
+
+    override func keyboardWillHide(_ notification: Notification) {
+
+    }
+
+    override func dismissKeyboard() {
+        self.scrollViewPage.endEditing(true)
+        self.nameInputField.endEditing(true)
+        self.mobileInputField.endEditing(true)
+        self.noteInputField.endEditing(true)
+    }
 }
 
 extension SubmitOrderViewController: UITableViewDataSource {

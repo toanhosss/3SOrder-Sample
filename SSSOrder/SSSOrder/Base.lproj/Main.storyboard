@@ -163,6 +163,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item4" id="W6W-tt-TJs"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="setting_to_login" id="YFj-Dw-9cp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yVP-Rd-TA6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -298,7 +301,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ETI-fm-Uqq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="ETI-fm-Uqq">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
@@ -323,7 +326,7 @@
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="doG-94-Fnk">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="doG-94-Fnk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -339,6 +342,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Bxm-UG-sQC"/>
-        <segue reference="KXt-ea-jcU"/>
+        <segue reference="YFj-Dw-9cp"/>
     </inferredMetricsTieBreakers>
 </document>

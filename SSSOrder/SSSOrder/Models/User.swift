@@ -40,7 +40,7 @@ class User: NSObject, NSCoding {
 
     required convenience init?(coder aDecoder: NSCoder) {
         guard
-            let id = aDecoder.decodeObject(forKey: UserKey.idKey) as? Int,
+            let id = aDecoder.decodeObject(forKey: UserKey.idKey) as? String,
             let name = aDecoder.decodeObject(forKey: UserKey.nameKey) as? String,
             let phone = aDecoder.decodeObject(forKey: UserKey.phoneKey) as? String
             else {
@@ -50,14 +50,14 @@ class User: NSObject, NSCoding {
         let email = aDecoder.decodeObject(forKey: UserKey.emailKey) as? String
         let avatar = aDecoder.decodeObject(forKey: UserKey.avatarKey) as? String
 
-        self.init(userId: id, name: name, phone: phone)
+        self.init(userId: Int(id)!, name: name, phone: phone)
         self.email = email != nil ? email!:""
         self.avatar = avatar
     }
 
     func encode(with aCoder: NSCoder) {
 
-        aCoder.encode(self.userId, forKey: UserKey.idKey)
+        aCoder.encode(String(self.userId), forKey: UserKey.idKey)
         aCoder.encode(self.name, forKey: UserKey.nameKey)
         aCoder.encode(self.phone, forKey: UserKey.phoneKey)
         aCoder.encode(self.email, forKey: UserKey.emailKey)

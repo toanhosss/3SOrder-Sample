@@ -74,6 +74,17 @@ extension APIService: TargetType {
                 orderItem["total"] = 0
                 orderDetail.append(orderItem)
             }
+            var params = ["customerId": customerId,
+                          "storeId": storeId,
+                          "totalAmount": amount,
+                          "bookingDate": bookedDate,
+                          "status": status,
+                          "note": note,
+                          "paymentMethod": payment.type.rawValue,
+                          "customerNameOrder": customerName,
+                          "phoneNumberOrder": customerPhone,
+                          "pickupTime": timer,
+                          "orderDetails": orderDetail ] as [String : Any]
 
                 return ["customerId": customerId,
                 "storeId": storeId,
