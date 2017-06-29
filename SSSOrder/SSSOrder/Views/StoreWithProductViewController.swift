@@ -163,6 +163,7 @@ class StoreWithProductViewController: BaseController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destVC = segue.destination as? CartViewController
         if destVC != nil {
+            destVC!.storeBooked = self.dataItem
             destVC!.listDataBooking = self.productSelected
         }
 

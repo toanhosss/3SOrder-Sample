@@ -18,14 +18,14 @@ class ProductController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-    func getData(storeId: String, callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ error: String?) -> Void) {
+    func getData(storeId: Int, callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ error: String?) -> Void) {
         provider.request(.getCategoriesByStore(storeId: storeId)) { (result) in
             switch result {
             case .success(let response):
                 do {
                     let data = try response.mapJSON() as? [String:Any]
                     let status = data!["status"] as? Int
-                    if status! == 200 {
+                    if status != nil && status! == 200 {
                         let dataList = data!["data"] as? [[String:Any]]
                         var category:[(id: Int, name: String, product: [SalonProductModel])] = []
                         for item in dataList! {
@@ -66,7 +66,7 @@ class ProductController: NSObject {
             let time = item["Time"] as? String
             let duration = getTimeDuration(timeString: time)
             let productId = item["Id"] as? Int
-            let productObject = SalonProductModel(productId: productId!, name: productName!, image: imageProduct!, price: price!, duration: duration, categoryId: categoryId!, description: description!)
+            let productObject = SalonProductModel(productId: productId!, name: productName!, image: URLConstant.baseURL+imageProduct!, price: price!, duration: duration, categoryId: categoryId!, description: description!)
             let staff = getStaffList(data: item["Staffs"] as? [[String:Any]])
             productObject.staffAvailable = staff != nil ? staff! : []
             result.append(productObject)

@@ -47,6 +47,8 @@
 		38E439DD1F0381D000F4129E /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439DC1F0381D000F4129E /* RegisterController.swift */; };
 		38E439DF1F038F7800F4129E /* StoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439DE1F038F7800F4129E /* StoreController.swift */; };
 		38E439E11F03AB2800F4129E /* ProductController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E01F03AB2800F4129E /* ProductController.swift */; };
+		38E439E31F04CD6F00F4129E /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E21F04CD6F00F4129E /* DateUtil.swift */; };
+		38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439E41F04D39F00F4129E /* PaymentModel.swift */; };
 		38E476E91F02464600274CE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476E81F02464600274CE8 /* User.swift */; };
 		38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */; };
 		38E476EE1F02624900274CE8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476ED1F02624900274CE8 /* APIService.swift */; };
@@ -108,6 +110,8 @@
 		38E439DC1F0381D000F4129E /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
 		38E439DE1F038F7800F4129E /* StoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreController.swift; sourceTree = "<group>"; };
 		38E439E01F03AB2800F4129E /* ProductController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductController.swift; sourceTree = "<group>"; };
+		38E439E21F04CD6F00F4129E /* DateUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
+		38E439E41F04D39F00F4129E /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		38E476E81F02464600274CE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultUtils.swift; sourceTree = "<group>"; };
 		38E476ED1F02624900274CE8 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 				172141CA1EFD5844005B1CC2 /* ColorExtension.swift */,
 				17B81E8E1EFEF5220058875D /* StringExtension.swift */,
 				38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */,
+				38E439E21F04CD6F00F4129E /* DateUtil.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -176,6 +181,7 @@
 				17B81E9C1F00578A0058875D /* NotificationModel.swift */,
 				38E476E81F02464600274CE8 /* User.swift */,
 				17B47C061F042C350074CB42 /* OrderModel.swift */,
+				38E439E41F04D39F00F4129E /* PaymentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -524,6 +530,7 @@
 				38E439E11F03AB2800F4129E /* ProductController.swift in Sources */,
 				38E439DD1F0381D000F4129E /* RegisterController.swift in Sources */,
 				17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */,
+				38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */,
 				38E476EE1F02624900274CE8 /* APIService.swift in Sources */,
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
@@ -543,6 +550,7 @@
 				17B81E971F0018F20058875D /* StaffModel.swift in Sources */,
 				38E439DB1F035BD100F4129E /* LoginController.swift in Sources */,
 				17B81EA11F0061ED0058875D /* NotificationItemViewController.swift in Sources */,
+				38E439E31F04CD6F00F4129E /* DateUtil.swift in Sources */,
 				1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */,
 				17B47C001F0415B50074CB42 /* OrderController.swift in Sources */,
 				17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */,

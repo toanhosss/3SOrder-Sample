@@ -10,6 +10,7 @@ import UIKit
 
 class CartViewController: BaseController {
 
+    var storeBooked: SalonStoreModel!
     var listDataBooking: [SalonProductModel]!
     var tableView: UITableView!
     var continueButton: UIButton!
@@ -71,6 +72,8 @@ class CartViewController: BaseController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destVC = segue.destination as? StaffViewController
         if destVC != nil {
+            destVC!.productList = self.listDataBooking
+            destVC!.storeBooked = self.storeBooked
             destVC!.staffList += getStaffListAvailableForThisOrder()
         }
     }

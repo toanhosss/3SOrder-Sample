@@ -47,7 +47,7 @@ class RegisterController: NSObject {
                     let status = data!["status"] as? Int
                     if status! == 200 {
                         let userData = data!["customerInfo"] as? [String:Any]
-                        let user = User(userId: String((userData!["Id"] as? Int)!), name: (userData!["Name"] as? String)!, phone: (userData!["PhoneNumber"] as? String)!)
+                        let user = User(userId: (userData!["Id"] as? Int)!, name: (userData!["Name"] as? String)!, phone: (userData!["PhoneNumber"] as? String)!)
                         UserDefaultUtils.storeUser(user: user)
                         callback(user, nil)
 

@@ -18,19 +18,19 @@ fileprivate enum UserKey {
 
 class User: NSObject, NSCoding {
 
-    var userId: String
+    var userId: Int
     var name: String
     var phone: String
     var email: String = ""
     var avatar: String?
 
-    init(userId: String, name: String, phone: String) {
+    init(userId: Int, name: String, phone: String) {
         self.userId = userId
         self.name = name
         self.phone = phone
     }
 
-    init(userId: String, name: String, phone: String, email: String, avatar: String) {
+    init(userId: Int, name: String, phone: String, email: String, avatar: String) {
         self.userId = userId
         self.name = name
         self.phone = phone
@@ -40,7 +40,7 @@ class User: NSObject, NSCoding {
 
     required convenience init?(coder aDecoder: NSCoder) {
         guard
-            let id = aDecoder.decodeObject(forKey: UserKey.idKey) as? String,
+            let id = aDecoder.decodeObject(forKey: UserKey.idKey) as? Int,
             let name = aDecoder.decodeObject(forKey: UserKey.nameKey) as? String,
             let phone = aDecoder.decodeObject(forKey: UserKey.phoneKey) as? String
             else {

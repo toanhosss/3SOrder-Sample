@@ -12,7 +12,10 @@ import FSCalendar
 class SubmitOrderViewController: BaseController {
 
     var scrollViewPage: UIScrollView!
+
     var staffSelected: StaffModel!
+    var storeBooked: SalonStoreModel!
+    var productList: [SalonProductModel]!
 
     var nameInputField: CustomInputField!
     var mobileInputField: CustomInputField!
@@ -21,16 +24,19 @@ class SubmitOrderViewController: BaseController {
     var popover: Popover?
 
     var pickPaymentButton: UIButton!
-    var paymentMethod = ["Cash", "Method A", "Method B", "Method C"]
+    var paymentMethod = ["Cash", "Credit Card", "Paypal", "Visa Card"]
     var paymentSelected = "Cash"
 
     var calendar: FSCalendar!
-    var dateSelected: Date?
+    var dateSelected = Date()
+    var timerSelected: String?
 
     var scrollContentTimer: UIScrollView!
     var listTimer: [String] = ["9:10", "10:10", "11:10", "15:10", "17:30"]
 
     var submitButton: UIButton!
+
+    let orderController = OrderController.SharedInstance
 
     override func setLayoutPage() {
         super.setLayoutPage()
@@ -156,7 +162,7 @@ class SubmitOrderViewController: BaseController {
     }
 
     // MARK: Handler button touched
-    func showPopupPayment(sender:UIButton) {
+    func showPopupPayment(sender: UIButton) {
 
         let options = [
             PopoverOption.type(PopoverType.down),
@@ -177,6 +183,7 @@ class SubmitOrderViewController: BaseController {
             if button != nil {
                 if button!.tag == index {
                     button!.backgroundColor = ColorConstant.ButtonPrimary
+                    self.timerSelected = button!.titleLabel!.text
                 } else {
                     button!.backgroundColor = .gray
                 }
@@ -186,15 +193,33 @@ class SubmitOrderViewController: BaseController {
 
     func submitOrderTouched(sender: UIButton) {
         self.showOverlayLoading()
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
-            self.removeOverlayLoading()
-            let formatter = DateFormatter()
-            formatter.dateFormat = "hh:mm, dd MMM yyyy"
-            NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
-            _ = self.navigationController?.popToRootViewController(animated: true)
-            self.showInfoMessage("Submited")
+        DispatchQueue.main.async {
+            self.orderController.createOrder(nameCustomer: self.nameInputField.inputTextField.text, note: self.nameInputField.inputTextField.text, phoneNumber: self.mobileInputField.inputTextField.text, bookingDate: self.dateSelected, timePickup: self.timerSelected, storeId: self.storeBooked.salonId, productList: self.productList, staffSelected: self.staffSelected, paymentMethod: PaymentModel(type: self.getPaymentMethod(method: self.paymentSelected)), callback: { (status, error) in
+                 self.removeOverlayLoading()
+                if status {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "hh:mm, dd MMM yyyy"
+                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                    self.showInfoMessage("Submited")
+                } else {
+                    self.showErrorMessage(error!)
+                }
+            })
         }
+    }
 
+    private func getPaymentMethod(method: String) -> PaymentType {
+        switch method {
+        case "Credit Card":
+            return PaymentType.creditCard
+        case "Paypal":
+            return PaymentType.paypal
+        case "Visa Card":
+            return PaymentType.visaCard
+        default:
+            return PaymentType.cash
+        }
     }
 
 }
@@ -225,7 +250,8 @@ extension SubmitOrderViewController: FSCalendarDataSource {
 
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         self.dateSelected = date
-        if monthPosition == .previous || monthPosition == .next {
+        self.calendar.appearance.todaySelectionColor = .clear
+        if monthPosition == .next {
             calendar.setCurrentPage(date, animated: true)
         }
     }

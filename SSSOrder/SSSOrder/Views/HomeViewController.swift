@@ -69,17 +69,18 @@ class HomeViewController: BaseController {
     }
 
     func getData() {
-//        let location = appDelegate?.currentLocation
-        let location = (lat: "1234", long: "12341234")
+        let location = appDelegate?.currentLocation
+//        let location = (lat: "1234", long: "12341234")
         if location != nil {
             self.showOverlayLoading()
             DispatchQueue.main.async {
-                self.homeController.getStore(lat: location.lat, long: location.long, callback: { (salon, error) in
+                self.homeController.getStore(lat: location!.lat, long: location!.long, callback: { (salon, error) in
                     self.removeOverlayLoading()
                     if salon != nil {
                         print("Got data")
                         self.dataSource = salon!
                         self.createListDataSource()
+                        self.insertMarkerToMap()
                     } else {
                         print("Got Error")
                         self.showErrorMessage(error!)
@@ -106,6 +107,31 @@ class HomeViewController: BaseController {
         mapView.layer.cornerRadius = 10
 
         self.view.addSubview(mapView)
+    }
+
+    private func insertMarkerToMap() {
+
+        // clear mapView data
+        mapView.clear()
+
+        var bounds = GMSCoordinateBounds()
+
+//        let rect = CGRect(x: 0, y: 0, width: mapView.frame.width*0.15, height: mapView.frame.width*0.15)
+
+        for itemData in self.dataSource {
+            let location = CLLocationCoordinate2D(latitude: CLLocationDegrees(itemData.latitude), longitude: CLLocationDegrees(itemData.longitude))
+            let itemMarker = GMSMarker(position: location)
+            itemMarker.title = itemData.name
+
+            // create marker view
+//            let markerView = CustomMarkerMap(frame: rect)
+//            itemMarker.iconView = markerView
+            itemMarker.tracksViewChanges = true
+            bounds = bounds.includingCoordinate(location)
+            itemMarker.map = self.mapView
+        }
+
+        mapView.animate(with: GMSCameraUpdate.fit(bounds))
     }
 
     /// create PageView List
@@ -143,7 +169,7 @@ class HomeViewController: BaseController {
         pageControl = UIPageControl(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.869, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.06))
         pageControl.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
         pageControl.currentPageIndicatorTintColor = ColorConstant.ButtonPrimary
-        pageControl.pageIndicatorTintColor = .white
+        pageControl.pageIndicatorTintColor = UIColor.darkGray
         pageControl.numberOfPages = dataSource.count
         pageControl.currentPage = 0
 

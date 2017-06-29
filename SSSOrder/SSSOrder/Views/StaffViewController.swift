@@ -9,6 +9,9 @@
 import UIKit
 
 class StaffViewController: BaseController {
+
+    var productList: [SalonProductModel]!
+    var storeBooked: SalonStoreModel!
     var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
 //    var staffList: [StaffModel] = [
 //        StaffModel(name: "Any Staff", avatar: ""),
@@ -51,7 +54,9 @@ class StaffViewController: BaseController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destVC = segue.destination as? SubmitOrderViewController
         if destVC != nil {
-            destVC?.staffSelected = staffSelected
+            destVC!.storeBooked = self.storeBooked
+            destVC!.productList = self.productList
+            destVC!.staffSelected = staffSelected
         }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 class SalonStoreModel: NSObject {
-    var salonId: String!
+    var salonId: Int!
     var name: String!
     var address: String!
     var image: String!
@@ -18,7 +18,7 @@ class SalonStoreModel: NSObject {
     var latitude: Float!
     var longitude: Float!
 
-    init(salonId: String, name: String, address: String, distance: Float, image: String, latitude: Float, longitude: Float) {
+    init(salonId: Int, name: String, address: String, distance: Float, image: String, latitude: Float, longitude: Float) {
 
         super.init()
         self.salonId = salonId

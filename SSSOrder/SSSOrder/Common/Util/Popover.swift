@@ -327,7 +327,7 @@ open class Popover: UIView {
       options: UIViewAnimationOptions(),
       animations: {
         self.transform = CGAffineTransform.identity
-      }){ _ in
+      }) { _ in
         self.didShowHandler?()
     }
     UIView.animate(withDuration: self.animationIn / 3,
