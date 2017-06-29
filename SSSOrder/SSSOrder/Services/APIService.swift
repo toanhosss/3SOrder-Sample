@@ -59,7 +59,7 @@ extension APIService: TargetType {
             params["latitude"] = lat as AnyObject?
             return params
         case .getCategoriesByStore(let storeId):
-            return ["storeId":storeId]
+            return ["storeId": storeId]
         }
     }
 

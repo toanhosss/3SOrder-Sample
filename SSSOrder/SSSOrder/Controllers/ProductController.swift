@@ -45,7 +45,7 @@ class ProductController: NSObject {
                     callback(nil, error)
                 }
             case .failure(let error):
-                let errorString = error.failureReason
+                let errorString = error.errorDescription
                 callback(nil, errorString)
             }
         }
@@ -56,16 +56,15 @@ class ProductController: NSObject {
             return nil
         }
 
-        var result:[SalonProductModel] = []
+        var result: [SalonProductModel] = []
         for item in data! {
             let categoryId = item["CategoryId"] as? Int
             let productName = item["Name"] as? String
             let imageProduct = item["Image"] as? String
             let description = item["Description"] as? String
             let price = item["Price"] as? Double
-            let timeHour = item["TimeHour"] as? Int
-            let timeMinute = item["TimeMinute"] as? Int
-            let duration = "\(timeHour!)h \(timeMinute!)m"
+            let time = item["Time"] as? String
+            let duration = getTimeDuration(timeString: time)
             let productId = item["Id"] as? Int
             let productObject = SalonProductModel(productId: productId!, name: productName!, image: imageProduct!, price: price!, duration: duration, categoryId: categoryId!, description: description!)
             let staff = getStaffList(data: item["Staffs"] as? [[String:Any]])
@@ -74,6 +73,24 @@ class ProductController: NSObject {
         }
 
         return result
+    }
+
+    private func getTimeDuration(timeString: String?) -> String {
+        guard let time = timeString else {
+            return ""
+        }
+
+        let timeArray = time.components(separatedBy: ":")
+        var timeHour = ""
+        var timeMinute = ""
+        if timeArray[0] != "00" {
+            timeHour = "\(timeArray[0])h"
+        }
+        if timeArray[1] != "00" {
+            timeMinute = "\(timeArray[1])m"
+        }
+
+        return "\(timeHour) \(timeMinute)"
     }
 
     private func getStaffList(data: [[String: Any]]?) -> [StaffModel]? {

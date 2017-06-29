@@ -9,7 +9,7 @@
 import UIKit
 
 class StaffViewController: BaseController {
-    var staffList: [StaffModel] = []
+    var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
 //    var staffList: [StaffModel] = [
 //        StaffModel(name: "Any Staff", avatar: ""),
 //        StaffModel(name: "Staff A", avatar: ""),
@@ -42,7 +42,7 @@ class StaffViewController: BaseController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
         tableView.rowHeight = ScreenSize.ScreenHeight*0.225
         self.view.addSubview(tableView)
     }
@@ -59,22 +59,27 @@ class StaffViewController: BaseController {
 extension StaffViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 1
         return staffList.count
     }
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+//        return staffList.count
+        return 1
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = staffList[indexPath.section]
-        let cell = StaffTableViewCell(style: .default, reuseIdentifier: "CartCell")
-        cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
-        cell.contentView.layer.cornerRadius = 10
-        cell.layer.cornerRadius = 10
-        cell.avatar.kf.setImage(with: URL(string: item.avatar))
-        cell.name.text = item.name
+        let item = staffList[indexPath.row]
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "StaffCell")
+        cell.textLabel!.text = item.name
+
+//        let cell = StaffTableViewCell(style: .default, reuseIdentifier: "CartCell")
+//        cell.selectionStyle = .none
+//        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
+//        cell.contentView.layer.cornerRadius = 10
+//        cell.layer.cornerRadius = 10
+//        cell.avatar.kf.setImage(with: URL(string: item.avatar))
+//        cell.name.text = item.name
 
         return cell
     }
@@ -86,12 +91,12 @@ extension StaffViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.15
+        return ScreenSize.ScreenHeight*0.1
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.02
-    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return ScreenSize.ScreenHeight*0.02
+//    }
 }
 
 extension StaffViewController: UITableViewDelegate {

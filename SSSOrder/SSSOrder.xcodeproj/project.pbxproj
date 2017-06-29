@@ -11,6 +11,9 @@
 		172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141C51EFD56F4005B1CC2 /* Constants.swift */; };
 		172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141CA1EFD5844005B1CC2 /* ColorExtension.swift */; };
 		1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747E32C1EFE151900325011 /* HomeViewController.swift */; };
+		17B47C001F0415B50074CB42 /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47BFF1F0415B50074CB42 /* OrderController.swift */; };
+		17B47C051F04249C0074CB42 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47C041F04249C0074CB42 /* Popover.swift */; };
+		17B47C071F042C350074CB42 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47C061F042C350074CB42 /* OrderModel.swift */; };
 		17B81E7A1EFE59390058875D /* MapStyle.json in Resources */ = {isa = PBXBuildFile; fileRef = 17B81E791EFE59390058875D /* MapStyle.json */; };
 		17B81E7F1EFE62950058875D /* SalonStoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B81E7E1EFE62950058875D /* SalonStoreModel.swift */; };
 		17B81E811EFE7BC00058875D /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B81E801EFE7BC00058875D /* NotificationViewController.swift */; };
@@ -65,6 +68,9 @@
 		172141C51EFD56F4005B1CC2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		172141CA1EFD5844005B1CC2 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		1747E32C1EFE151900325011 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		17B47BFF1F0415B50074CB42 /* OrderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderController.swift; sourceTree = "<group>"; };
+		17B47C041F04249C0074CB42 /* Popover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
+		17B47C061F042C350074CB42 /* OrderModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
 		17B81E791EFE59390058875D /* MapStyle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = MapStyle.json; sourceTree = "<group>"; };
 		17B81E7E1EFE62950058875D /* SalonStoreModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalonStoreModel.swift; sourceTree = "<group>"; };
 		17B81E801EFE7BC00058875D /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +158,7 @@
 		172141C91EFD5824005B1CC2 /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				17B47C041F04249C0074CB42 /* Popover.swift */,
 				17B81E9A1F0052870058875D /* PopupUtil.swift */,
 				172141CA1EFD5844005B1CC2 /* ColorExtension.swift */,
 				17B81E8E1EFEF5220058875D /* StringExtension.swift */,
@@ -168,6 +175,7 @@
 				17B81E961F0018F20058875D /* StaffModel.swift */,
 				17B81E9C1F00578A0058875D /* NotificationModel.swift */,
 				38E476E81F02464600274CE8 /* User.swift */,
+				17B47C061F042C350074CB42 /* OrderModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -259,6 +267,7 @@
 				38E439DC1F0381D000F4129E /* RegisterController.swift */,
 				38E439DE1F038F7800F4129E /* StoreController.swift */,
 				38E439E01F03AB2800F4129E /* ProductController.swift */,
+				17B47BFF1F0415B50074CB42 /* OrderController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -535,8 +544,11 @@
 				38E439DB1F035BD100F4129E /* LoginController.swift in Sources */,
 				17B81EA11F0061ED0058875D /* NotificationItemViewController.swift in Sources */,
 				1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */,
+				17B47C001F0415B50074CB42 /* OrderController.swift in Sources */,
 				17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */,
 				17B81E871EFEC2820058875D /* ProductTableViewCell.swift in Sources */,
+				17B47C051F04249C0074CB42 /* Popover.swift in Sources */,
+				17B47C071F042C350074CB42 /* OrderModel.swift in Sources */,
 				17B81E9D1F00578A0058875D /* NotificationModel.swift in Sources */,
 				17B81E851EFEBB550058875D /* SalonProductModel.swift in Sources */,
 				17B81E8B1EFEECA40058875D /* CartViewController.swift in Sources */,

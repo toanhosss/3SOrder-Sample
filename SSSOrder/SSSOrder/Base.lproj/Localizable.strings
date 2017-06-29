@@ -28,6 +28,7 @@
 "continue" = "Continue";
 "submit" = "Submit Order";
 "staff" = "Staff List";
+"note" = "Note";
 "payment" = "Payment";
 "booking" = "Booking";
 "notification" = "Notifications";

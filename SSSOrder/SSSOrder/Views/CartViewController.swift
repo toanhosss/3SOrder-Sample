@@ -39,9 +39,26 @@ class CartViewController: BaseController {
         continueButton.titleLabel?.textColor = .white
         continueButton.backgroundColor = ColorConstant.ButtonPrimary
         continueButton.layer.cornerRadius = continueButton.frame.height*0.5
+        if listDataBooking.count <= 0 {
+            self.continueButton.isEnabled = false
+        }
         continueButton.addTarget(self, action: #selector(continueButtonTouched(sender:)), for: .touchUpInside)
 
         self.view.addSubview(continueButton)
+    }
+
+    func getStaffListAvailableForThisOrder() -> [StaffModel] {
+        var result: [StaffModel] = []
+        for item in self.listDataBooking {
+            if result.count <= 0 {result.append(item.staffAvailable[0])}
+            for i in 0..<item.staffAvailable.count {
+                let isExisted = result.contains(where: {$0.staffId == item.staffAvailable[i].staffId})
+                if !isExisted {
+                    result.append(item.staffAvailable[i])
+                }
+            }
+        }
+        return result
     }
 
     // MARK: Event Handler button touched
@@ -50,6 +67,13 @@ class CartViewController: BaseController {
         self.performSegue(withIdentifier: SegueNameConstant.CartToStaff, sender: nil)
     }
 
+    // MARK: Prepare for segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destVC = segue.destination as? StaffViewController
+        if destVC != nil {
+            destVC!.staffList += getStaffListAvailableForThisOrder()
+        }
+    }
 }
 
 extension CartViewController: UITableViewDataSource {
@@ -71,7 +95,7 @@ extension CartViewController: UITableViewDataSource {
         cell.itemData = item
         cell.nameProduct.text = item.name
         cell.priceLabel.text = "$\(item.price)"
-        cell.durationLabel.text = "Duration: \(item.duration) minutes"
+        cell.durationLabel.text = "Duration: \(item.duration!)"
 
         return cell
     }

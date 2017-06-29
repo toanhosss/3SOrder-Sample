@@ -53,7 +53,7 @@ class LoginController: NSObject {
                 }
 
             case .failure(let error):
-                let errorString = error.failureReason
+                let errorString = error.errorDescription
                 callback(nil, errorString)
             }
         }

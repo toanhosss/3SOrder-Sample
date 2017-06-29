@@ -12,6 +12,7 @@ import ReachabilitySwift
 class BaseController: UIViewController {
 
     var overlayView: UIView!
+    var overlayColor: UIColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.5)
     var navigationBarView: UIView?
     var titleLabel: UILabel?
 
@@ -134,6 +135,17 @@ class BaseController: UIViewController {
         self.navigationBarView!.addSubview(titleLabel!)
     }
 
+    /// Get user logged
+    func getUserLoggedInfo() -> User? {
+        let user = UserDefaultUtils.getUser()
+
+        if user != nil {
+            return user
+        }
+
+        return nil
+    }
+
     /// Set background navigation
     func setNavigationBackground() {
         guard self.navigationBarView != nil else {
@@ -188,7 +200,7 @@ class BaseController: UIViewController {
             return
         }
         overlayView = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
-        overlayView.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.5)
+        overlayView.backgroundColor = overlayColor
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: overlayView.bounds.width*0.1, height: overlayView.bounds.width*0.1)
         activityIndicator.activityIndicatorViewStyle = indicatorViewStyle

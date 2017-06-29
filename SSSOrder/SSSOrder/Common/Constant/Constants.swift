@@ -39,6 +39,7 @@ enum ImageConstant {
     static let IconNear = UIImage(named: "near")
     static let IconAdd = UIImage(named: "add")
     static let IconCart = UIImage(named: "cart")
+    static let IconExpand = UIImage(named: "expand")
 
 }
 

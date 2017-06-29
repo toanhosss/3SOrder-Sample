@@ -59,6 +59,7 @@ class HomeViewController: BaseController {
 
         titlePage = NSLocalizedString("home", comment: "")
         setTabbarIcon(icons: [ImageConstant.IconHome!, ImageConstant.IconOrderList!, ImageConstant.IconBooking!, ImageConstant.IconMenu!])
+        overlayColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
 
         getData()
 
@@ -71,16 +72,20 @@ class HomeViewController: BaseController {
 //        let location = appDelegate?.currentLocation
         let location = (lat: "1234", long: "12341234")
         if location != nil {
-            homeController.getStore(lat: location.lat, long: location.long, callback: { (salon, error) in
-            if salon != nil {
-                print("Got data")
-                self.dataSource = salon!
-                self.createListDataSource()
-            } else {
-                print("Got Error")
-                self.showErrorMessage(error!)
+            self.showOverlayLoading()
+            DispatchQueue.main.async {
+                self.homeController.getStore(lat: location.lat, long: location.long, callback: { (salon, error) in
+                    self.removeOverlayLoading()
+                    if salon != nil {
+                        print("Got data")
+                        self.dataSource = salon!
+                        self.createListDataSource()
+                    } else {
+                        print("Got Error")
+                        self.showErrorMessage(error!)
+                    }
+                })
             }
-        })
         } else {
             self.showErrorMessage("Can't get current location")
         }

@@ -26,6 +26,7 @@ class StoreWithProductViewController: BaseController {
         super.setLayoutPage()
         self.titlePage = dataItem.name
         self.backTitle = NSLocalizedString("back", comment: "")
+        overlayColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
 
         self.navigationController!.navigationBar.tintColor = .white
 
@@ -37,18 +38,25 @@ class StoreWithProductViewController: BaseController {
     }
 
     func getData() {
-        productController.getData(storeId: self.dataItem.salonId) { (data, error) in
-            if error != nil {
-                 self.showErrorMessage(error!)
-                _ = self.navigationController?.popViewController(animated: true)
-            } else {
-                var categoriesHeader: [String] = []
-                for i in 0..<data!.count {
-                    categoriesHeader.append(data![i].name)
+        self.showOverlayLoading()
+        DispatchQueue.main.async {
+            self.productController.getData(storeId: self.dataItem.salonId) { (data, error) in
+                self.removeOverlayLoading()
+                if error != nil {
+                    self.showErrorMessage(error!)
+                    _ = self.navigationController?.popViewController(animated: true)
+                } else {
+                    var categoriesHeader: [String] = []
+                    for i in 0..<data!.count {
+                        categoriesHeader.append(data![i].name)
+                    }
+                    self.categories = data!
+                    self.createLabelHeaderTitle(headers: categoriesHeader)
+                    self.createListCollectionProduct(headers: categoriesHeader)
                 }
-                self.createLabelHeaderTitle(headers: categoriesHeader)
             }
         }
+
     }
 
     func addCartIconToNavigationBar() {
@@ -98,13 +106,13 @@ class StoreWithProductViewController: BaseController {
         self.view.addSubview(segmentHeader!)
     }
 
-    func createListCollectionProduct() {
+    func createListCollectionProduct(headers: [String]) {
         pageScrollCollection = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.19, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73))
         pageScrollCollection.isPagingEnabled = true
         pageScrollCollection.delegate = self
-        pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth*CGFloat(dataItem.getDataCategories().count), height: ScreenSize.ScreenHeight*0.73)
+        pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth*CGFloat(headers.count), height: ScreenSize.ScreenHeight*0.73)
 
-        for i in 0..<dataItem.getDataCategories().count {
+        for i in 0..<headers.count {
             let tableViewList = UITableView(frame: CGRect(x: CGFloat(i)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
             tableViewList.backgroundColor = .clear
             tableViewList.tag = i
@@ -200,7 +208,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         cell.nameLabel.text = item.name
         cell.descriptionView.text = item.descriptionText
         cell.priceLabel.text = "Prices: $\(item.price)"
-        cell.durationLabel.text = "Duration: \(item.duration) minutes"
+        cell.durationLabel.text = "Duration: \(item.duration!)"
         cell.addButton.isHidden = checkProductIsSelected(data: item)
         return cell
     }

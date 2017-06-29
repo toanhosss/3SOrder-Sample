@@ -18,8 +18,11 @@ class SubmitOrderViewController: BaseController {
     var mobileInputField: CustomInputField!
     var noteInputField: CustomInputField!
 
+    var popover: Popover?
+
+    var pickPaymentButton: UIButton!
     var paymentMethod = ["Cash", "Method A", "Method B", "Method C"]
-    var paymentSelected = ""
+    var paymentSelected = "Cash"
 
     var calendar: FSCalendar!
     var dateSelected: Date?
@@ -74,10 +77,16 @@ class SubmitOrderViewController: BaseController {
         mobileInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
         mobileInputField.inputTextField.delegate = self
 
+        let userInfor = self.getUserLoggedInfo()
+        if userInfor != nil {
+            nameInputField.inputTextField.text = userInfor!.name
+            mobileInputField.inputTextField.text = userInfor!.phone
+        }
+
         noteInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.217301, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707),
                                          icon: ImageConstant.IconNote!.withRenderingMode(.alwaysTemplate))
         noteInputField.icon.tintColor = .black
-        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"), attributes: placeHolderTextAttribute)
+        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("note", comment: "user label"), attributes: placeHolderTextAttribute)
         noteInputField.inputTextField.textColor = .black
         noteInputField.inputTextField.tag = 3
         noteInputField.layer.cornerRadius = noteInputField.frame.height*0.5
@@ -88,14 +97,18 @@ class SubmitOrderViewController: BaseController {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: pickerView.frame.width*0.35, height: pickerView.frame.height))
         label.text = NSLocalizedString("payment", comment: "")
         label.textColor = .black
-        let pickPayment = UIPickerView(frame: CGRect(x: pickerView.frame.width*0.45, y: 0, width: pickerView.frame.width*0.4, height: pickerView.frame.height))
-        pickPayment.dataSource = self
-        pickPayment.delegate = self
-        pickPayment.tintColor = .black
-        pickPayment.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
+        pickPaymentButton = UIButton(frame: CGRect(x: pickerView.frame.width*0.45, y: 0, width: pickerView.frame.width*0.4, height: pickerView.frame.height))
+        pickPaymentButton.setImage(ImageConstant.IconExpand?.withRenderingMode(.alwaysTemplate), for: .normal)
+        pickPaymentButton.tintColor = .white
+        pickPaymentButton.backgroundColor = .gray
+        pickPaymentButton.imageEdgeInsets = UIEdgeInsets(top: 6, left: pickPaymentButton.frame.width*0.75, bottom: 6, right: 4)
+        pickPaymentButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: pickPaymentButton.frame.width*0.25)
+        pickPaymentButton.layer.cornerRadius = 5
+        pickPaymentButton.setTitle(paymentSelected, for: .normal)
+        pickPaymentButton.addTarget(self, action: #selector(showPopupPayment(sender:)), for: .touchUpInside)
 
         pickerView.addSubview(label)
-        pickerView.addSubview(pickPayment)
+        pickerView.addSubview(pickPaymentButton)
 
         self.scrollViewPage.addSubview(pickerView)
         self.scrollViewPage.addSubview(nameInputField)
@@ -134,7 +147,29 @@ class SubmitOrderViewController: BaseController {
         self.scrollViewPage.addSubview(scrollContentTimer)
     }
 
+    private func loadActionTableView() -> UIView {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.3))
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isScrollEnabled = false
+        return tableView
+    }
+
     // MARK: Handler button touched
+    func showPopupPayment(sender:UIButton) {
+
+        let options = [
+            PopoverOption.type(PopoverType.down),
+            PopoverOption.cornerRadius(0),
+            PopoverOption.animationIn(0.3),
+            PopoverOption.arrowSize(CGSize(width: 10, height: 10)),
+            PopoverOption.color(UIColor.white)
+            ] as [PopoverOption]
+        popover = Popover(options: options)
+        let aView = loadActionTableView()
+        popover!.show(aView, fromView: sender)
+    }
+
     func timerButtonSelected(sender: UIButton) {
         let index = sender.tag
         for view in scrollContentTimer.subviews {
@@ -164,27 +199,25 @@ class SubmitOrderViewController: BaseController {
 
 }
 
-extension SubmitOrderViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+extension SubmitOrderViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.paymentMethod.count
     }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.paymentMethod[row]
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
-
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        return NSAttributedString(string: self.paymentMethod[row], attributes: [NSForegroundColorAttributeName: UIColor.black])
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        cell.textLabel?.text = self.paymentMethod[indexPath.row]
+        return cell
     }
 }
 
-extension SubmitOrderViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.paymentSelected = self.paymentMethod[row]
+extension SubmitOrderViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.popover!.dismiss()
+        self.paymentSelected = self.paymentMethod[indexPath.row]
+        self.pickPaymentButton.setTitle(paymentSelected, for: .normal)
     }
 }
 
