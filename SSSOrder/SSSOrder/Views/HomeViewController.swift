@@ -134,6 +134,9 @@ class HomeViewController: BaseController {
         }
 
         mapView.animate(with: GMSCameraUpdate.fit(bounds))
+
+        self.dataMarker[0].icon = GMSMarker.markerImage(with: .green)
+        self.dataMarker[0].map = self.mapView
     }
 
     /// create PageView List
@@ -303,8 +306,17 @@ extension HomeViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let currentIndex: Int = (Int)(self.listItemView.contentOffset.x / self.listItemView.frame.size.width + 0.5)
         self.pageControl.currentPage = currentIndex
-        self.dataMarker[currentIndex].icon = GMSMarker.markerImage(with: .green)
-        self.dataMarker[currentIndex].map = self.mapView
+        for i in 0..<self.dataMarker.count {
+            if i == currentIndex {
+                self.dataMarker[i].icon = GMSMarker.markerImage(with: .green)
+                self.dataMarker[i].map = self.mapView
+            } else {
+                self.dataMarker[i].icon = GMSMarker.markerImage(with: .red)
+                self.dataMarker[i].map = self.mapView
+            }
+        }
+
+
         startX = scrollView.contentOffset.x
         startY = scrollView.contentOffset.y
         justScrollX = false
