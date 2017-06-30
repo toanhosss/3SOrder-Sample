@@ -78,13 +78,13 @@ class RegisterViewController: BaseController {
                                                        y: ScreenSize.ScreenHeight*0.462518,
                                                        width: ScreenSize.ScreenWidth*0.872,
                                                        height: ScreenSize.ScreenHeight*0.084707),
-                                         icon: ImageConstant.IconPassword!)
+                                         icon: ImageConstant.IconPhone!)
 
         mobileNumberInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"),
                                                                                 attributes: placeHolderTextAttribute)
         mobileNumberInput.inputTextField.textColor = .white
         mobileNumberInput.inputTextField.tag = 2
-        mobileNumberInput.isSecureText = true
+        mobileNumberInput.inputTextField.keyboardType = .phonePad
         mobileNumberInput.layer.cornerRadius = mobileNumberInput.frame.height*0.5
         mobileNumberInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
         mobileNumberInput.inputTextField.delegate = self

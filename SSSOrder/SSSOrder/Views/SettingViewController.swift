@@ -47,6 +47,7 @@ extension SettingViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
 
         cell.icon.image = settingItem.icon
+        cell.icon.tintColor = ColorConstant.ButtonPrimary
         cell.name.text = settingItem.name
 
         return cell
@@ -61,6 +62,7 @@ extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let settingItem = self.settingItemList[indexPath.row]
         if settingItem.name == "Sign out" {
+            UserDefaultUtils.removeUser()
             self.performSegue(withIdentifier: SegueNameConstant.SettingToLogin, sender: nil)
         }
     }

@@ -226,8 +226,6 @@ class SubmitOrderViewController: BaseController {
     override func keyboardWillShow(_ notification: Notification) {
         let tapInputKeyboard2: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapInputKeyboard2.cancelsTouchesInView = false
-//        let overlay = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
-//        self.view.insertSubview(overlay, belowSubview: nameInputField)
         self.scrollViewPage.addGestureRecognizer(tapInputKeyboard2)
     }
 

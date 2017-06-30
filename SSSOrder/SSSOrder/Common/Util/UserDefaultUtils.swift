@@ -28,4 +28,10 @@ final class UserDefaultUtils {
         let user = NSKeyedUnarchiver.unarchiveObject(with: decoder! as Data) as? User
         return user != nil ? user : nil
     }
+
+    /// Remove user from local
+    static func removeUser() {
+        let userDefault = UserDefaults.standard
+        userDefault.removeObject(forKey: userKey)
+    }
 }
