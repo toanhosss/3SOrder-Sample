@@ -42,6 +42,7 @@
 		385938691EFCF76800087743 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385938681EFCF76800087743 /* Assets.xcassets */; };
 		3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3859386A1EFCF76800087743 /* LaunchScreen.storyboard */; };
 		385938771EFCF76900087743 /* SSSOrderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938761EFCF76900087743 /* SSSOrderTests.swift */; };
+		38A7498D1F08EDF900C89CE2 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A7498C1F08EDF900C89CE2 /* UserNotifications.framework */; };
 		38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38CB8B641EFCF8760052D5FC /* BaseController.swift */; };
 		38E439DB1F035BD100F4129E /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439DA1F035BD100F4129E /* LoginController.swift */; };
 		38E439DD1F0381D000F4129E /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E439DC1F0381D000F4129E /* RegisterController.swift */; };
@@ -106,6 +107,9 @@
 		385938721EFCF76900087743 /* SSSOrderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SSSOrderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		385938761EFCF76900087743 /* SSSOrderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSSOrderTests.swift; sourceTree = "<group>"; };
 		385938781EFCF76900087743 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		38A749891F08EC0100C89CE2 /* SSSOrder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SSSOrder.entitlements; sourceTree = "<group>"; };
+		38A7498A1F08EDEC00C89CE2 /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		38A7498C1F08EDF900C89CE2 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		38CB8B641EFCF8760052D5FC /* BaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
 		38E439DA1F035BD100F4129E /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		38E439DC1F0381D000F4129E /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38A7498D1F08EDF900C89CE2 /* UserNotifications.framework in Frameworks */,
 				17E810F322D4518575B2BD46 /* Pods_SSSOrder.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,6 +229,7 @@
 		385938601EFCF76800087743 /* SSSOrder */ = {
 			isa = PBXGroup;
 			children = (
+				38A749891F08EC0100C89CE2 /* SSSOrder.entitlements */,
 				38E439D91F035BC000F4129E /* Controllers */,
 				38E476EC1F02622500274CE8 /* Services */,
 				17B81E7D1EFE627F0058875D /* Models */,
@@ -303,6 +309,8 @@
 		C0776B55985E1453CD0E3C6E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				38A7498C1F08EDF900C89CE2 /* UserNotifications.framework */,
+				38A7498A1F08EDEC00C89CE2 /* UserNotificationsUI.framework */,
 				4B7073DD9A428B32E4966881 /* Pods_SSSOrder.framework */,
 				4D9EF06BFDDA08F2BFAFB084 /* Pods_SSSOrderTests.framework */,
 			);
@@ -368,6 +376,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = LUUBU2X3RC;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					385938711EFCF76900087743 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -713,10 +726,13 @@
 			baseConfigurationReference = AEEF60487A17C3777E1032ED /* Pods-SSSOrder.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SSSOrder/SSSOrder.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.success.3sorder";
 				DEVELOPMENT_TEAM = LUUBU2X3RC;
 				INFOPLIST_FILE = SSSOrder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.success.mobile.SSSOrder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.success.3sorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -727,10 +743,12 @@
 			baseConfigurationReference = A78DCD252694CA64FB63C534 /* Pods-SSSOrder.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SSSOrder/SSSOrder.entitlements;
 				DEVELOPMENT_TEAM = LUUBU2X3RC;
 				INFOPLIST_FILE = SSSOrder/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.success.mobile.SSSOrder;
+				PRODUCT_BUNDLE_IDENTIFIER = com.success.3sorder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

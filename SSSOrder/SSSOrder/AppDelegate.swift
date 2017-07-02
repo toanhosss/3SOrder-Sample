@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMaps
+import UserNotifications
 import ReachabilitySwift
 
 @UIApplicationMain
@@ -28,7 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Set Google SDK
         GMSServices.provideAPIKey(googleAPIKey)
 
+        // Configure location
         registerForLocationUpdateBackground()
+
+        // Confgiure notification
+        setPushNotification(application: application)
 
         return true
     }
@@ -74,6 +79,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
+    }
+
+    // MARK: Register push notification
+    func setPushNotification(application: UIApplication) {
+        // iOS 10 support
+        if #available(iOS 10, *) {
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in }
+            application.registerForRemoteNotifications()
+        }
+            // iOS 9 support
+        else if #available(iOS 9, *) {
+            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+//            // iOS 8 support
+//        else if #available(iOS 8, *) {
+//            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+//            UIApplication.shared.registerForRemoteNotifications()
+//        }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        // Print the error to console (you should alert the user that registration failed)
+        print("APNs registration failed: \(error)")
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        // Print notification payload data
+        print("Push notification received: \(userInfo)")
     }
 }
 
