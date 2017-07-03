@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1706A4CD1F090855007ED08C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1706A4CC1F090855007ED08C /* Assets.xcassets */; };
 		172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141BD1EFD55DB005B1CC2 /* SplashScreenViewController.swift */; };
 		172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141C51EFD56F4005B1CC2 /* Constants.swift */; };
 		172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141CA1EFD5844005B1CC2 /* ColorExtension.swift */; };
@@ -39,7 +40,6 @@
 		17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B5221EFDA45300183139 /* RegisterViewController.swift */; };
 		385938621EFCF76800087743 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938611EFCF76800087743 /* AppDelegate.swift */; };
 		385938671EFCF76800087743 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385938651EFCF76800087743 /* Main.storyboard */; };
-		385938691EFCF76800087743 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385938681EFCF76800087743 /* Assets.xcassets */; };
 		3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3859386A1EFCF76800087743 /* LaunchScreen.storyboard */; };
 		385938771EFCF76900087743 /* SSSOrderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938761EFCF76900087743 /* SSSOrderTests.swift */; };
 		38A7498D1F08EDF900C89CE2 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A7498C1F08EDF900C89CE2 /* UserNotifications.framework */; };
@@ -68,6 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1706A4CC1F090855007ED08C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		172141BD1EFD55DB005B1CC2 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		172141C51EFD56F4005B1CC2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		172141CA1EFD5844005B1CC2 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		3859385E1EFCF76800087743 /* SSSOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSSOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385938611EFCF76800087743 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		385938661EFCF76800087743 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		385938681EFCF76800087743 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3859386B1EFCF76800087743 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3859386D1EFCF76800087743 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		385938721EFCF76900087743 /* SSSOrderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SSSOrderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,6 +229,7 @@
 		385938601EFCF76800087743 /* SSSOrder */ = {
 			isa = PBXGroup;
 			children = (
+				1706A4CC1F090855007ED08C /* Assets.xcassets */,
 				38A749891F08EC0100C89CE2 /* SSSOrder.entitlements */,
 				38E439D91F035BC000F4129E /* Controllers */,
 				38E476EC1F02622500274CE8 /* Services */,
@@ -237,7 +238,6 @@
 				38CB8B631EFCF8760052D5FC /* Views */,
 				385938611EFCF76800087743 /* AppDelegate.swift */,
 				385938651EFCF76800087743 /* Main.storyboard */,
-				385938681EFCF76800087743 /* Assets.xcassets */,
 				3859386A1EFCF76800087743 /* LaunchScreen.storyboard */,
 				3859386D1EFCF76800087743 /* Info.plist */,
 				17F6B5211EFD832B00183139 /* Localizable.strings */,
@@ -417,8 +417,8 @@
 				3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */,
 				17B81E7A1EFE59390058875D /* MapStyle.json in Resources */,
 				17F6B51F1EFD832B00183139 /* Localizable.strings in Resources */,
-				385938691EFCF76800087743 /* Assets.xcassets in Resources */,
 				385938671EFCF76800087743 /* Main.storyboard in Resources */,
+				1706A4CD1F090855007ED08C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +728,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SSSOrder/SSSOrder.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.success.3sorder";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = LUUBU2X3RC;
 				INFOPLIST_FILE = SSSOrder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -744,6 +745,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SSSOrder/SSSOrder.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = LUUBU2X3RC;
 				INFOPLIST_FILE = SSSOrder/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
