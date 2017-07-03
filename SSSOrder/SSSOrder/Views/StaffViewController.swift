@@ -75,16 +75,16 @@ extension StaffViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = staffList[indexPath.row]
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "StaffCell")
-        cell.textLabel!.text = item.name
+//        let cell = UITableViewCell(style: .default, reuseIdentifier: "StaffCell")
+//        cell.textLabel!.text = item.name
 
-//        let cell = StaffTableViewCell(style: .default, reuseIdentifier: "CartCell")
-//        cell.selectionStyle = .none
-//        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
-//        cell.contentView.layer.cornerRadius = 10
-//        cell.layer.cornerRadius = 10
-//        cell.avatar.kf.setImage(with: URL(string: item.avatar))
-//        cell.name.text = item.name
+        let cell = StaffTableViewCell(style: .default, reuseIdentifier: "CartCell")
+        cell.selectionStyle = .none
+        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
+        cell.contentView.layer.cornerRadius = 10
+        cell.layer.cornerRadius = 10
+        cell.avatar.kf.setImage(with: URL(string: item.avatar))
+        cell.name.text = item.name
 
         return cell
     }
@@ -96,7 +96,7 @@ extension StaffViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.1
+        return ScreenSize.ScreenHeight*0.15
     }
 
 //    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

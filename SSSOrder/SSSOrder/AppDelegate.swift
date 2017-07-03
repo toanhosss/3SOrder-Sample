@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var reachability2: Reachability!
     var locationManager: CLLocationManager!
     var currentLocation: (lat: String, long: String)?
+    var deviceTokenString: String = ""
 
     private let googleAPIKey = "AIzaSyBbq5fIYk6YDVJEY1BCQgoIQ-cIzhjyLg8"
 
@@ -98,6 +99,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
 //            UIApplication.shared.registerForRemoteNotifications()
 //        }
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        // Convert token to string
+        let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+
+        // Print it to console
+        print("APNs device token: \(deviceTokenString)")
+        self.deviceTokenString = deviceTokenString
+
+        // Persist it in your backend in case it's new
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

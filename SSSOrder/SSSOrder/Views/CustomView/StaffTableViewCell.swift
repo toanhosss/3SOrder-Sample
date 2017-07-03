@@ -26,15 +26,15 @@ class StaffTableViewCell: UITableViewCell {
         let width = ScreenSize.ScreenWidth*0.98
         let height = ScreenSize.ScreenHeight*0.15
 
+//        backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
         backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
-
         backgroundCardView.backgroundColor = .white
-        backgroundCardView.layer.cornerRadius = 3
-        backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
-        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        backgroundCardView.layer.shadowRadius = 3
-        backgroundCardView.layer.shadowOpacity = 1
-        backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 3).cgPath
+//        backgroundCardView.layer.cornerRadius = 3
+//        backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
+//        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
+//        backgroundCardView.layer.shadowRadius = 3
+//        backgroundCardView.layer.shadowOpacity = 1
+//        backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 3).cgPath
 
         let cardView = UIView(frame: CGRect(x: 0, y: 0, width: width*0.975 - 6, height: height - 6))
         cardView.layer.masksToBounds = true
