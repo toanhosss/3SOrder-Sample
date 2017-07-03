@@ -38,8 +38,9 @@ class RegisterController: NSObject {
         let nameParam = phone!
         let phoneParam = phone!
         let passwordParam = password!
+        let token = UserDefaultUtils.getDeviceToken()
 
-        self.provider.request(.register(name: nameParam, phone: phoneParam, password: passwordParam)) { (result) in
+        self.provider.request(.register(name: nameParam, phone: phoneParam, password: passwordParam, token: token!)) { (result) in
             switch result {
             case .success(let moyaResponse):
                 do {

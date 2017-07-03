@@ -51,8 +51,8 @@ class OrderController: NSObject {
             switch result {
             case .success(let response):
                 do {
-                    let data = try response.mapJSON() as? [String:Any]
-                    print(data!["message"])
+                    _ = try response.mapJSON() as? [String:Any]
+//                    print(data!["message"])
                     callback(true, nil)
                 } catch {
                     let error = "Cannot map data"

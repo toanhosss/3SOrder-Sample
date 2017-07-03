@@ -29,8 +29,9 @@ class LoginController: NSObject {
 
         let phoneParam = phone!
         let passwordParam = password!
+        let token = UserDefaultUtils.getDeviceToken()
 
-        self.provider.request(.login(phone: phoneParam, password: passwordParam)) { (result) in
+        self.provider.request(.login(phone: phoneParam, password: passwordParam, token: token!)) { (result) in
             switch result {
             case .success(let moyaResponse):
                 do {

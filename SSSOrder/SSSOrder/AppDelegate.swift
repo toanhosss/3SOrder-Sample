@@ -110,6 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.deviceTokenString = deviceTokenString
 
         // Persist it in your backend in case it's new
+        UserDefaultUtils.storeDeviceToken(deviceToken: self.deviceTokenString)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

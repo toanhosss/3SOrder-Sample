@@ -9,6 +9,7 @@
 import Foundation
 final class UserDefaultUtils {
     static let userKey = "_user"
+    static let deviceKey = "_device_token_key"
 
     /// Store user to local
     static func storeUser(user: User) {
@@ -33,5 +34,18 @@ final class UserDefaultUtils {
     static func removeUser() {
         let userDefault = UserDefaults.standard
         userDefault.removeObject(forKey: userKey)
+    }
+
+    /// set key device token
+    static func storeDeviceToken(deviceToken: String) {
+        let userDefault = UserDefaults.standard
+
+        userDefault.removeObject(forKey: deviceKey)
+        userDefault.set( deviceToken, forKey: deviceKey)
+    }
+
+    /// get key device token
+    static func getDeviceToken() -> String? {
+        return UserDefaults.standard.string(forKey: deviceKey)
     }
 }

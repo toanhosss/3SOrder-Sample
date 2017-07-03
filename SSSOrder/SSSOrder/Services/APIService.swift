@@ -10,11 +10,11 @@ import Foundation
 import Moya
 
 enum APIService {
-    case login(phone: String, password: String)
-    case register(name: String, phone: String, password: String)
+    case login(phone: String, password: String, token: String)
+    case register(name: String, phone: String, password: String, token: String)
     case getStoreByGPS(lat: String, long: String)
     case getCategoriesByStore(storeId: Int)
-    case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status: String,  note: String, customerName: String, customerPhone: String, timer: String, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
+    case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status:  String, note: String, customerName: String, customerPhone: String, timer: String, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
 }
 
 // MARK: - TargetType Protocol Implementation
@@ -48,12 +48,12 @@ extension APIService: TargetType {
 
     var parameters: [String : Any]? {
         switch self {
-        case .login(let phone, let password):
-            let user = ["Name": "", "PhoneNumber": phone, "Password": password]
+        case .login(let phone, let password, let token):
+            let user = ["Name": "", "PhoneNumber": phone, "Password": password, "DeviceToken": token]
             return ["customer": user,
                     "IsRegister": false]
-        case .register(let name, let phone, let password):
-            let user = ["Name": name, "PhoneNumber": phone, "Password": password]
+        case .register(let name, let phone, let password, let token):
+            let user = ["Name": name, "PhoneNumber": phone, "Password": password, "DeviceToken": token]
             return ["customer": user,
                     "IsRegister": true]
         case .getStoreByGPS(let lat, let long):
