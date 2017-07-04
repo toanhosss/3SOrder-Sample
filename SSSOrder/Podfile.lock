@@ -18,6 +18,7 @@ PODS:
   - ReachabilitySwift (3)
   - Result (3.2.1)
   - SwiftLint (0.18.1)
+  - Whisper (5.0.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.4)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - Moya
   - ReachabilitySwift (~> 3)
   - SwiftLint
+  - Whisper
 
 SPEC CHECKSUMS:
   Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
@@ -41,7 +43,8 @@ SPEC CHECKSUMS:
   ReachabilitySwift: f5b9bb30a0777fac8f09ce8b067e32faeb29bb64
   Result: 2453a22e5c5b11c0c3a478736e82cd02f763b781
   SwiftLint: b467d08f5b25dc3b3cfed243d8e1b74b91714c67
+  Whisper: 051f25e704bf8992641ffd28b20d5682ddc5f5d3
 
-PODFILE CHECKSUM: c857f162c62a35f21d7cd9adfbe09fac8834fe73
+PODFILE CHECKSUM: 283983e9ca2e20425fa06854776923441c8d9531
 
 COCOAPODS: 1.1.1

@@ -15,6 +15,7 @@ target 'SSSOrder' do
   pod 'Moya'
   pod 'Alamofire', '~> 4.4'
   pod 'ReachabilitySwift', '~> 3'
+  pod 'Whisper'
 
   target 'SSSOrderTests' do
     inherit! :search_paths

@@ -54,6 +54,7 @@
 		38E476E91F02464600274CE8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476E81F02464600274CE8 /* User.swift */; };
 		38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */; };
 		38E476EE1F02624900274CE8 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E476ED1F02624900274CE8 /* APIService.swift */; };
+		38EA1E711F0B3E1000BB3BCC /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EA1E701F0B3E1000BB3BCC /* NotificationController.swift */; };
 		5BDFA93F4525E288DB8679B0 /* Pods_SSSOrderTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D9EF06BFDDA08F2BFAFB084 /* Pods_SSSOrderTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +122,7 @@
 		38E476E81F02464600274CE8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		38E476EA1F02480700274CE8 /* UserDefaultUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultUtils.swift; sourceTree = "<group>"; };
 		38E476ED1F02624900274CE8 /* APIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		38EA1E701F0B3E1000BB3BCC /* NotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		4B7073DD9A428B32E4966881 /* Pods_SSSOrder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SSSOrder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D9EF06BFDDA08F2BFAFB084 /* Pods_SSSOrderTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SSSOrderTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A78DCD252694CA64FB63C534 /* Pods-SSSOrder.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSSOrder.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSSOrder/Pods-SSSOrder.release.xcconfig"; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				38E439DE1F038F7800F4129E /* StoreController.swift */,
 				38E439E01F03AB2800F4129E /* ProductController.swift */,
 				17B47BFF1F0415B50074CB42 /* OrderController.swift */,
+				38EA1E701F0B3E1000BB3BCC /* NotificationController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
 				17B81E931F0017A10058875D /* StaffViewController.swift in Sources */,
+				38EA1E711F0B3E1000BB3BCC /* NotificationController.swift in Sources */,
 				38E476E91F02464600274CE8 /* User.swift in Sources */,
 				17B81E811EFE7BC00058875D /* NotificationViewController.swift in Sources */,
 				38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */,
@@ -745,6 +749,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SSSOrder/SSSOrder.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Push Services: com.success.3sorder";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = LUUBU2X3RC;
 				INFOPLIST_FILE = SSSOrder/Info.plist;

@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import UserNotifications
 import ReachabilitySwift
+import Whisper
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -86,7 +87,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setPushNotification(application: UIApplication) {
         // iOS 10 support
         if #available(iOS 10, *) {
-            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in }
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
+                if !granted {
+                    print("Something went wrong")
+                }
+            }
             application.registerForRemoteNotifications()
         }
             // iOS 9 support
@@ -99,6 +104,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
 //            UIApplication.shared.registerForRemoteNotifications()
 //        }
+    }
+
+    func createNotificatonBanner(title: String, content: String) {
+        var announcement = Announcement(title: title, subtitle: content, image: ImageConstant.AppLogo)
+        announcement.duration = 3.0
+        if self.window?.rootViewController != nil {
+            ColorList.Shout.background = UIColor.darkGray
+            ColorList.Shout.title = .white
+            ColorList.Shout.subtitle = .white
+            Whisper.show(shout: announcement, to: topViewController()!)
+        }
     }
 
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -121,6 +137,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
         // Print notification payload data
         print("Push notification received: \(userInfo)")
+        let aps =  (userInfo["aps"] as? [String:Any])
+        let notification = aps!["alert"] as? [String:Any]
+        let title = notification!["title"] as? String
+        let content = notification!["body"] as? String
+
+        createNotificatonBanner(title: title!, content: content!)
+    }
+
+    func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
+        notification.applicationIconBadgeNumber = 0
+    }
+
+    func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }
 
@@ -140,5 +181,20 @@ extension AppDelegate: CLLocationManagerDelegate {
             manager.desiredAccuracy = kCLLocationAccuracyBest
             manager.startUpdatingLocation()
         }
+    }
+}
+
+// MARK: - Notification delegate
+extension AppDelegate: UNUserNotificationCenterDelegate {
+
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Notification: ")
+//        createNotificatonBanner(title: notification., content: )
+    }
+
+    @available(iOS 10.0, *)
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("Response: ")
     }
 }

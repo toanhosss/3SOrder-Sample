@@ -11,30 +11,33 @@ import HMSegmentedControl
 
 class NotificationViewController: BaseController {
 
-    var listData: [NotificationModel] = [
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-        NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
-        NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true)
-    ]
+    var listData: [NotificationModel] = []
 
     var notificationItemSelected: NotificationModel?
 
     var segmentHeader: HMSegmentedControl!
     var pageScrollCollection: UIScrollView!
 
+    let notificationController = NotificationController.SharedInstance
+
     override func setLayoutPage() {
         super.setLayoutPage()
         self.titlePage = NSLocalizedString("notification", comment: "")
 
-        createLabelHeaderTitle()
-        createListCollectionProduct()
+        getData()
+    }
+
+    /// Get Data
+    func getData() {
+        notificationController.getListNotification { (listNotification, error) in
+            self.listData = listNotification
+            self.createLabelHeaderTitle()
+            self.createListCollectionProduct()
+        }
     }
 
     func createLabelHeaderTitle() {
-        segmentHeader = HMSegmentedControl(sectionTitles: ["Promotion", "System Notification"])
+        segmentHeader = HMSegmentedControl(sectionTitles: notificationController.notificationType)
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth]
         segmentHeader!.backgroundColor = UIColor.gray
@@ -52,9 +55,9 @@ class NotificationViewController: BaseController {
         pageScrollCollection = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.19, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73))
         pageScrollCollection.isPagingEnabled = true
         pageScrollCollection.delegate = self
-        pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth*2, height: ScreenSize.ScreenHeight*0.73)
+        pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73)
 
-        for i in 0..<2 {
+        for i in 0..<notificationController.notificationType.count {
             let tableViewList = UITableView(frame: CGRect(x: CGFloat(i)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
             tableViewList.backgroundColor = .clear
             tableViewList.tag = i
@@ -125,16 +128,23 @@ extension NotificationViewController: UIScrollViewDelegate {
 
 extension NotificationViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
+//        let index = tableView.tag
+//        if index == 0 {
+//            return listData.filter({ $0.type == "Promotion"}).count
+//        } else {
+//            return listData.filter({ $0.type == "System"}).count
+//        }
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 1
         let index = tableView.tag
         if index == 0 {
             return listData.filter({ $0.type == "Promotion"}).count
         } else {
             return listData.filter({ $0.type == "System"}).count
         }
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -154,12 +164,13 @@ extension NotificationViewController: UITableViewDataSource {
         let item = data[indexPath.section]
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.15)
-        cell.backgroundColor = .clear
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
+//        cell.backgroundColor = .clear
         cell.data = item
-        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
-        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
-        cell.icon.tintColor = .black
+        cell.backgroundColor = item.isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
+//        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
+//        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
+//        cell.icon.tintColor = .black
         cell.name.text = item.name
         cell.time.text = item.dateString
         return cell
@@ -170,7 +181,7 @@ extension NotificationViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.02
+        return ScreenSize.ScreenHeight*0
     }
 }
 
