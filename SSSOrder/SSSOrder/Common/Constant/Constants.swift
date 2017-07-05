@@ -79,5 +79,5 @@ enum ObserveNameConstant {
 }
 
 enum URLConstant {
-    static let baseURL = "http://192.168.2.65:8889"
+    static let baseURL = "http://3sorder.success-ss.com.vn:8889/"
 }
