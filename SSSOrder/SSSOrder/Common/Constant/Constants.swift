@@ -46,9 +46,10 @@ enum ImageConstant {
 
 /// Constant Color
 enum ColorConstant {
-    static let BackgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.75)
-    static let BackgroundColorAdded = UIColor.hexStringToUIColor("#767676")
-    static let BackgroundPage = UIColor.hexStringToUIColor("FAF8EE")
+    static let BackgroundColor = UIColor.hexStringToUIColor("#775ADA")
+    static let BackgroundColor2 = UIColor.hexStringToUIColor("#775ADA", alpha: 0.56)
+    static let BackgroundColorAdded = UIColor.hexStringToUIColor("#28C7FA", alpha: 0.85)
+    static let BackgroundPage = UIColor.hexStringToUIColor("#70F5F9")
 
     static let ButtonPrimary = UIColor.hexStringToUIColor("#FF3366")
     static let NavigationBG = UIColor.hexStringToUIColor("#FF3366")
@@ -78,6 +79,7 @@ enum ObserveNameConstant {
     static let NewNotificationUpdate = NSNotification.Name.init("UpdateNewNotification")
 }
 
+/// URL Constant
 enum URLConstant {
-    static let baseURL = "http://3sorder.success-ss.com.vn:8889/"
+    static var baseURL = "http://3sorder.success-ss.com.vn:8889"
 }

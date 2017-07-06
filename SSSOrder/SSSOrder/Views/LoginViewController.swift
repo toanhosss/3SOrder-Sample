@@ -17,7 +17,7 @@ class LoginViewController: BaseController {
 
     override func setLayoutPage() {
         // set background
-        self.view.backgroundColor = ColorConstant.BackgroundColor
+        customizeBackground()
 
         // set logo
         let logo = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.318666, y: ScreenSize.ScreenHeight*0.071964, width: ScreenSize.ScreenWidth*0.362667, height: ScreenSize.ScreenHeight*0.209895))

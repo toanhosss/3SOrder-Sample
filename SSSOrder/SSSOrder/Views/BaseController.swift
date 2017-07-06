@@ -176,9 +176,18 @@ class BaseController: UIViewController {
     /// - Set view element
     func setLayoutPage() {
         // set background
-        self.view.backgroundColor = ColorConstant.BackgroundPage
+        customizeBackground()
 
         setNavigationBar()
+    }
+
+    /// Customize Background color
+    func customizeBackground() {
+        let viewLayer1 = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
+        let gradienColor = UIColor.gradientColorView(colors: [ColorConstant.BackgroundColor, ColorConstant.BackgroundColor2], locations: [0.0, 0.55])
+        self.view.backgroundColor = ColorConstant.BackgroundColorAdded
+        self.view.applyGradientLayer(gradientLayer: gradienColor)
+        self.view.addSubview(viewLayer1)
     }
 
     /// Set Delegate and NotificationCenter

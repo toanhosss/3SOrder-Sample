@@ -21,7 +21,7 @@ enum APIService {
 extension APIService: TargetType {
     /// The target's base `URL`.
     public var baseURL: URL {
-        return URL(string: "http://3sorder.success-ss.com.vn:8889/")!
+        return URL(string: URLConstant.baseURL)!
     }
 
     var path: String {

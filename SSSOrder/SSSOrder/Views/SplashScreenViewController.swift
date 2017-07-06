@@ -22,8 +22,7 @@ class SplashScreenViewController: BaseController {
 
     /// Override set layout page
     override func setLayoutPage() {
-        // set background
-        self.view.backgroundColor = ColorConstant.BackgroundColor
+        super.customizeBackground()
 
         // set logo app
         let logo = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.1304, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.287856))
