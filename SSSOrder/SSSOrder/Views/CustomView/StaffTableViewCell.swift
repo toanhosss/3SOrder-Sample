@@ -81,7 +81,7 @@ class StaffTableViewCell: UITableViewCell {
         name = UILabel(frame: CGRect(x: width*0.3, y: height*0.03, width: width*0.5, height: height*0.12))
         name.font = UIFont.boldSystemFont(ofSize: 16)
 
-        rating = FloatRatingView(frame: CGRect(x: width*0.3, y: height*0.15, width: width*0.4, height: height*0.12))
+        rating = FloatRatingView(frame: CGRect(x: width*0.3, y: height*0.15, width: width*0.25, height: height*0.1))
         rating.emptyImage = ImageConstant.IconStarEmpty?.withRenderingMode(.alwaysTemplate)
         rating.emptyImageTintColor = .lightGray
         rating.fullImage = ImageConstant.IconStarFull?.withRenderingMode(.alwaysTemplate)

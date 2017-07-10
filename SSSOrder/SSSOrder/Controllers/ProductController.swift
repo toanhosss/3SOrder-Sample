@@ -18,7 +18,8 @@ class ProductController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-    func getData(storeId: Int, callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ staffList: [StaffModel], _ error: String?) -> Void) {
+    func getData(storeId: Int,
+                 callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ staffList: [StaffModel], _ error: String?) -> Void) {
         provider.request(.getCategoriesByStore(storeId: storeId)) { (result) in
             switch result {
             case .success(let response):

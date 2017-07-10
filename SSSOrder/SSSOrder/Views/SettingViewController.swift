@@ -11,8 +11,8 @@ import UIKit
 class SettingViewController: BaseController {
 
     let settingItemList = [
-        SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI?.withRenderingMode(.alwaysTemplate)),
-        SettingItem(name: "Sign out", icon: ImageConstant.IconSignout?.withRenderingMode(.alwaysTemplate))
+        [ SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI?.withRenderingMode(.alwaysTemplate), type: 1)],
+        [SettingItem(name: "Sign out", icon: ImageConstant.IconSignout?.withRenderingMode(.alwaysTemplate), type: 0)]
     ]
 
     var tableView: UITableView!
@@ -52,6 +52,9 @@ class SettingViewController: BaseController {
         tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.7))
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.tableFooterView?.isHidden = true
+        tableView.backgroundColor = .clear
         self.view.addSubview(tableView)
     }
 
@@ -81,18 +84,18 @@ class SettingViewController: BaseController {
 
 extension SettingViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.settingItemList.count
     }
 
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.settingItemList[section].count
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let settingItem = self.settingItemList[indexPath.row]
+        let settingItem = self.settingItemList[indexPath.section][indexPath.row]
         let cell = SettingItemTableViewCell(style: .default, reuseIdentifier: "settingCell")
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
-
+        cell.accessoryType = .disclosureIndicator
         cell.icon.image = settingItem.icon
         cell.icon.tintColor = ColorConstant.ButtonPrimary
         cell.name.text = settingItem.name
@@ -103,11 +106,15 @@ extension SettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return ScreenSize.ScreenHeight*0.1
     }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return ScreenSize.ScreenHeight*0.05
+    }
 }
 
 extension SettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let settingItem = self.settingItemList[indexPath.row]
+        let settingItem = self.settingItemList[indexPath.section][indexPath.row]
         if settingItem.name == "Sign out" {
             UserDefaultUtils.removeUser()
             self.performSegue(withIdentifier: SegueNameConstant.SettingToLogin, sender: nil)
@@ -143,10 +150,12 @@ extension SettingViewController: UITableViewDelegate {
 class SettingItem: NSObject {
     var name: String
     var icon: UIImage?
+    var type: Int = 0
 
-    init(name: String, icon: UIImage?) {
+    init(name: String, icon: UIImage?, type: Int) {
         self.name = name
         self.icon = icon
+        self.type = type
     }
 
 }

@@ -138,4 +138,27 @@ class RegisterViewController: BaseController {
         print("FORGOT PASSWORD")
         self.performSegue(withIdentifier: SegueNameConstant.RegisterToLogin, sender: nil)
     }
+
+    override func keyboardWillShow(_ notification: Notification) {
+        let tapInputKeyboard2: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapInputKeyboard2.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapInputKeyboard2)
+
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if view.frame.origin.y == 0 && self.confirmPassInput.isFirstResponder {
+                self.view.frame.origin.y = 0
+                self.view.frame.origin.y -= keyboardSize.height
+            } else {
+                self.view.frame.origin.y = 0
+            }
+        }
+    }
+
+    override func keyboardWillHide(_ notification: Notification) {
+        super.keyboardWillHide(notification)
+        self.nameInput.endEditing(true)
+        self.mobileNumberInput.endEditing(true)
+        self.passwordInput.endEditing(true)
+        self.confirmPassInput.endEditing(true)
+    }
 }

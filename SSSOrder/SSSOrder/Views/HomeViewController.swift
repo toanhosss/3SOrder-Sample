@@ -59,7 +59,7 @@ class HomeViewController: BaseController {
         super.setLayoutPage()
 
         titlePage = NSLocalizedString("home", comment: "")
-        setTabbarIcon(icons: [ImageConstant.IconHome!, ImageConstant.IconOrderList!, ImageConstant.IconBooking!, ImageConstant.IconMenu!])
+        setTabbarIcon(icons: [ImageConstant.IconHome!, ImageConstant.IconOrderList!, ImageConstant.IconBooking!, ImageConstant.IconMenu!], name: ["Home", "Notification", "History", "Menu"])
         overlayColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
 
         getData()
@@ -99,13 +99,13 @@ class HomeViewController: BaseController {
     func initMapView() {
 
         // TODOs: get current location and load map
-        //        let currentLocation = (UIApplication.shared.delegate as! AppDelegate).currentMyLocation
-        let currentLocation = CLLocationCoordinate2D(latitude: 32.878626, longitude: -90.41112)
+                let currentLocation = appDelegate?.currentLocation
+//        let currentLocation = CLLocationCoordinate2D(latitude: 32.878626, longitude: -90.41112)
 
-        let locationCamera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 12)
-        mapView = GMSMapView.map(withFrame: CGRect(x: ScreenSize.ScreenWidth*0.025,
-                                                   y: ScreenSize.ScreenHeight*0.11,
-                                                   width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.5), camera: locationCamera)
+        let locationCamera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(Double(currentLocation!.lat)!), longitude: CLLocationDegrees(Double(currentLocation!.long)!), zoom: 12)
+        mapView = GMSMapView.map(withFrame: CGRect(x: 0,
+                                                   y: ScreenSize.ScreenHeight*0.1,
+                                                   width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.51), camera: locationCamera)
 
         mapView.layer.cornerRadius = 10
 
@@ -130,11 +130,12 @@ class HomeViewController: BaseController {
 //            let markerView = CustomMarkerMap(frame: rect)
 //            itemMarker.iconView = markerView
             itemMarker.tracksViewChanges = true
-            bounds = bounds.includingCoordinate(location)
+//            bounds = bounds.includingCoordinate(location)
             itemMarker.map = self.mapView
             dataMarker.append(itemMarker)
         }
 
+        bounds.includingCoordinate(CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.lat)!), longitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.long)!)))
         mapView.animate(with: GMSCameraUpdate.fit(bounds))
 
         self.dataMarker[0].icon = GMSMarker.markerImage(with: .green)

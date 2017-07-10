@@ -43,9 +43,6 @@ class CartViewController: BaseController {
             totalPrice += item.price
         }
         let totalView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.72, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
-        totalView.layer.borderColor = ColorConstant.ButtonPrimary.cgColor
-        totalView.layer.borderWidth = 1
-        totalView.layer.cornerRadius = totalView.frame.height*0.1
 
         let totalName = UILabel(frame: CGRect(x: totalView.frame.width*0.1, y: 0, width: totalView.frame.width*0.2, height: totalView.frame.height))
         totalName.text = "Total: "
@@ -121,7 +118,7 @@ extension CartViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.itemData = item
         cell.nameProduct.text = item.name
-        cell.priceLabel.text = "$\(item.price) " + NSLocalizedString("price", comment: "price value name")
+        cell.priceLabel.text = "$\(Int(item.price)) " + NSLocalizedString("price", comment: "price value name")
         cell.durationLabel.text = "Duration: \(item.duration!)"
 
         return cell
@@ -138,7 +135,7 @@ extension CartViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.02
+        return ScreenSize.ScreenHeight*0.005
     }
 }
 

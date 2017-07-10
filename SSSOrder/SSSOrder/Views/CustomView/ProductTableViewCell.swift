@@ -34,17 +34,20 @@ class ProductTableViewCell: UITableViewCell {
 
         let width = ScreenSize.ScreenWidth*0.98
         let heightTopView = ScreenSize.ScreenHeight*0.25
-        let height = ScreenSize.ScreenHeight*0.35
+        let height = ScreenSize.ScreenHeight*0.26
 
         backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
 
         backgroundCardView.backgroundColor = .white
+        backgroundCardView.layer.borderColor = UIColor.hexStringToUIColor("#DBDFE3", alpha: 0.3).cgColor
+        backgroundCardView.layer.borderWidth = 1
+
         backgroundCardView.layer.cornerRadius = 3
         backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
-        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        backgroundCardView.layer.shadowRadius = 3
-        backgroundCardView.layer.shadowOpacity = 1
-        backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 3).cgPath
+        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 5)
+        backgroundCardView.layer.shadowRadius = 5
+        backgroundCardView.layer.shadowOpacity = 12
+        backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 5).cgPath
 
         let cardView = UIView(frame: CGRect(x: 0, y: 0, width: width*0.975 - 6, height: height - 6))
         cardView.layer.masksToBounds = true
@@ -78,16 +81,19 @@ class ProductTableViewCell: UITableViewCell {
         addButton.addTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)
         addButton.imageView!.contentMode = .scaleAspectFit
 
-        let lineView = UIView(frame: CGRect(x: 0, y: heightTopView*1.1, width: width, height: 1))
-        lineView.backgroundColor = ColorConstant.BackgroundColor
+//        let lineView = UIView(frame: CGRect(x: 0, y: heightTopView*1.1, width: width, height: 1))
+//        lineView.backgroundColor = ColorConstant.BackgroundColor
+//
+//        shareButton = UIButton(frame: CGRect(x: width*0.03, y: height*0.85, width: width*0.08, height: width*0.05))
+//        shareButton.setImage(ImageConstant.IconShare?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        shareButton.tintColor = ColorConstant.ButtonPrimary
+//        shareButton.imageView!.contentMode = .scaleAspectFit
+//        shareButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 1, bottom: 0, right: shareButton.frame.width*0.3)
+//        shareButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: shareButton.frame.width*0.31, bottom: 0, right: shareButton.frame.width*0.6)
+//        shareButton.setTitle("Share", for: .normal)
 
-        shareButton = UIButton(frame: CGRect(x: width*0.1, y: height*0.85, width: width*0.08, height: width*0.05))
-        shareButton.setImage(ImageConstant.IconShare?.withRenderingMode(.alwaysTemplate), for: .normal)
-        shareButton.tintColor = ColorConstant.ButtonPrimary
-        shareButton.imageView!.contentMode = .scaleAspectFit
-
-        cardView.addSubview(lineView)
-        cardView.addSubview(shareButton)
+//        cardView.addSubview(lineView)
+//        cardView.addSubview(shareButton)
         cardView.addSubview(imageProduct)
         cardView.addSubview(nameLabel)
         cardView.addSubview(descriptionView)

@@ -46,6 +46,7 @@ enum ImageConstant {
     static let IconStarEmpty = UIImage(named: "star_empty")
     static let IconStarFull = UIImage(named: "star_full")
     static let IconClose = UIImage(named: "close")
+    static let IconBack = UIImage(named: "back")
 
 }
 
@@ -60,7 +61,11 @@ enum ColorConstant {
     static let ButtonSecond = UIColor.hexStringToUIColor("#3B5998")
     static let NavigationBG = UIColor.hexStringToUIColor("#00bcd4")
 
-    static let ShadowColor = UIColor.hexStringToUIColor("#000000", alpha: 0.2)
+    static let ShadowColor = UIColor.hexStringToUIColor("#D9E2E9", alpha: 0.5)
+}
+
+enum FontConstant {
+    static let TitlePageFont = UIFont(name: "HelveticaNeue-Bold", size: 20)
 }
 
 /// Constant SegueId

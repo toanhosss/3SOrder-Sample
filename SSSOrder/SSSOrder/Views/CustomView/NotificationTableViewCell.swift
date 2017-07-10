@@ -28,7 +28,7 @@ class NotificationTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         let width = ScreenSize.ScreenWidth*0.98
-        let height = ScreenSize.ScreenHeight*0.15
+        let height = ScreenSize.ScreenHeight*0.1
 
         backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
 

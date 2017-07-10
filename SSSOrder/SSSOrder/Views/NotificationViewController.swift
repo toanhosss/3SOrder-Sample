@@ -45,13 +45,12 @@ class NotificationViewController: BaseController {
         segmentHeader = HMSegmentedControl(sectionTitles: notificationController.notificationType)
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth]
-        segmentHeader!.backgroundColor = UIColor.gray
-        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
-        segmentHeader!.selectionStyle = .fullWidthStripe
+        segmentHeader!.backgroundColor = .white
+        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.gray, NSFontAttributeName: UIFont.systemFont(ofSize: 16)]
+        segmentHeader!.selectionStyle = .textWidthStripe
         segmentHeader!.selectionIndicatorLocation = .down
-        segmentHeader!.isVerticalDividerEnabled = true
-        segmentHeader!.verticalDividerColor = .black
-        segmentHeader!.selectionIndicatorColor = .black
+        segmentHeader!.selectionIndicatorColor = ColorConstant.BackgroundColor
+        segmentHeader!.selectedTitleTextAttributes = [NSForegroundColorAttributeName: UIColor.black, NSFontAttributeName: UIFont.systemFont(ofSize: 16)]
         segmentHeader!.addTarget(self, action: #selector(segmentHeaderValueChanged(sender:)), for: .valueChanged)
         self.view.addSubview(segmentHeader!)
     }
@@ -169,7 +168,7 @@ extension NotificationViewController: UITableViewDataSource {
         let item = data[indexPath.section]
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
         //        cell.backgroundColor = .clear
         cell.data = item
         cell.backgroundColor = item.isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
@@ -182,7 +181,7 @@ extension NotificationViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.15
+        return ScreenSize.ScreenHeight*0.1
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

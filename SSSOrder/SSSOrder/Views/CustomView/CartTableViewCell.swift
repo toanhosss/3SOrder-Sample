@@ -50,7 +50,7 @@ class CartTableViewCell: UITableViewCell {
         nameProduct = UILabel(frame: CGRect(x: width*0.025, y: 0, width: width*0.725, height: height*0.5))
         nameProduct.font = UIFont.boldSystemFont(ofSize: 15)
 
-        priceLabel = UILabel(frame: CGRect(x: width*0.75, y: 0, width: width*0.25, height: height*0.5))
+        priceLabel = UILabel(frame: CGRect(x: width*0.75, y: 0, width: width*0.2, height: height*0.5))
         priceLabel.textColor = ColorConstant.ButtonPrimary
 
         durationLabel = UILabel(frame: CGRect(x: width*0.025, y: height*0.5, width: width*0.725, height: height*0.5))

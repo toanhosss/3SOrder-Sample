@@ -63,7 +63,7 @@ class StoreWithProductViewController: BaseController {
 
     func addCartIconToNavigationBar() {
         let width = ScreenSize.ScreenWidth*0.075
-        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.85, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
+        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.89, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
         cartButton.setImage(ImageConstant.IconCart, for: .normal)
         cartButton.addTarget(self, action: #selector(cartButtonNavigationTouched(sender:)), for: .touchUpInside)
         self.navigationBarView?.addSubview(cartButton)
@@ -96,14 +96,14 @@ class StoreWithProductViewController: BaseController {
     func createLabelHeaderTitle(headers: [String]) {
         segmentHeader = HMSegmentedControl(sectionTitles: headers)
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
-        segmentHeader!.autoresizingMask = [.flexibleWidth]
-        segmentHeader!.backgroundColor = .gray
-        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.black]
-        segmentHeader!.selectionStyle = .fullWidthStripe
+        segmentHeader!.autoresizingMask = [.flexibleWidth, .flexibleLeftMargin]
+        segmentHeader!.backgroundColor = .white
+        segmentHeader!.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.gray, NSFontAttributeName: UIFont.systemFont(ofSize: 16)]
+        segmentHeader!.selectionStyle = .textWidthStripe
         segmentHeader!.selectionIndicatorLocation = .down
-        segmentHeader!.isVerticalDividerEnabled = true
-        segmentHeader!.verticalDividerColor = .black
-        segmentHeader!.selectionIndicatorColor = .black
+        segmentHeader!.isVerticalDividerEnabled = false
+        segmentHeader!.selectionIndicatorColor = ColorConstant.ButtonPrimary
+        segmentHeader!.selectedTitleTextAttributes = [NSForegroundColorAttributeName: UIColor.black, NSFontAttributeName: UIFont.systemFont(ofSize: 16)]
         segmentHeader!.addTarget(self, action: #selector(segmentHeaderValueChanged(sender:)), for: .valueChanged)
         self.view.addSubview(segmentHeader!)
     }
@@ -201,7 +201,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         let item = categories[tableView.tag].product[indexPath.section]
         let cell = ProductTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.35)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.26)
 
         if item.image != "" {
             cell.imageProduct.kf.setImage(with: URL(string: item.image))
@@ -223,7 +223,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.35
+        return ScreenSize.ScreenHeight*0.26
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

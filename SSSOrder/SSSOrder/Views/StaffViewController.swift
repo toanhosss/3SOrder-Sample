@@ -102,14 +102,24 @@ class StaffViewController: BaseController {
         self.showOverlayLoading()
         DispatchQueue.main.async {
             let user = UserDefaultUtils.getUser()
-            let order = OrderModel(orderId: -1, storeId: self.storeBooked.salonId, customerId: user!.userId, status: "New", note: self.noteTextView!.text!, bookingDate: self.schedulerData[self.dateSelectedIndex].dateFull, isCheckedIn: false, isCheckedOut: false, timePickup: self.timeSelected, productList: self.productList)
+            let order = OrderModel(orderId: -1, storeId: self.storeBooked.salonId, customerId: user!.userId,
+                                   status: "New", note: self.noteTextView!.text!,
+                                   bookingDate: self.schedulerData[self.dateSelectedIndex].dateFull, isCheckedIn: false,
+                                   isCheckedOut: false, timePickup: self.timeSelected, productList: self.productList)
             order.staff = self.staffSelected
             self.orderController.createOrder(order: order, paymentMethod: PaymentModel(type: PaymentType.cash), callback: { (status, error) in
                 self.removeOverlayLoading()
                 if status {
                     let formatter = DateFormatter()
                     formatter.dateFormat = "hh:mm, dd MMM yyyy"
-                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
+                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate,
+                                                    object: nil, userInfo: ["notification":
+                                                        NotificationModel(name: "New Booking",
+                                                                          icon: ImageConstant.IconBooking!,
+                                                                          content: "You have booking success with id xxxxxx1234",
+                                                                          type: "System",
+                                                                          dateString: formatter.string(from: Date()),
+                                                                          isRead: false)])
                     _ = self.navigationController?.popToRootViewController(animated: true)
                     self.showInfoMessage("Your Order has been submitted successfully.")
                 } else {

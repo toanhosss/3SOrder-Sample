@@ -51,6 +51,7 @@
 		17FE29661F1225D800997E13 /* MyTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE29651F1225D800997E13 /* MyTabbar.swift */; };
 		17FE296A1F12483D00997E13 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */; };
 		17FE296D1F12AFF200997E13 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE296C1F12AFF200997E13 /* FloatRatingView.swift */; };
+		17FE29791F1375B200997E13 /* HelveticaNeueLTStd-Lt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17FE29781F1375B200997E13 /* HelveticaNeueLTStd-Lt.ttf */; };
 		385938621EFCF76800087743 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938611EFCF76800087743 /* AppDelegate.swift */; };
 		385938671EFCF76800087743 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385938651EFCF76800087743 /* Main.storyboard */; };
 		3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3859386A1EFCF76800087743 /* LaunchScreen.storyboard */; };
@@ -127,6 +128,7 @@
 		17FE29651F1225D800997E13 /* MyTabbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabbar.swift; sourceTree = "<group>"; };
 		17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
 		17FE296C1F12AFF200997E13 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
+		17FE29781F1375B200997E13 /* HelveticaNeueLTStd-Lt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeueLTStd-Lt.ttf"; sourceTree = "<group>"; };
 		31D8A477D870A20A83859563 /* Pods-SSSOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSSOrderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSSOrderTests/Pods-SSSOrderTests.release.xcconfig"; sourceTree = "<group>"; };
 		3859385E1EFCF76800087743 /* SSSOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSSOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385938611EFCF76800087743 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 		17208CBF1F0F651900B3903A /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				17FE29771F1375B200997E13 /* Fonts */,
 				17FE296B1F12AFF200997E13 /* FloatRating */,
 				17208CC01F0F651900B3903A /* TextFieldEffects */,
 			);
@@ -273,6 +276,14 @@
 				17FE296C1F12AFF200997E13 /* FloatRatingView.swift */,
 			);
 			path = FloatRating;
+			sourceTree = "<group>";
+		};
+		17FE29771F1375B200997E13 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				17FE29781F1375B200997E13 /* HelveticaNeueLTStd-Lt.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		385938551EFCF76700087743 = {
@@ -488,6 +499,7 @@
 				3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */,
 				17B81E7A1EFE59390058875D /* MapStyle.json in Resources */,
 				17F6B51F1EFD832B00183139 /* Localizable.strings in Resources */,
+				17FE29791F1375B200997E13 /* HelveticaNeueLTStd-Lt.ttf in Resources */,
 				385938671EFCF76800087743 /* Main.storyboard in Resources */,
 				1706A4CD1F090855007ED08C /* Assets.xcassets in Resources */,
 			);

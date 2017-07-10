@@ -71,6 +71,14 @@ class BaseController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        for name in UIFont.familyNames {
+//            print(name)
+//            if let nameString = name as? String
+//            {
+//                print(UIFont.fontNames(forFamilyName: nameString))
+//            }
+//        }
+
         setLayoutPage()
 
         setEventAndDelegate()
@@ -110,9 +118,10 @@ class BaseController: UIViewController {
             return
         }
 
-        let backLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.025, width: ScreenSize.ScreenWidth*0.25, height: ScreenSize.ScreenHeight*0.075))
-        backLabel.text = "< " + backTitle
-        backLabel.textColor = titleColor
+        let backLabel = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.0375, width: ScreenSize.ScreenWidth*0.075, height: ScreenSize.ScreenWidth*0.075))
+        backLabel.image = ImageConstant.IconBack
+        backLabel.contentMode = .scaleAspectFit
+
         let tapBackButton = UITapGestureRecognizer(target: self, action: #selector(backButtonTouched(sender:)))
         backLabel.isUserInteractionEnabled = true
         backLabel.addGestureRecognizer(tapBackButton)
@@ -130,6 +139,7 @@ class BaseController: UIViewController {
             titleLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.25, y: ScreenSize.ScreenHeight*0.025, width: ScreenSize.ScreenWidth*0.5, height: ScreenSize.ScreenHeight*0.075))
         }
         titleLabel!.textAlignment = .center
+        titleLabel!.font = FontConstant.TitlePageFont
         titleLabel!.text = self.titlePage
         titleLabel!.textColor = titleColor
         self.navigationBarView!.addSubview(titleLabel!)
@@ -157,15 +167,16 @@ class BaseController: UIViewController {
     }
 
     /// Set tabbar Icon
-    func setTabbarIcon(icons: [UIImage]) {
+    func setTabbarIcon(icons: [UIImage], name: [String]) {
 
         for i in 0..<icons.count {
 
-            let customTabBarItem: UITabBarItem = UITabBarItem(title: nil, image: icons[i].withRenderingMode(.alwaysOriginal),
+            let customTabBarItem: UITabBarItem = UITabBarItem(title: name[i], image: icons[i].withRenderingMode(.alwaysOriginal),
                                                               selectedImage: icons[i].withRenderingMode(.alwaysTemplate))
-
+            customTabBarItem.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.hexStringToUIColor("#807D7D")], for: .normal)
+            customTabBarItem.setTitleTextAttributes([NSForegroundColorAttributeName: ColorConstant.BackgroundColor], for: .highlighted)
             self.tabBarController!.viewControllers![i].tabBarItem = customTabBarItem
-            self.tabBarController!.viewControllers![i].tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
+            self.tabBarController!.viewControllers![i].tabBarItem.imageInsets = UIEdgeInsets(top: 3, left: 0, bottom: -3, right: 0)
             self.tabBarController?.tabBar.tintColor = ColorConstant.BackgroundColor
         }
 
@@ -188,7 +199,7 @@ class BaseController: UIViewController {
 //        self.view.backgroundColor = ColorConstant.BackgroundColorAdded
 //        self.view.applyGradientLayer(gradientLayer: gradienColor)
 //        self.view.addSubview(viewLayer1)
-//        self.view.backgroundColor = UIColor.hexStringToUIColor("#f9f9f9")
+        self.view.backgroundColor = UIColor.hexStringToUIColor("#ecf0f1")
     }
 
     /// Set Delegate and NotificationCenter
