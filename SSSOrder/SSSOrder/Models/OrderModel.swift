@@ -14,10 +14,11 @@ class OrderModel: NSObject {
     var customerId: Int!
     var status: String!
     var note: String!
-    var bookingDate: String!
+    var bookingDate: String! // Current date format: EEEE, MMMM dd, yyyy
     var isCheckedIn: Bool
     var isCheckedOut: Bool
     var timePickup: String
+    var staff: StaffModel?
     var productList: [SalonProductModel] = []
 
     init(orderId: Int, storeId: Int, customerId: Int, status: String, note: String,
@@ -33,5 +34,11 @@ class OrderModel: NSObject {
         self.isCheckedOut = isCheckedOut
         self.timePickup = timePickup
         self.productList = productList
+    }
+
+    func getDatefromBookingDate() -> Date {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "EEEE, MMMM dd, yyyy"
+        return dateFormat.date(from: bookingDate)!
     }
 }

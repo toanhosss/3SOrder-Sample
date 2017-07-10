@@ -90,6 +90,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { (granted, error) in
                 if !granted {
                     print("Something went wrong")
+                } else {
+                    print("Error: \(error?.localizedDescription)")
                 }
             }
             application.registerForRemoteNotifications()

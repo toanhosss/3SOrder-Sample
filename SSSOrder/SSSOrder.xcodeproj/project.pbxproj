@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		1706A4CD1F090855007ED08C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1706A4CC1F090855007ED08C /* Assets.xcassets */; };
+		17208CCD1F0F651900B3903A /* AkiraTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC11F0F651900B3903A /* AkiraTextField.swift */; };
+		17208CCE1F0F651900B3903A /* HoshiTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC21F0F651900B3903A /* HoshiTextField.swift */; };
+		17208CD01F0F651900B3903A /* IsaoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC41F0F651900B3903A /* IsaoTextField.swift */; };
+		17208CD11F0F651900B3903A /* JiroTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC51F0F651900B3903A /* JiroTextField.swift */; };
+		17208CD21F0F651900B3903A /* KaedeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC61F0F651900B3903A /* KaedeTextField.swift */; };
+		17208CD31F0F651900B3903A /* MadokaTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC71F0F651900B3903A /* MadokaTextField.swift */; };
+		17208CD41F0F651900B3903A /* MinoruTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CC81F0F651900B3903A /* MinoruTextField.swift */; };
+		17208CD51F0F651900B3903A /* TextFieldEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CCA1F0F651900B3903A /* TextFieldEffects.swift */; };
+		17208CD61F0F651900B3903A /* YokoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CCB1F0F651900B3903A /* YokoTextField.swift */; };
+		17208CD71F0F651900B3903A /* YoshikoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17208CCC1F0F651900B3903A /* YoshikoTextField.swift */; };
 		172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141BD1EFD55DB005B1CC2 /* SplashScreenViewController.swift */; };
 		172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141C51EFD56F4005B1CC2 /* Constants.swift */; };
 		172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141CA1EFD5844005B1CC2 /* ColorExtension.swift */; };
@@ -38,6 +48,9 @@
 		17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B51B1EFD778000183139 /* CustomInputField.swift */; };
 		17F6B51F1EFD832B00183139 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 17F6B5211EFD832B00183139 /* Localizable.strings */; };
 		17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B5221EFDA45300183139 /* RegisterViewController.swift */; };
+		17FE29661F1225D800997E13 /* MyTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE29651F1225D800997E13 /* MyTabbar.swift */; };
+		17FE296A1F12483D00997E13 /* CalendarCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */; };
+		17FE296D1F12AFF200997E13 /* FloatRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FE296C1F12AFF200997E13 /* FloatRatingView.swift */; };
 		385938621EFCF76800087743 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385938611EFCF76800087743 /* AppDelegate.swift */; };
 		385938671EFCF76800087743 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385938651EFCF76800087743 /* Main.storyboard */; };
 		3859386C1EFCF76800087743 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3859386A1EFCF76800087743 /* LaunchScreen.storyboard */; };
@@ -71,6 +84,17 @@
 
 /* Begin PBXFileReference section */
 		1706A4CC1F090855007ED08C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		17208CC11F0F651900B3903A /* AkiraTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AkiraTextField.swift; sourceTree = "<group>"; };
+		17208CC21F0F651900B3903A /* HoshiTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HoshiTextField.swift; sourceTree = "<group>"; };
+		17208CC41F0F651900B3903A /* IsaoTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsaoTextField.swift; sourceTree = "<group>"; };
+		17208CC51F0F651900B3903A /* JiroTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JiroTextField.swift; sourceTree = "<group>"; };
+		17208CC61F0F651900B3903A /* KaedeTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KaedeTextField.swift; sourceTree = "<group>"; };
+		17208CC71F0F651900B3903A /* MadokaTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MadokaTextField.swift; sourceTree = "<group>"; };
+		17208CC81F0F651900B3903A /* MinoruTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MinoruTextField.swift; sourceTree = "<group>"; };
+		17208CC91F0F651900B3903A /* TextFieldEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldEffects.h; sourceTree = "<group>"; };
+		17208CCA1F0F651900B3903A /* TextFieldEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldEffects.swift; sourceTree = "<group>"; };
+		17208CCB1F0F651900B3903A /* YokoTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YokoTextField.swift; sourceTree = "<group>"; };
+		17208CCC1F0F651900B3903A /* YoshikoTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YoshikoTextField.swift; sourceTree = "<group>"; };
 		172141BD1EFD55DB005B1CC2 /* SplashScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		172141C51EFD56F4005B1CC2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		172141CA1EFD5844005B1CC2 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -100,6 +124,9 @@
 		17F6B51B1EFD778000183139 /* CustomInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInputField.swift; sourceTree = "<group>"; };
 		17F6B5201EFD832B00183139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		17F6B5221EFDA45300183139 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		17FE29651F1225D800997E13 /* MyTabbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTabbar.swift; sourceTree = "<group>"; };
+		17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewCell.swift; sourceTree = "<group>"; };
+		17FE296C1F12AFF200997E13 /* FloatRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloatRatingView.swift; sourceTree = "<group>"; };
 		31D8A477D870A20A83859563 /* Pods-SSSOrderTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SSSOrderTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SSSOrderTests/Pods-SSSOrderTests.release.xcconfig"; sourceTree = "<group>"; };
 		3859385E1EFCF76800087743 /* SSSOrder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SSSOrder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385938611EFCF76800087743 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -153,6 +180,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17208CBF1F0F651900B3903A /* Vendors */ = {
+			isa = PBXGroup;
+			children = (
+				17FE296B1F12AFF200997E13 /* FloatRating */,
+				17208CC01F0F651900B3903A /* TextFieldEffects */,
+			);
+			path = Vendors;
+			sourceTree = "<group>";
+		};
+		17208CC01F0F651900B3903A /* TextFieldEffects */ = {
+			isa = PBXGroup;
+			children = (
+				17208CC11F0F651900B3903A /* AkiraTextField.swift */,
+				17208CC21F0F651900B3903A /* HoshiTextField.swift */,
+				17208CC41F0F651900B3903A /* IsaoTextField.swift */,
+				17208CC51F0F651900B3903A /* JiroTextField.swift */,
+				17208CC61F0F651900B3903A /* KaedeTextField.swift */,
+				17208CC71F0F651900B3903A /* MadokaTextField.swift */,
+				17208CC81F0F651900B3903A /* MinoruTextField.swift */,
+				17208CC91F0F651900B3903A /* TextFieldEffects.h */,
+				17208CCA1F0F651900B3903A /* TextFieldEffects.swift */,
+				17208CCB1F0F651900B3903A /* YokoTextField.swift */,
+				17208CCC1F0F651900B3903A /* YoshikoTextField.swift */,
+			);
+			path = TextFieldEffects;
+			sourceTree = "<group>";
+		};
 		172141C31EFD56F4005B1CC2 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,8 +261,18 @@
 				17B81E981F001CCA0058875D /* StaffTableViewCell.swift */,
 				17B81E9E1F005B320058875D /* NotificationTableViewCell.swift */,
 				38E439E61F04FB9400F4129E /* SettingItemTableViewCell.swift */,
+				17FE29651F1225D800997E13 /* MyTabbar.swift */,
+				17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */,
 			);
 			path = CustomView;
+			sourceTree = "<group>";
+		};
+		17FE296B1F12AFF200997E13 /* FloatRating */ = {
+			isa = PBXGroup;
+			children = (
+				17FE296C1F12AFF200997E13 /* FloatRatingView.swift */,
+			);
+			path = FloatRating;
 			sourceTree = "<group>";
 		};
 		385938551EFCF76700087743 = {
@@ -234,6 +298,7 @@
 		385938601EFCF76800087743 /* SSSOrder */ = {
 			isa = PBXGroup;
 			children = (
+				17208CBF1F0F651900B3903A /* Vendors */,
 				1706A4CC1F090855007ED08C /* Assets.xcassets */,
 				38A749891F08EC0100C89CE2 /* SSSOrder.entitlements */,
 				38E439D91F035BC000F4129E /* Controllers */,
@@ -548,9 +613,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17208CD51F0F651900B3903A /* TextFieldEffects.swift in Sources */,
+				17FE296A1F12483D00997E13 /* CalendarCollectionViewCell.swift in Sources */,
 				17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */,
 				38E439E11F03AB2800F4129E /* ProductController.swift in Sources */,
+				17208CD21F0F651900B3903A /* KaedeTextField.swift in Sources */,
 				38E439E71F04FB9400F4129E /* SettingItemTableViewCell.swift in Sources */,
+				17208CD01F0F651900B3903A /* IsaoTextField.swift in Sources */,
 				38E439DD1F0381D000F4129E /* RegisterController.swift in Sources */,
 				17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */,
 				38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */,
@@ -558,6 +627,7 @@
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
 				17B81E931F0017A10058875D /* StaffViewController.swift in Sources */,
+				17208CD11F0F651900B3903A /* JiroTextField.swift in Sources */,
 				38EA1E711F0B3E1000BB3BCC /* NotificationController.swift in Sources */,
 				38E476E91F02464600274CE8 /* User.swift in Sources */,
 				17B81E811EFE7BC00058875D /* NotificationViewController.swift in Sources */,
@@ -565,26 +635,34 @@
 				38CB8B651EFCF8760052D5FC /* BaseController.swift in Sources */,
 				38E476EB1F02480700274CE8 /* UserDefaultUtils.swift in Sources */,
 				17B81E911EFFEE4D0058875D /* CartTableViewCell.swift in Sources */,
+				17208CD61F0F651900B3903A /* YokoTextField.swift in Sources */,
 				385938621EFCF76800087743 /* AppDelegate.swift in Sources */,
 				17B81E831EFE89320058875D /* StoreWithProductViewController.swift in Sources */,
 				17B81E891EFEEBEA0058875D /* SettingViewController.swift in Sources */,
 				17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */,
 				17B81E991F001CCA0058875D /* StaffTableViewCell.swift in Sources */,
+				17FE29661F1225D800997E13 /* MyTabbar.swift in Sources */,
 				172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */,
+				17208CD71F0F651900B3903A /* YoshikoTextField.swift in Sources */,
 				17B81E8F1EFEF5220058875D /* StringExtension.swift in Sources */,
 				17B81E971F0018F20058875D /* StaffModel.swift in Sources */,
 				38E439DB1F035BD100F4129E /* LoginController.swift in Sources */,
 				17B81EA11F0061ED0058875D /* NotificationItemViewController.swift in Sources */,
 				38E439E31F04CD6F00F4129E /* DateUtil.swift in Sources */,
 				1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */,
+				17208CD31F0F651900B3903A /* MadokaTextField.swift in Sources */,
 				17B47C001F0415B50074CB42 /* OrderController.swift in Sources */,
+				17208CCD1F0F651900B3903A /* AkiraTextField.swift in Sources */,
+				17208CD41F0F651900B3903A /* MinoruTextField.swift in Sources */,
 				17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */,
+				17FE296D1F12AFF200997E13 /* FloatRatingView.swift in Sources */,
 				17B81E871EFEC2820058875D /* ProductTableViewCell.swift in Sources */,
 				17B47C051F04249C0074CB42 /* Popover.swift in Sources */,
 				17B47C071F042C350074CB42 /* OrderModel.swift in Sources */,
 				17B81E9D1F00578A0058875D /* NotificationModel.swift in Sources */,
 				17B81E851EFEBB550058875D /* SalonProductModel.swift in Sources */,
 				17B81E8B1EFEECA40058875D /* CartViewController.swift in Sources */,
+				17208CCE1F0F651900B3903A /* HoshiTextField.swift in Sources */,
 				38E439DF1F038F7800F4129E /* StoreController.swift in Sources */,
 				172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */,
 				172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */,

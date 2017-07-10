@@ -66,39 +66,39 @@ class SubmitOrderViewController: BaseController {
     func createPersonalInput() {
         let placeHolderTextAttribute = [NSForegroundColorAttributeName: UIColor.black]
         nameInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.0224, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707), icon: ImageConstant.IconUser!.withRenderingMode(.alwaysTemplate))
-        nameInputField.icon.tintColor = .black
-        nameInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name", comment: ""), attributes: placeHolderTextAttribute)
-        nameInputField.inputTextField.textColor = .black
-        nameInputField.inputTextField.tag = 1
-        nameInputField.layer.cornerRadius = nameInputField.frame.height*0.5
-        nameInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
-        nameInputField.inputTextField.delegate = self
+//        nameInputField.icon.tintColor = .black
+//        nameInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name", comment: ""), attributes: placeHolderTextAttribute)
+//        nameInputField.inputTextField.textColor = .black
+//        nameInputField.inputTextField.tag = 1
+//        nameInputField.layer.cornerRadius = nameInputField.frame.height*0.5
+//        nameInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
+//        nameInputField.inputTextField.delegate = self
 
         mobileInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.1198505, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707), icon: ImageConstant.IconPhoneNumber!.withRenderingMode(.alwaysTemplate))
         mobileInputField.icon.tintColor = .black
-        mobileInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"), attributes: placeHolderTextAttribute)
-        mobileInputField.inputTextField.textColor = .black
-        mobileInputField.inputTextField.tag = 2
-        mobileInputField.inputTextField.keyboardType = .phonePad
-        mobileInputField.layer.cornerRadius = mobileInputField.frame.height*0.5
-        mobileInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
-        mobileInputField.inputTextField.delegate = self
+//        mobileInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"), attributes: placeHolderTextAttribute)
+//        mobileInputField.inputTextField.textColor = .black
+//        mobileInputField.inputTextField.tag = 2
+//        mobileInputField.inputTextField.keyboardType = .phonePad
+//        mobileInputField.layer.cornerRadius = mobileInputField.frame.height*0.5
+//        mobileInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
+//        mobileInputField.inputTextField.delegate = self
 
         let userInfor = self.getUserLoggedInfo()
         if userInfor != nil {
-            nameInputField.inputTextField.text = userInfor!.name
-            mobileInputField.inputTextField.text = userInfor!.phone
+//            nameInputField.inputTextField.text = userInfor!.name
+//            mobileInputField.inputTextField.text = userInfor!.phone
         }
 
         noteInputField = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.217301, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707),
                                          icon: ImageConstant.IconNote!.withRenderingMode(.alwaysTemplate))
         noteInputField.icon.tintColor = .black
-        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("note", comment: "user label"), attributes: placeHolderTextAttribute)
-        noteInputField.inputTextField.textColor = .black
-        noteInputField.inputTextField.tag = 3
-        noteInputField.layer.cornerRadius = noteInputField.frame.height*0.5
-        noteInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
-        noteInputField.inputTextField.delegate = self
+//        noteInputField.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("note", comment: "user label"), attributes: placeHolderTextAttribute)
+//        noteInputField.inputTextField.textColor = .black
+//        noteInputField.inputTextField.tag = 3
+//        noteInputField.layer.cornerRadius = noteInputField.frame.height*0.5
+//        noteInputField.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.1)
+//        noteInputField.inputTextField.delegate = self
 
         let pickerView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.3147515, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: pickerView.frame.width*0.35, height: pickerView.frame.height))
@@ -193,21 +193,21 @@ class SubmitOrderViewController: BaseController {
     }
 
     func submitOrderTouched(sender: UIButton) {
-        self.showOverlayLoading()
-        DispatchQueue.main.async {
-            self.orderController.createOrder(nameCustomer: self.nameInputField.inputTextField.text, note: self.noteInputField.inputTextField.text, phoneNumber: self.mobileInputField.inputTextField.text, bookingDate: self.dateSelected, timePickup: self.timerSelected, storeId: self.storeBooked.salonId, productList: self.productList, staffSelected: self.staffSelected, paymentMethod: PaymentModel(type: self.getPaymentMethod(method: self.paymentSelected)), callback: { (status, error) in
-                 self.removeOverlayLoading()
-                if status {
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "hh:mm, dd MMM yyyy"
-                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
-                    _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showInfoMessage("Your Order has been submitted successfully.")
-                } else {
-                    self.showErrorMessage(error!)
-                }
-            })
-        }
+//        self.showOverlayLoading()
+//        DispatchQueue.main.async {
+//            self.orderController.createOrder(nameCustomer: self.nameInputField.inputTextField.text, note: self.noteInputField.inputTextField.text, phoneNumber: self.mobileInputField.inputTextField.text, bookingDate: self.dateSelected, timePickup: self.timerSelected, storeId: self.storeBooked.salonId, productList: self.productList, staffSelected: self.staffSelected, paymentMethod: PaymentModel(type: self.getPaymentMethod(method: self.paymentSelected)), callback: { (status, error) in
+//                 self.removeOverlayLoading()
+//                if status {
+//                    let formatter = DateFormatter()
+//                    formatter.dateFormat = "hh:mm, dd MMM yyyy"
+//                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil, userInfo: ["notification": NotificationModel(name: "New Booking", icon: ImageConstant.IconBooking!, content: "You have booking success with id xxxxxx1234", type: "System", dateString: formatter.string(from: Date()), isRead: false)])
+//                    _ = self.navigationController?.popToRootViewController(animated: true)
+//                    self.showInfoMessage("Your Order has been submitted successfully.")
+//                } else {
+//                    self.showErrorMessage(error!)
+//                }
+//            })
+//        }
     }
 
     private func getPaymentMethod(method: String) -> PaymentType {

@@ -13,7 +13,7 @@
 "createAccount" = "Create Account";
 "forgotPass" = "Forgot Password?";
 "or" = "or";
-"text2" = "Connect with us";
+"text2" = "Sign in with:";
 
 /* register */
 "name" = "Full Name";
@@ -33,3 +33,5 @@
 "booking" = "Booking";
 "notification" = "Notifications";
 "setting" = "Setting";
+"price" = "USD";
+"select date error" = "You cannot book the previous dates";

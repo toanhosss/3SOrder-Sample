@@ -153,7 +153,7 @@ class BaseController: UIViewController {
         }
 
         self.navigationBarView!.backgroundColor = navigationBG
-        self.tabBarController!.tabBar.barTintColor = navigationBG
+        self.tabBarController!.tabBar.barTintColor = .white
     }
 
     /// Set tabbar Icon
@@ -161,12 +161,12 @@ class BaseController: UIViewController {
 
         for i in 0..<icons.count {
 
-            let customTabBarItem: UITabBarItem = UITabBarItem(title: nil, image: icons[i].withRenderingMode(.alwaysTemplate),
-                                                              selectedImage: icons[i].withRenderingMode(.alwaysOriginal))
+            let customTabBarItem: UITabBarItem = UITabBarItem(title: nil, image: icons[i].withRenderingMode(.alwaysOriginal),
+                                                              selectedImage: icons[i].withRenderingMode(.alwaysTemplate))
 
             self.tabBarController!.viewControllers![i].tabBarItem = customTabBarItem
             self.tabBarController!.viewControllers![i].tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: 0, bottom: -5, right: 0)
-            self.tabBarController?.tabBar.tintColor = .gray
+            self.tabBarController?.tabBar.tintColor = ColorConstant.BackgroundColor
         }
 
     }
@@ -183,11 +183,12 @@ class BaseController: UIViewController {
 
     /// Customize Background color
     func customizeBackground() {
-        let viewLayer1 = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
-        let gradienColor = UIColor.gradientColorView(colors: [ColorConstant.BackgroundColor, ColorConstant.BackgroundColor2], locations: [0.0, 0.55])
-        self.view.backgroundColor = ColorConstant.BackgroundColorAdded
-        self.view.applyGradientLayer(gradientLayer: gradienColor)
-        self.view.addSubview(viewLayer1)
+//        let viewLayer1 = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
+//        let gradienColor = UIColor.gradientColorView(colors: [ColorConstant.BackgroundColor, ColorConstant.BackgroundColor2], locations: [0.0, 0.55])
+//        self.view.backgroundColor = ColorConstant.BackgroundColorAdded
+//        self.view.applyGradientLayer(gradientLayer: gradienColor)
+//        self.view.addSubview(viewLayer1)
+//        self.view.backgroundColor = UIColor.hexStringToUIColor("#f9f9f9")
     }
 
     /// Set Delegate and NotificationCenter

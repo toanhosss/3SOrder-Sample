@@ -77,7 +77,7 @@ class ProductController: NSObject {
             let time = item["Time"] as? String
             let duration = getTimeDuration(timeString: time)
             let productId = item["Id"] as? Int
-            let productObject = SalonProductModel(productId: productId!, name: productName!, image: URLConstant.baseURL+imageProduct!, price: price!, duration: duration, categoryId: categoryId!, description: description!)
+            let productObject = SalonProductModel(productId: productId!, name: productName!, image: imageProduct!, price: price!, duration: duration, categoryId: categoryId!, description: description!)
             let staff = getStaffList(data: item["Staffs"] as? [[String:Any]])
             productObject.staffAvailable = staff != nil ? staff! : []
             result.append(productObject)

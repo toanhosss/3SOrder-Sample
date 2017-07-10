@@ -18,24 +18,13 @@ class OrderController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-    func createOrder(nameCustomer: String?, note: String?, phoneNumber: String?, bookingDate: Date?,
-                     timePickup: String?, storeId: Int, productList: [SalonProductModel], staffSelected: StaffModel, paymentMethod: PaymentModel, callback: @escaping (_ status: Bool, _ error: String?) -> Void) {
-        guard let customerName = nameCustomer,
-            let customerPhone = phoneNumber else {
-            callback(false, "Customer name or phone number cannot be empty.")
-            return
-        }
+//    func createOrder(nameCustomer: String?, note: String?, phoneNumber: String?, bookingDate: Date?,
+//                     timePickup: String?, storeId: Int, productList: [SalonProductModel], staffSelected: StaffModel,
+    func createOrder(order: OrderModel, paymentMethod: PaymentModel, callback: @escaping (_ status: Bool, _ error: String?) -> Void) {
 
-        guard let dateBooked = bookingDate,
-            let timeBooked = timePickup else {
-            callback(false, "Please picked date book.")
-            return
-        }
+        let dateBooked = order.getDatefromBookingDate()
+        let timeBooked = order.timePickup
 
-        if dateBooked <= Date() {
-            callback(false, "Date Booked invalid.")
-            return
-        }
 
         let user = UserDefaultUtils.getUser()
         let formatter = DateFormatter()
@@ -43,11 +32,11 @@ class OrderController: NSObject {
         let dateString = formatter.string(from: dateBooked)
 
         var sum:Double = 0
-        for item in productList {
+        for item in order.productList {
             sum += item.price
         }
 
-        self.provider.request(.createOrder(customerId: user!.userId, storeId: storeId, amount: sum, bookedDate: dateString, status: "New", note: note!, customerName: customerName, customerPhone: customerPhone, timer: timeBooked, productList: productList, staff: staffSelected, payment: paymentMethod)) { (result) in
+        self.provider.request(.createOrder(customerId: user!.userId, storeId: order.storeId, amount: sum, bookedDate: dateString, status: "New", note: order.note, customerName: user!.name, customerPhone: user!.phone, timer: timeBooked, productList: order.productList, staff: order.staff != nil ? order.staff!:StaffModel(staffId: -1, name: "", avatar: ""), payment: paymentMethod)) { (result) in
             switch result {
             case .success(let response):
                 do {
@@ -63,5 +52,36 @@ class OrderController: NSObject {
                 callback(false, errorString)
             }
         }
+    }
+
+    /// Get calendar from current day
+    func getSchedulerData() -> [MyCalendarObject] {
+        var listItem: [MyCalendarObject] = []
+
+        let cal = Calendar.current
+        let date = cal.startOfDay(for: Date())
+
+        for i in -3 ... 14 {
+            let dateFormat = DateFormatter()
+            let dateFormat2 = DateFormatter()
+            dateFormat.dateFormat = "E,dd"
+            dateFormat2.dateFormat = "EEEE, MMMM dd, yyyy"
+
+            let expectedDate = cal.date(byAdding: .day, value: i, to: date)!
+            let calendarItem = MyCalendarObject(date: dateFormat.string(from: expectedDate), dateFull: dateFormat2.string(from: expectedDate), dateData: expectedDate)
+            if i < 0 {
+                calendarItem.canSelected = false
+            }
+            listItem.append(calendarItem)
+        }
+
+        return listItem
+    }
+
+    /// Get FreeTime Of Staff list
+    func getFreeTimeOfStaff(date: Date) -> [String] {
+        // TODO: call API get free time data
+        return ["9:00 AM","9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+        "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"]
     }
 }

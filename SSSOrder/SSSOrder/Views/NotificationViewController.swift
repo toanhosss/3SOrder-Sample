@@ -30,9 +30,14 @@ class NotificationViewController: BaseController {
     /// Get Data
     func getData() {
         notificationController.getListNotification { (listNotification, error) in
-            self.listData = listNotification
-            self.createLabelHeaderTitle()
-            self.createListCollectionProduct()
+
+            if error != nil {
+                self.showErrorMessage(error!)
+            } else {
+                self.listData = listNotification
+                self.createLabelHeaderTitle()
+                self.createListCollectionProduct()
+            }
         }
     }
 
@@ -72,7 +77,7 @@ class NotificationViewController: BaseController {
     }
 
     override func setEventAndDelegate() {
-         NotificationCenter.default.addObserver(self, selector: #selector(notificationUpdateNumber(notification:)), name: ObserveNameConstant.NewNotificationUpdate, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationUpdateNumber(notification:)), name: ObserveNameConstant.NewNotificationUpdate, object: nil)
     }
 
     // MARK: Handler Notification
@@ -128,17 +133,17 @@ extension NotificationViewController: UIScrollViewDelegate {
 
 extension NotificationViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-//        let index = tableView.tag
-//        if index == 0 {
-//            return listData.filter({ $0.type == "Promotion"}).count
-//        } else {
-//            return listData.filter({ $0.type == "System"}).count
-//        }
+        //        let index = tableView.tag
+        //        if index == 0 {
+        //            return listData.filter({ $0.type == "Promotion"}).count
+        //        } else {
+        //            return listData.filter({ $0.type == "System"}).count
+        //        }
         return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 1
+        //        return 1
         let index = tableView.tag
         if index == 0 {
             return listData.filter({ $0.type == "Promotion"}).count
@@ -165,12 +170,12 @@ extension NotificationViewController: UITableViewDataSource {
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
-//        cell.backgroundColor = .clear
+        //        cell.backgroundColor = .clear
         cell.data = item
         cell.backgroundColor = item.isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
-//        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
-//        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
-//        cell.icon.tintColor = .black
+        //        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
+        //        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
+        //        cell.icon.tintColor = .black
         cell.name.text = item.name
         cell.time.text = item.dateString
         return cell

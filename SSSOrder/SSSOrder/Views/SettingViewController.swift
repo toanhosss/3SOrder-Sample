@@ -11,6 +11,7 @@ import UIKit
 class SettingViewController: BaseController {
 
     let settingItemList = [
+        SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI?.withRenderingMode(.alwaysTemplate)),
         SettingItem(name: "Sign out", icon: ImageConstant.IconSignout?.withRenderingMode(.alwaysTemplate))
     ]
 
@@ -21,8 +22,8 @@ class SettingViewController: BaseController {
         super.setLayoutPage()
         titlePage = NSLocalizedString("setting", comment: "")
         overlayColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
-        createConfigureAPIURL()
-//        loadTableListSetting()
+//        createConfigureAPIURL()
+        loadTableListSetting()
     }
 
     func createConfigureAPIURL() {
@@ -48,7 +49,7 @@ class SettingViewController: BaseController {
     }
 
     func loadTableListSetting() {
-        tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.2, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.7))
+        tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.7))
         tableView.dataSource = self
         tableView.delegate = self
         self.view.addSubview(tableView)
@@ -74,7 +75,7 @@ class SettingViewController: BaseController {
 
     override func dismissKeyboard() {
         self.view.endEditing(true)
-        self.inputAPIField.endEditing(true)
+//        self.inputAPIField.endEditing(true)
     }
 }
 
@@ -110,7 +111,32 @@ extension SettingViewController: UITableViewDelegate {
         if settingItem.name == "Sign out" {
             UserDefaultUtils.removeUser()
             self.performSegue(withIdentifier: SegueNameConstant.SettingToLogin, sender: nil)
+        } else {
+            createInputAlertView()
         }
+    }
+
+    private func createInputAlertView() {
+        //1. Create the alert controller.
+        let alert = UIAlertController(title: "Some Title", message: "Enter a api url", preferredStyle: .alert)
+
+        //2. Add the text field. You can configure it however you need.
+        alert.addTextField { (textField) in
+            textField.text = "http://"
+        }
+
+        // 3. Grab the value from the text field, and print it when the user clicks OK.
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            print("Text field: \(textField?.text)")
+            URLConstant.baseURL = (textField?.text!)!
+        }))
+
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+        }))
+
+        // 4. Present the alert.
+        self.present(alert, animated: true, completion: nil)
     }
 }
 

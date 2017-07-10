@@ -80,7 +80,7 @@ open class Popover: UIView {
     self.accessibilityViewIsModal = true
   }
 
-  fileprivate func setOptions(_ options: [PopoverOption]?){
+  fileprivate func setOptions(_ options: [PopoverOption]?) {
     if let options = options {
       for option in options {
         switch option {

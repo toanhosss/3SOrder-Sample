@@ -148,7 +148,7 @@
             </objects>
             <point key="canvasLocation" x="2785" y="879"/>
         </scene>
-        <!--Item4-->
+        <!--Setting View Controller-->
         <scene sceneID="2sd-t5-S5P">
             <objects>
                 <viewController id="LVU-O0-3uC" customClass="SettingViewController" customModule="SSSOrder" customModuleProvider="target" sceneMemberID="viewController">
@@ -161,7 +161,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item4" id="W6W-tt-TJs"/>
+                    <tabBarItem key="tabBarItem" title="" id="W6W-tt-TJs">
+                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="setting_to_login" id="YFj-Dw-9cp"/>
                     </connections>
@@ -170,7 +172,7 @@
             </objects>
             <point key="canvasLocation" x="3119" y="85"/>
         </scene>
-        <!--Item3-->
+        <!--View Controller-->
         <scene sceneID="xXN-iQ-aUr">
             <objects>
                 <viewController id="BC2-7h-biC" sceneMemberID="viewController">
@@ -183,7 +185,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item3" id="T0V-XB-OLu"/>
+                    <tabBarItem key="tabBarItem" title="" id="T0V-XB-OLu">
+                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
+                    </tabBarItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TRH-Sk-nDQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -275,7 +279,7 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="76W-5g-OfU" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="ld2-bj-eF5">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="ld2-bj-eF5" customClass="MyTabbar" customModule="SSSOrder" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -296,7 +300,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="dG7-uf-3g0" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" id="7EB-4h-38J">
-                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -321,7 +325,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="H5S-6n-AaM" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" enabled="NO" title="" id="gOl-Gv-qD5">
-                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-5"/>
+                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -341,6 +345,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Bxm-UG-sQC"/>
-        <segue reference="KXt-ea-jcU"/>
+        <segue reference="YFj-Dw-9cp"/>
     </inferredMetricsTieBreakers>
 </document>

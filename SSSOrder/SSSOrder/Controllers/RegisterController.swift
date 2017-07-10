@@ -18,9 +18,9 @@ class RegisterController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-    func register(name: String?, phone: String?, password: String?, confirmPassword: String?, callback: @escaping (_ user: User?, _ error: String?) -> Void) {
-        guard (name != nil) && (name! != ""),
-            (phone != nil) && (phone! != ""),
+    func register(user: User, password: String?, confirmPassword: String?, callback: @escaping (_ user: User?, _ error: String?) -> Void) {
+        guard (user.name != ""),
+            (user.phone != ""),
             (password != nil) && (password! != ""),
             (confirmPassword != nil) && (confirmPassword! != "")
             else {
@@ -35,8 +35,8 @@ class RegisterController: NSObject {
             return
         }
 
-        let nameParam = phone!
-        let phoneParam = phone!
+        let nameParam = user.name
+        let phoneParam = user.phone
         let passwordParam = password!
         let token = UserDefaultUtils.getDeviceToken()
 

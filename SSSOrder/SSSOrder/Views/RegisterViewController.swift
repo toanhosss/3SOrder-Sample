@@ -10,24 +10,23 @@ import UIKit
 
 class RegisterViewController: BaseController {
 
-    var nameInput: CustomInputField!
-    var mobileNumberInput: CustomInputField!
-    var passwordInput: CustomInputField!
-    var confirmPassInput: CustomInputField!
+    var nameInput: HoshiTextField!
+    var mobileNumberInput: HoshiTextField!
+    var passwordInput: HoshiTextField!
+    var confirmPassInput: HoshiTextField!
     var avatarView: UIView!
 
     var registerController = RegisterController.SharedInstance
 
     override func setLayoutPage() {
-        // set background
-        self.view.backgroundColor = ColorConstant.BackgroundColor
+        customizeBackground()
 
         // init title
         let title = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.06221,
                                           width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.06))
         title.text = NSLocalizedString("createAccount", comment: "")
         title.textAlignment = .center
-        title.textColor = .white
+        title.textColor = ColorConstant.BackgroundColor
         title.font = UIFont.boldSystemFont(ofSize: 20)
 
         self.view.addSubview(title)
@@ -36,22 +35,6 @@ class RegisterViewController: BaseController {
     }
 
     func initFormRegister() {
-        // init aded avatar button
-        let avatarSize = ScreenSize.ScreenWidth*0.310667
-        avatarView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.344, y: ScreenSize.ScreenHeight*0.13943, width: avatarSize, height: avatarSize))
-
-        let imageIcon = UIImageView(frame: CGRect(x: avatarSize*0.295965, y: avatarSize*0.34335, width: avatarSize*0.40807, height: avatarSize*0.3133))
-        imageIcon.tag = 100
-        imageIcon.image = ImageConstant.IconCamera
-        imageIcon.contentMode = .scaleAspectFit
-
-        let buttonImage = UIButton(frame: CGRect(x: 0, y: 0, width: avatarSize, height: avatarSize))
-        buttonImage.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-        buttonImage.layer.cornerRadius = avatarSize*0.5
-
-        avatarView.addSubview(imageIcon)
-        avatarView.addSubview(buttonImage)
-        self.view.addSubview(avatarView)
 
         initInputForm()
 
@@ -59,79 +42,61 @@ class RegisterViewController: BaseController {
     }
 
     func initInputForm() {
+        let left = ScreenSize.ScreenWidth*0.075
+        let width = ScreenSize.ScreenWidth*0.85
+        let height = ScreenSize.ScreenHeight*0.0749625
 
-        let placeHolderTextAttribute = [NSForegroundColorAttributeName: UIColor.white]
-        nameInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.3650675,
-                                                   width: ScreenSize.ScreenWidth*0.872,
-                                                   height: ScreenSize.ScreenHeight*0.084707),
-                                     icon: ImageConstant.IconUser!)
+        nameInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.3027586, width: width, height: height))
 
-        nameInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("name", comment: ""),
-                                                                            attributes: placeHolderTextAttribute)
-        nameInput.inputTextField.textColor = .white
-        nameInput.inputTextField.tag = 1
-        nameInput.layer.cornerRadius = nameInput.frame.height*0.5
-        nameInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-        nameInput.inputTextField.delegate = self
+        nameInput.borderActiveColor = ColorConstant.BackgroundColor
+        nameInput.tintColor = ColorConstant.BackgroundColor
+        nameInput.borderInactiveColor = .gray
 
-        mobileNumberInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                       y: ScreenSize.ScreenHeight*0.462518,
-                                                       width: ScreenSize.ScreenWidth*0.872,
-                                                       height: ScreenSize.ScreenHeight*0.084707),
-                                         icon: ImageConstant.IconPhone!)
+        nameInput.placeholder = NSLocalizedString("name", comment: "user label")
+        nameInput.placeholderFontScale = 0.9
+        nameInput.placeholderColor = .gray
 
-        mobileNumberInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"),
-                                                                                attributes: placeHolderTextAttribute)
-        mobileNumberInput.inputTextField.textColor = .white
-        mobileNumberInput.inputTextField.tag = 2
-        mobileNumberInput.inputTextField.keyboardType = .phonePad
-        mobileNumberInput.layer.cornerRadius = mobileNumberInput.frame.height*0.5
-        mobileNumberInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-        mobileNumberInput.inputTextField.delegate = self
+        mobileNumberInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.412518, width: width, height: height))
 
-        passwordInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                           y: ScreenSize.ScreenHeight*0.55997,
-                                                           width: ScreenSize.ScreenWidth*0.872,
-                                                           height: ScreenSize.ScreenHeight*0.084707),
-                                             icon: ImageConstant.IconPassword!)
+        mobileNumberInput.borderActiveColor = ColorConstant.BackgroundColor
+        mobileNumberInput.borderInactiveColor = .gray
+        mobileNumberInput.tintColor = ColorConstant.BackgroundColor
 
-        passwordInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"),
-                                                                                    attributes: placeHolderTextAttribute)
-        passwordInput.inputTextField.textColor = .white
-        passwordInput.inputTextField.tag = 3
-        passwordInput.isSecureText = true
-        passwordInput.layer.cornerRadius = passwordInput.frame.height*0.5
-        passwordInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-        passwordInput.inputTextField.delegate = self
+        mobileNumberInput.placeholder = NSLocalizedString("phone", comment: "user label")
+        mobileNumberInput.placeholderFontScale = 0.9
+        mobileNumberInput.placeholderColor = .gray
 
-        confirmPassInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                          y: ScreenSize.ScreenHeight*0.6574212,
-                                                       width: ScreenSize.ScreenWidth*0.872,
-                                                       height: ScreenSize.ScreenHeight*0.084707),
-                                         icon: ImageConstant.IconPassword!)
+        passwordInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.50997,
+                                                           width: width, height: height))
 
-        confirmPassInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("confirmPass", comment: "user label"),
-                                                                                attributes: placeHolderTextAttribute)
-        confirmPassInput.inputTextField.textColor = .white
-        confirmPassInput.inputTextField.tag = 4
-        confirmPassInput.isSecureText = true
-        confirmPassInput.layer.cornerRadius = confirmPassInput.frame.height*0.5
-        confirmPassInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-        confirmPassInput.inputTextField.delegate = self
+        passwordInput.borderActiveColor = ColorConstant.BackgroundColor
+        passwordInput.borderInactiveColor = .gray
+        passwordInput.isSecureTextEntry = true
+        passwordInput.tintColor = ColorConstant.BackgroundColor
+
+        passwordInput.placeholder = NSLocalizedString("pass", comment: "user label")
+        passwordInput.placeholderFontScale = 0.9
+        passwordInput.placeholderColor = .gray
+
+        confirmPassInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.6074212, width: width, height: height))
+
+        confirmPassInput.borderActiveColor = ColorConstant.BackgroundColor
+        confirmPassInput.borderInactiveColor = .gray
+        confirmPassInput.isSecureTextEntry = true
+        confirmPassInput.tintColor = ColorConstant.BackgroundColor
+
+        confirmPassInput.placeholder = NSLocalizedString("confirmPass", comment: "user label")
+        confirmPassInput.placeholderFontScale = 0.9
+        confirmPassInput.placeholderColor = .gray
 
         // set Register Button
-        let registerButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                 y: ScreenSize.ScreenHeight*0.754872,
-                                                 width: ScreenSize.ScreenWidth*0.872,
-                                                 height: ScreenSize.ScreenHeight*0.084707))
+        let registerButton = UIButton(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.724872, width: width, height: height))
         registerButton.backgroundColor = ColorConstant.ButtonPrimary
         registerButton.setTitle(NSLocalizedString("register", comment: "label button"), for: .normal)
-        registerButton.layer.cornerRadius = registerButton.frame.height*0.5
-
+        registerButton.layer.cornerRadius = registerButton.frame.height*0.1
         registerButton.addTarget(self, action: #selector(registerButtonTouched(sender:)), for: .touchUpInside)
 
         self.view.addSubview(registerButton)
-
         self.view.addSubview(nameInput)
         self.view.addSubview(mobileNumberInput)
         self.view.addSubview(passwordInput)
@@ -143,7 +108,7 @@ class RegisterViewController: BaseController {
                                               width: ScreenSize.ScreenWidth*0.872,
                                               height: ScreenSize.ScreenHeight*0.03748))
         backLabel.text = NSLocalizedString("labelBack", comment: "")
-        backLabel.textColor = .white
+        backLabel.textColor = ColorConstant.BackgroundColor
         backLabel.textAlignment = .center
         let tapBackRecognizer = UITapGestureRecognizer(target: self, action: #selector(backToSignInTouched(sender:)))
         backLabel.isUserInteractionEnabled = true
@@ -157,7 +122,8 @@ class RegisterViewController: BaseController {
         print("REGISTER")
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.registerController.register(name: self.nameInput.inputTextField.text, phone: self.mobileNumberInput.inputTextField.text, password: self.passwordInput.inputTextField.text, confirmPassword: self.confirmPassInput.inputTextField.text, callback: { (user, error) in
+            let user = User(userId: -1, name: self.nameInput.text!, phone: self.mobileNumberInput.text!)
+            self.registerController.register(user: user, password: self.passwordInput.text, confirmPassword: self.confirmPassInput.text, callback: { (user, error) in
                 self.removeOverlayLoading()
                 if user != nil {
                     self.performSegue(withIdentifier: SegueNameConstant.RegisterToHome, sender: nil)

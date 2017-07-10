@@ -10,8 +10,8 @@ import UIKit
 
 class LoginViewController: BaseController {
 
-    var userInput: CustomInputField!
-    var passwordInput: CustomInputField!
+    var userInput: HoshiTextField!
+    var passwordInput: HoshiTextField!
 
     let loginController = LoginController.SharedInstance
 
@@ -21,7 +21,8 @@ class LoginViewController: BaseController {
 
         // set logo
         let logo = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.318666, y: ScreenSize.ScreenHeight*0.071964, width: ScreenSize.ScreenWidth*0.362667, height: ScreenSize.ScreenHeight*0.209895))
-        logo.image = ImageConstant.AppLogo
+        logo.image = ImageConstant.AppLogo?.withRenderingMode(.alwaysTemplate)
+        logo.tintColor = ColorConstant.BackgroundColor
         self.view.addSubview(logo)
 
         // set view element
@@ -36,77 +37,66 @@ class LoginViewController: BaseController {
         // set create account label
         initCreateAndForGotLabel()
 
-        // draw line view
-        let lineLeft = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                            y: ScreenSize.ScreenHeight*0.757871,
-                                            width: ScreenSize.ScreenWidth*0.33733,
-                                            height: 0.5))
-        lineLeft.backgroundColor = .white
-
-        let orLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.48,
-                                            y: ScreenSize.ScreenHeight*0.746071,
-                                            width: ScreenSize.ScreenWidth*0.08,
-                                            height: ScreenSize.ScreenHeight*0.03748))
-        orLabel.text = NSLocalizedString("or", comment: "")
-        orLabel.textColor = .white
-        orLabel.adjustsFontSizeToFitWidth = true
-
-        let lineRight = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.597333, y: ScreenSize.ScreenHeight*0.757871,
-                                            width: ScreenSize.ScreenWidth*0.33733,
-                                            height: 0.5))
-        lineRight.backgroundColor = .white
-
+//        // draw line view
+//        let lineLeft = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
+//                                            y: ScreenSize.ScreenHeight*0.757871,
+//                                            width: ScreenSize.ScreenWidth*0.33733,
+//                                            height: 0.5))
+//        lineLeft.backgroundColor = .white
+//
+//        let orLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.48,
+//                                            y: ScreenSize.ScreenHeight*0.746071,
+//                                            width: ScreenSize.ScreenWidth*0.08,
+//                                            height: ScreenSize.ScreenHeight*0.03748))
+//        orLabel.text = NSLocalizedString("or", comment: "")
+//        orLabel.textColor = .white
+//        orLabel.adjustsFontSizeToFitWidth = true
+//
+//        let lineRight = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.597333, y: ScreenSize.ScreenHeight*0.757871,
+//                                            width: ScreenSize.ScreenWidth*0.33733,
+//                                            height: 0.5))
+//        lineRight.backgroundColor = .white
+//
         // set other login
         addOtherLogin()
-
-        self.view.addSubview(lineLeft)
-        self.view.addSubview(orLabel)
-        self.view.addSubview(lineRight)
+//
+//        self.view.addSubview(lineLeft)
+//        self.view.addSubview(orLabel)
+//        self.view.addSubview(lineRight)
     }
 
     func addLoginElement() {
-        userInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                   y: ScreenSize.ScreenHeight*0.3650675,
-                                                   width: ScreenSize.ScreenWidth*0.872,
-                                                   height: ScreenSize.ScreenHeight*0.084707),
-                                     icon: ImageConstant.IconUser!)
+        let height = ScreenSize.ScreenHeight*0.089625
+        let width = ScreenSize.ScreenWidth*0.85
+        let left = ScreenSize.ScreenWidth*0.075
 
-        userInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("phone", comment: "user label"),
-                                                                            attributes: [NSForegroundColorAttributeName: UIColor.white])
-        userInput.inputTextField.textColor = .white
-        userInput.inputTextField.tag = 1
+        userInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.3527586, width: width, height: height))
+        userInput.borderActiveColor = ColorConstant.BackgroundColor
+        userInput.keyboardType = .numberPad
+        userInput.tintColor = ColorConstant.BackgroundColor
+        userInput.borderInactiveColor = .gray
 
-        userInput.layer.cornerRadius = userInput.frame.height*0.5
-        userInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-
-        userInput.inputTextField.delegate = self
+        userInput.placeholder = NSLocalizedString("phone", comment: "user label")
+        userInput.placeholderFontScale = 0.9
+        userInput.placeholderColor = .gray
 
         // set Login Password Input
-        passwordInput = CustomInputField(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                       y: ScreenSize.ScreenHeight*0.462518,
-                                                       width: ScreenSize.ScreenWidth*0.872,
-                                                       height: ScreenSize.ScreenHeight*0.084707),
-                                         icon: ImageConstant.IconPassword!)
+        passwordInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.45020989, width: width, height: height))
 
-        passwordInput.inputTextField.attributedPlaceholder = NSAttributedString(string: NSLocalizedString("pass", comment: "user label"),
-                                                                                attributes: [NSForegroundColorAttributeName: UIColor.white])
-        passwordInput.inputTextField.textColor = .white
-        passwordInput.inputTextField.tag = 2
-        passwordInput.isSecureText = true
+        passwordInput.borderActiveColor = ColorConstant.BackgroundColor
+        passwordInput.borderInactiveColor = .gray
+        passwordInput.isSecureTextEntry = true
+        passwordInput.tintColor = ColorConstant.BackgroundColor
 
-        passwordInput.layer.cornerRadius = passwordInput.frame.height*0.5
-        passwordInput.backgroundColor = UIColor.hexStringToUIColor("#FFFFFF", alpha: 0.1)
-
-        passwordInput.inputTextField.delegate = self
+        passwordInput.placeholder = NSLocalizedString("pass", comment: "user label")
+        passwordInput.placeholderFontScale = 0.9
+        passwordInput.placeholderColor = .gray
 
         // set Login Button
-        let loginButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                 y: ScreenSize.ScreenHeight*0.55997,
-                                                 width: ScreenSize.ScreenWidth*0.872,
-                                                 height: ScreenSize.ScreenHeight*0.084707))
+        let loginButton = UIButton(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.6076611, width: width, height: height))
         loginButton.backgroundColor = ColorConstant.ButtonPrimary
         loginButton.setTitle(NSLocalizedString("signin", comment: "label button"), for: .normal)
-        loginButton.layer.cornerRadius = loginButton.frame.height*0.5
+        loginButton.layer.cornerRadius = loginButton.frame.height*0.1
 
         loginButton.addTarget(self, action: #selector(signInButtonTouched(sender:)), for: .touchUpInside)
 
@@ -115,31 +105,34 @@ class LoginViewController: BaseController {
         self.view.addSubview(userInput)
         self.view.addSubview(passwordInput)
     }
+
     func initCreateAndForGotLabel() {
-        let createAccountLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                                       y: ScreenSize.ScreenHeight*0.68215892,
-                                                       width: ScreenSize.ScreenWidth*0.30533,
-                                                       height: ScreenSize.ScreenHeight*0.03748))
-        createAccountLabel.textColor = .white
-        createAccountLabel.textAlignment = .left
-        createAccountLabel.text = NSLocalizedString("createAccount", comment: "")
-        createAccountLabel.adjustsFontSizeToFitWidth = true
-        let tapCreateAccountRecognizer = UITapGestureRecognizer(target: self, action: #selector(createAccountTouched(sender:)))
-        createAccountLabel.isUserInteractionEnabled = true
-        createAccountLabel.addGestureRecognizer(tapCreateAccountRecognizer)
+
+        let topLabel = ScreenSize.ScreenHeight*0.91754122
+        let height = ScreenSize.ScreenHeight*0.026985
 
         // set forgot password label
-        let forgotPasswordLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.60267,
-                                                        y: ScreenSize.ScreenHeight*0.68215892,
-                                                        width: ScreenSize.ScreenWidth*0.328,
-                                                        height: ScreenSize.ScreenHeight*0.03748))
-        forgotPasswordLabel.textColor = .white
+        let forgotPasswordLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.075, y: topLabel,
+                                                        width: ScreenSize.ScreenWidth*0.425, height: height))
+        forgotPasswordLabel.textColor = ColorConstant.ButtonPrimary
         forgotPasswordLabel.textAlignment = .left
         forgotPasswordLabel.text = NSLocalizedString("forgotPass", comment: "")
         forgotPasswordLabel.adjustsFontSizeToFitWidth = true
         let tapForgotRecognizer = UITapGestureRecognizer(target: self, action: #selector(forgotPasswordTouched(sender:)))
         forgotPasswordLabel.isUserInteractionEnabled = true
         forgotPasswordLabel.addGestureRecognizer(tapForgotRecognizer)
+
+        let createAccountLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.5,
+                                                       y: topLabel,
+                                                       width: ScreenSize.ScreenWidth*0.425,
+                                                       height: height))
+        createAccountLabel.textColor = ColorConstant.ButtonPrimary
+        createAccountLabel.textAlignment = .right
+        createAccountLabel.text = NSLocalizedString("createAccount", comment: "")
+        createAccountLabel.adjustsFontSizeToFitWidth = true
+        let tapCreateAccountRecognizer = UITapGestureRecognizer(target: self, action: #selector(createAccountTouched(sender:)))
+        createAccountLabel.isUserInteractionEnabled = true
+        createAccountLabel.addGestureRecognizer(tapCreateAccountRecognizer)
 
         self.view.addSubview(createAccountLabel)
         self.view.addSubview(forgotPasswordLabel)
@@ -148,33 +141,36 @@ class LoginViewController: BaseController {
 
     func addOtherLogin() {
 
-        let text2 = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
-                                          y: ScreenSize.ScreenHeight*0.823088,
-                                          width: ScreenSize.ScreenWidth*0.321333,
-                                          height: ScreenSize.ScreenHeight*0.03748))
-        text2.text = NSLocalizedString("text2", comment: "")
-        text2.textColor = .white
-        text2.adjustsFontSizeToFitWidth = true
+//        let text2 = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.064,
+//                                          y: ScreenSize.ScreenHeight*0.823088,
+//                                          width: ScreenSize.ScreenWidth*0.321333,
+//                                          height: ScreenSize.ScreenHeight*0.03748))
+//        text2.text = NSLocalizedString("text2", comment: "")
+//        text2.textColor = .white
+//        text2.adjustsFontSizeToFitWidth = true
 
-        let buttonTop = ScreenSize.ScreenHeight*0.805847
-        let buttonSize = ScreenSize.ScreenWidth*0.124
+        let buttonHeight = ScreenSize.ScreenHeight*0.089625
+        let buttonWidth = ScreenSize.ScreenWidth*0.4
+        let top = ScreenSize.ScreenHeight*0.72511244
 
-        let fbButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.43733, y: buttonTop, width: buttonSize, height: buttonSize))
-        fbButton.layer.cornerRadius = buttonSize*0.5
-        fbButton.setImage(ImageConstant.IconRoundFB, for: .normal)
+        let fbButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.075, y: top, width: buttonWidth, height: buttonHeight))
+        fbButton.layer.cornerRadius = buttonHeight*0.1
+        fbButton.backgroundColor = UIColor.hexStringToUIColor("#3B5998")
+        fbButton.setTitle("Facebook", for: .normal)
         fbButton.addTarget(self, action: #selector(signInFBButtonTouched(sender:)), for: .touchUpInside)
-        let twButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.61067, y: buttonTop, width: buttonSize, height: buttonSize))
-        twButton.layer.cornerRadius = buttonSize*0.5
-        twButton.setImage(ImageConstant.IconRoundTW, for: .normal)
-        twButton.addTarget(self, action: #selector(signInTWButtonTouched(sender:)), for: .touchUpInside)
-        let ggButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.784, y: buttonTop, width: buttonSize, height: buttonSize))
-        ggButton.layer.cornerRadius = buttonSize*0.5
-        ggButton.setImage(ImageConstant.IconRoundGG, for: .normal)
+//        let twButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.61067, y: buttonTop, width: buttonSize, height: buttonSize))
+//        twButton.layer.cornerRadius = buttonSize*0.5
+//        twButton.setImage(ImageConstant.IconRoundTW, for: .normal)
+//        twButton.addTarget(self, action: #selector(signInTWButtonTouched(sender:)), for: .touchUpInside)
+        let ggButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.525, y: top, width: buttonWidth, height: buttonHeight))
+        ggButton.layer.cornerRadius = buttonHeight*0.1
+        ggButton.backgroundColor = UIColor.hexStringToUIColor("#DB4437")
+        ggButton.setTitle("Google+", for: .normal)
         ggButton.addTarget(self, action: #selector(signInGGButtonTouched(sender:)), for: .touchUpInside)
 
-        self.view.addSubview(text2)
+//        self.view.addSubview(text2)
         self.view.addSubview(fbButton)
-        self.view.addSubview(twButton)
+//        self.view.addSubview(twButton)
         self.view.addSubview(ggButton)
     }
 
@@ -189,7 +185,7 @@ class LoginViewController: BaseController {
         print("SIGN IN")
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.loginController.login(phone: self.userInput.inputTextField.text, password: self.passwordInput.inputTextField.text, callback: { (user, error) in
+            self.loginController.login(phone: self.userInput.text, password: self.passwordInput.text, callback: { (user, error) in
 
                 self.removeOverlayLoading()
                 if user != nil {

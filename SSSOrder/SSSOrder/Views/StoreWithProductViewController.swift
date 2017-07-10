@@ -19,7 +19,7 @@ class StoreWithProductViewController: BaseController {
 
     var productSelected: [SalonProductModel] = []
     var categories: [(id: Int, name: String, product: [SalonProductModel])] = []
-    var staffList:[StaffModel] = []
+    var staffList: [StaffModel] = []
 
     let productController = ProductController.SharedInstance
 
@@ -201,7 +201,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         let item = categories[tableView.tag].product[indexPath.section]
         let cell = ProductTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.25)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.35)
 
         if item.image != "" {
             cell.imageProduct.kf.setImage(with: URL(string: item.image))
@@ -223,7 +223,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.25
+        return ScreenSize.ScreenHeight*0.35
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -14,6 +14,7 @@ class CartViewController: BaseController {
     var listDataBooking: [SalonProductModel]!
     var staffList: [StaffModel]!
     var tableView: UITableView!
+    var totalLabel: UILabel!
     var continueButton: UIButton!
 
     override func setLayoutPage() {
@@ -22,11 +23,12 @@ class CartViewController: BaseController {
         self.backTitle = NSLocalizedString("back", comment: "")
 
         createProductTableView()
+        createTotalPrice()
         createButtonContinue()
     }
 
     func createProductTableView() {
-        tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.7))
+        tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.6))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
@@ -35,12 +37,32 @@ class CartViewController: BaseController {
         self.view.addSubview(tableView)
     }
 
+    func createTotalPrice() {
+        var totalPrice: Double = 0
+        for item in self.listDataBooking {
+            totalPrice += item.price
+        }
+        let totalView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.72, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
+        totalView.layer.borderColor = ColorConstant.ButtonPrimary.cgColor
+        totalView.layer.borderWidth = 1
+        totalView.layer.cornerRadius = totalView.frame.height*0.1
+
+        let totalName = UILabel(frame: CGRect(x: totalView.frame.width*0.1, y: 0, width: totalView.frame.width*0.2, height: totalView.frame.height))
+        totalName.text = "Total: "
+        totalLabel = UILabel(frame: CGRect(x: totalView.frame.width*0.45, y: 0, width: totalView.frame.width*0.5, height: totalView.frame.height))
+        totalLabel.text = "\(totalPrice) " + NSLocalizedString("price", comment: "price value name")
+        totalLabel.textAlignment = .right
+        totalView.addSubview(totalLabel)
+        totalView.addSubview(totalName)
+        self.view.addSubview(totalView)
+    }
+
     func createButtonContinue() {
         continueButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.82, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
         continueButton.setTitle(NSLocalizedString("continue", comment: ""), for: .normal)
         continueButton.titleLabel?.textColor = .white
         continueButton.backgroundColor = ColorConstant.ButtonPrimary
-        continueButton.layer.cornerRadius = continueButton.frame.height*0.5
+        continueButton.layer.cornerRadius = continueButton.frame.height*0.1
         if listDataBooking.count <= 0 {
             self.continueButton.isEnabled = false
         }
@@ -99,7 +121,7 @@ extension CartViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.itemData = item
         cell.nameProduct.text = item.name
-        cell.priceLabel.text = "$\(item.price)"
+        cell.priceLabel.text = "$\(item.price) " + NSLocalizedString("price", comment: "price value name")
         cell.durationLabel.text = "Duration: \(item.duration!)"
 
         return cell

@@ -41,18 +41,24 @@ enum ImageConstant {
     static let IconCart = UIImage(named: "cart")
     static let IconExpand = UIImage(named: "expand")
     static let IconSignout = UIImage(named: "signout")
+    static let IconSwitchAPI = UIImage(named: "switch")
+    static let IconShare = UIImage(named: "share")
+    static let IconStarEmpty = UIImage(named: "star_empty")
+    static let IconStarFull = UIImage(named: "star_full")
+    static let IconClose = UIImage(named: "close")
 
 }
 
 /// Constant Color
 enum ColorConstant {
-    static let BackgroundColor = UIColor.hexStringToUIColor("#775ADA")
+    static let BackgroundColor = UIColor.hexStringToUIColor("#00bcd4")
     static let BackgroundColor2 = UIColor.hexStringToUIColor("#775ADA", alpha: 0.56)
     static let BackgroundColorAdded = UIColor.hexStringToUIColor("#28C7FA", alpha: 0.85)
     static let BackgroundPage = UIColor.hexStringToUIColor("#70F5F9")
 
-    static let ButtonPrimary = UIColor.hexStringToUIColor("#FF3366")
-    static let NavigationBG = UIColor.hexStringToUIColor("#FF3366")
+    static let ButtonPrimary = UIColor.hexStringToUIColor("#00bcd4")
+    static let ButtonSecond = UIColor.hexStringToUIColor("#3B5998")
+    static let NavigationBG = UIColor.hexStringToUIColor("#00bcd4")
 
     static let ShadowColor = UIColor.hexStringToUIColor("#000000", alpha: 0.2)
 }

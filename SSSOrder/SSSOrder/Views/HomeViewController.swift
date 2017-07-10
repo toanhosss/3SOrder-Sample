@@ -23,7 +23,7 @@ class HomeViewController: BaseController {
 
     var itemSelected = 0
     var dataSource: [SalonStoreModel] = []
-    var dataMarker:[GMSMarker] = []
+    var dataMarker: [GMSMarker] = []
 
     let homeController = StoreController.SharedInstance
 
@@ -80,8 +80,10 @@ class HomeViewController: BaseController {
                     if salon != nil {
                         print("Got data")
                         self.dataSource = salon!
-                        self.createListDataSource()
-                        self.insertMarkerToMap()
+                        if self.dataSource.count > 0 {
+                            self.createListDataSource()
+                            self.insertMarkerToMap()
+                        }
                     } else {
                         print("Got Error")
                         self.showErrorMessage(error!)
@@ -102,7 +104,7 @@ class HomeViewController: BaseController {
 
         let locationCamera = GMSCameraPosition.camera(withLatitude: currentLocation.latitude, longitude: currentLocation.longitude, zoom: 12)
         mapView = GMSMapView.map(withFrame: CGRect(x: ScreenSize.ScreenWidth*0.025,
-                                                   y: ScreenSize.ScreenHeight*0.1,
+                                                   y: ScreenSize.ScreenHeight*0.11,
                                                    width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.5), camera: locationCamera)
 
         mapView.layer.cornerRadius = 10
@@ -315,7 +317,6 @@ extension HomeViewController: UIScrollViewDelegate {
                 self.dataMarker[i].map = self.mapView
             }
         }
-
 
         startX = scrollView.contentOffset.x
         startY = scrollView.contentOffset.y
