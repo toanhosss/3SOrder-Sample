@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FSCalendar
 
 class StaffViewController: BaseController {
 
@@ -32,6 +33,24 @@ class StaffViewController: BaseController {
 
     var tableView: UITableView!
     var scheduleCollectionView: UICollectionView!
+    var calendar: FSCalendar!
+    var dateSelected: String?
+
+    fileprivate lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    fileprivate lazy var scopeGesture: UIPanGestureRecognizer = {
+        [unowned self] in
+        let panGesture = UIPanGestureRecognizer(target: self.calendar, action: #selector(self.calendar.handleScopeGesture(_:)))
+        panGesture.delegate = self
+        panGesture.minimumNumberOfTouches = 1
+        panGesture.maximumNumberOfTouches = 2
+        return panGesture
+        }()
+
     var selectedFullDate: UILabel!
     var noteTextView: UITextView?
 
@@ -44,7 +63,8 @@ class StaffViewController: BaseController {
         self.titlePage = NSLocalizedString("staff", comment: "")
         self.backTitle = NSLocalizedString("back", comment: "")
 
-        createCalendarRow()
+//        createCalendarRow()
+        createFSCalendarRow()
         createStaffTableView()
     }
 
@@ -80,14 +100,39 @@ class StaffViewController: BaseController {
         self.view.addSubview(selectedFullDate)
     }
 
+    func createFSCalendarRow() {
+        schedulerData = orderController.getSchedulerData() // Get schedule from current date
+        calendar = FSCalendar(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.5))
+        calendar.allowsMultipleSelection = false
+        self.view.addGestureRecognizer(self.scopeGesture)
+        calendar.scope = .week
+        calendar.appearance.titleFont = UIFont.systemFont(ofSize: 18)
+        calendar.appearance.titleDefaultColor = UIColor.hexStringToUIColor("#808080")
+        calendar.appearance.weekdayTextColor = UIColor.hexStringToUIColor("#808080")
+        calendar.appearance.headerTitleColor = UIColor.hexStringToUIColor("#808080")
+        calendar.appearance.headerMinimumDissolvedAlpha = 0
+        calendar.select(Date())
+        calendar.today = nil
+        calendar.dataSource = self
+        calendar.delegate = self
+
+        let time = orderController.getFreeTimeOfStaff(date: Date())
+
+        for staff in self.staffList {
+            staff.getFreeTime(time: time)
+        }
+        self.view.addSubview(calendar)
+    }
+
     func createStaffTableView() {
-        tableView = UITableView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.3, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.62))
+        tableView = UITableView(frame: CGRect(x: 0, y: self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.12, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.62))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .singleLine
         tableView.allowsSelection = false
         tableView.rowHeight = ScreenSize.ScreenHeight*0.05
+        self.tableView.panGestureRecognizer.require(toFail: self.scopeGesture)
         self.view.addSubview(tableView)
     }
 
@@ -167,6 +212,60 @@ extension StaffViewController: UICollectionViewDataSource {
 
         return cell!
     }
+}
+
+extension StaffViewController: FSCalendarDataSource {
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        self.calendar.frame.size.height = bounds.height
+        self.tableView.frame.origin.y = self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.12
+        self.view.layoutIfNeeded()
+    }
+}
+
+extension StaffViewController: FSCalendarDelegate {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+
+        if monthPosition == .next || monthPosition == .previous {
+            calendar.setCurrentPage(date, animated: true)
+        }
+        let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
+
+        guard let itemSelected = calendar.selectedDate else {
+            return
+        }
+
+        if itemSelected < Date() {
+            self.showErrorMessage(NSLocalizedString("select date error", comment: ""))
+            calendar.select(Date())
+        } else {
+            print(selectedDates)
+
+            let time = orderController.getFreeTimeOfStaff(date: itemSelected)
+
+            for staff in self.staffList {
+                staff.getFreeTime(time: time)
+            }
+        }
+
+    }
+}
+
+extension StaffViewController: UIGestureRecognizerDelegate {
+
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        let shouldBegin = self.tableView.contentOffset.y <= -self.tableView.contentInset.top
+        if shouldBegin {
+            let velocity = self.scopeGesture.velocity(in: self.view)
+            switch self.calendar.scope {
+            case .month:
+                return velocity.y < 0
+            case .week:
+                return velocity.y > 0
+            }
+        }
+        return shouldBegin
+    }
+
 }
 
 // Collection View Delegate

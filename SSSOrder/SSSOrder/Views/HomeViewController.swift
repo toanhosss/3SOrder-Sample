@@ -203,32 +203,42 @@ class HomeViewController: BaseController {
         cardView.layer.cornerRadius = 3
         shadowView.addSubview(cardView)
 
-        let imageStore = UIImageView(frame: CGRect(x: 0, y: 0, width: container.frame.width*0.45, height: container.frame.height*0.768))
+        let imageStore = UIImageView(frame: CGRect(x: 0.06*container.frame.width, y: container.frame.height*0.1571428, width: container.frame.height*0.43, height: container.frame.height*0.43))
         imageStore.kf.setImage(with: URL(string: item.image))
+        imageStore.layer.cornerRadius = imageStore.frame.height*0.1
 
-        let infodata = UITextView(frame: CGRect(x: container.frame.width*0.48, y: 0,
-                                                width: container.frame.width*0.5, height: container.frame.height))
-        infodata.isEditable = false
-        infodata.isScrollEnabled = false
-        infodata.text = item.address + "\n\n" + item.descriptionText
-        infodata.font = UIFont.systemFont(ofSize: 14)
+        let nameLabel = UITextView(frame: CGRect(x: container.frame.width*0.34, y: container.frame.height*0.15,
+                                                width: container.frame.width*0.48, height: container.frame.height*0.14))
+        nameLabel.isEditable = false
+        nameLabel.isScrollEnabled = false
+        nameLabel.text = item.name
+        nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        nameLabel.backgroundColor = .clear
+
+        let locationImage = UIImageView(frame: CGRect(x: container.frame.width*0.06, y: container.frame.height*0.65,
+                                                width: imageStore.frame.origin.y, height: container.frame.height*0.15))
+        locationImage.image = ImageConstant.IconLocation?.withRenderingMode(.alwaysTemplate)
+        locationImage.tintColor = .black
+        locationImage.contentMode = .scaleAspectFit
+
+        let infodata = UILabel(frame: CGRect(x: container.frame.width*0.15, y: container.frame.height*0.62, width: container.frame.width*0.6, height: container.frame.height*0.2))
+        infodata.numberOfLines = 2
+        infodata.text = item.address
+        infodata.font = UIFont.systemFont(ofSize: 12)
         infodata.backgroundColor = .clear
 
-        let distanceIcon = UIImageView(frame: CGRect(x: container.frame.width*0.05, y: container.frame.height*0.8,
-                                                width: container.frame.height*0.1, height: container.frame.height*0.1))
-        distanceIcon.image = ImageConstant.IconNear?.withRenderingMode(.alwaysTemplate)
-        distanceIcon.tintColor = ColorConstant.ButtonPrimary
-        distanceIcon.contentMode = .scaleAspectFit
-
-        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.12, y: container.frame.height*0.8, width: container.frame.width*0.32, height: container.frame.height*0.1))
+        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.78, y: container.frame.height*0.65, width: container.frame.width*0.16, height: container.frame.height*0.14))
         distanceData.text = "\(item.distance!) km"
         distanceData.adjustsFontSizeToFitWidth = true
-        distanceData.textColor = ColorConstant.ButtonPrimary
+        distanceData.layer.cornerRadius = container.frame.height*0.01
+        distanceData.backgroundColor = UIColor.hexStringToUIColor("#A8B4C4")
+        distanceData.textColor = .white
 
         cardView.addSubview(imageStore)
+        cardView.addSubview(nameLabel)
+        cardView.addSubview(locationImage)
         cardView.addSubview(infodata)
         cardView.addSubview(distanceData)
-        cardView.addSubview(distanceIcon)
         container.addSubview(shadowView)
     }
 
