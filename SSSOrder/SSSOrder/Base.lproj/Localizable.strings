@@ -33,5 +33,5 @@
 "booking" = "Booking";
 "notification" = "Notifications";
 "setting" = "Setting";
-"price" = "USD";
+"price" = "$";
 "select date error" = "You cannot book the previous dates";

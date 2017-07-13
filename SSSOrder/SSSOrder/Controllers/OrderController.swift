@@ -22,7 +22,11 @@ class OrderController: NSObject {
 //                     timePickup: String?, storeId: Int, productList: [SalonProductModel], staffSelected: StaffModel,
     func createOrder(order: OrderModel, paymentMethod: PaymentModel, callback: @escaping (_ status: Bool, _ error: String?) -> Void) {
 
-        let dateBooked = order.getDatefromBookingDate()
+        guard let dateBooked = order.getDatefromBookingDate() else {
+            callback(false, "FormatDate Invalid")
+            return
+        }
+
         let timeBooked = order.timePickup
 
 
@@ -79,9 +83,83 @@ class OrderController: NSObject {
     }
 
     /// Get FreeTime Of Staff list
-    func getFreeTimeOfStaff(date: Date) -> [String] {
+    func getFreeTimeOfStaff(date: Date, storeId: Int, listSerVice: [SalonProductModel], callback: @escaping (_ staffList: [StaffModel], _ error: String?) -> Void) {
         // TODO: call API get free time data
-        return ["9:00 AM","9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-        "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"]
+        var listServiceId = [Int]()
+        for service in listSerVice {
+            listServiceId.append(service.productId)
+        }
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+
+        self.provider.request(.getStaffSchedule(date: dateFormat.string(from: date), storeId: storeId, productListId: listServiceId)) { (result) in
+            switch result {
+            case .success(let response):
+                do {
+                    let json = try response.mapJSON() as? [[String: Any]]
+                    let data = json![0]
+                    guard let date = data["date"] as? String,
+                        let staffData = data["staffs"] as? [[String:Any]] else {
+                            callback([], "Cannot map Data Staff")
+                            return
+                    }
+                    print("Date was booked: \(date)")
+
+                    let staffList = self.migrateDataStaff(data: staffData)
+                    if staffList != nil {
+                        callback(staffList!, nil)
+                    } else {
+                        callback([], "Cannot map Data Staff")
+                    }
+
+                } catch {
+                    let error = "Cannot map data"
+                    callback([], error)
+                }
+            case .failure(let error):
+                let errorString = error.errorDescription
+                callback([], errorString)
+            }
+        }
+//        return ["9:00 AM","9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+//        "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"]
+    }
+
+    private func migrateDataStaff(data:[[String:Any]]) -> [StaffModel]? {
+        var staffList: [StaffModel] = []
+        for itemData in data {
+            guard let staffID = itemData["staffID"] as? Int,
+                let profileImage = itemData["profileImageUrl"] as? String,
+                let name = itemData["name"] as? String,
+                let rating = itemData["rating"] as? Float,
+                let amTime = itemData["availableTimeMorning"] as? [String],
+                let pmTime = itemData["availableTimeAfternoon"] as? [String]
+            else {
+                return nil
+            }
+            let staff = StaffModel(staffId: staffID, name: name, avatar: profileImage)
+            staff.ratingStar = rating
+            staff.amTime = convertFormatTimeDate(listTime: amTime)
+            staff.pmTime = convertFormatTimeDate(listTime: pmTime)
+            staffList.append(staff)
+        }
+
+        return staffList
+    }
+
+    func convertFormatTimeDate(listTime: [String]) -> [String] {
+        var newTime = [String]()
+        for item in listTime {
+            let dateformat = DateFormatter()
+            dateformat.dateFormat = "HH:mm:ss"
+            let time = dateformat.date(from: item)
+            let outputFormater = DateFormatter()
+            outputFormater.dateFormat = "hh:mm a"
+
+            newTime.append(outputFormater.string(from: time!))
+
+        }
+
+        return newTime
     }
 }

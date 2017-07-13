@@ -55,20 +55,22 @@ class ProductTableViewCell: UITableViewCell {
         backgroundCardView.addSubview(cardView)
 
         imageProduct = UIImageView(frame: CGRect(x: 0, y: 0, width: width*0.45, height: heightTopView))
-        imageProduct.backgroundColor = .green
+        imageProduct.backgroundColor = UIColor.hexStringToUIColor("#8f8f8f")
         imageProduct.contentMode = .scaleAspectFill
         imageProduct.clipsToBounds = true
 
-        nameLabel = UILabel(frame: CGRect(x: width*0.48, y: 0, width: width*0.475, height: heightTopView*0.2))
+        nameLabel = UILabel(frame: CGRect(x: width*0.48, y: 0, width: width*0.475, height: heightTopView*0.35))
         nameLabel.textAlignment = .left
+        nameLabel.numberOfLines = 2
         nameLabel.font = UIFont.boldSystemFont(ofSize: 14)
 
-        descriptionView = UITextView(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.22, width: nameLabel.frame.width, height: heightTopView*0.4))
+        descriptionView = UITextView(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.37, width: nameLabel.frame.width, height: heightTopView*0.3))
         descriptionView.backgroundColor = .clear
         descriptionView.isEditable = false
 
         priceLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.62, width: nameLabel.frame.width*0.75, height: heightTopView*0.2))
         priceLabel.font = UIFont.systemFont(ofSize: 12)
+        priceLabel.textAlignment = .right
         priceLabel.textColor = ColorConstant.ButtonPrimary
 
         durationLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.82, width: nameLabel.frame.width*0.75, height: heightTopView*0.2))

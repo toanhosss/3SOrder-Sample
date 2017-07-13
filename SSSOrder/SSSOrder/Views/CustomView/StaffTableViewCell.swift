@@ -88,9 +88,8 @@ class StaffTableViewCell: UITableViewCell {
         rating.fullImageTintColor = ColorConstant.BackgroundColor
         rating.maxRating = 5
         rating.minRating = 1
-        rating.editable = true
+        rating.editable = false
         rating.floatRatings = true
-        rating.rating = 0
 
         headerView.addSubview(avatar)
         headerView.addSubview(name)

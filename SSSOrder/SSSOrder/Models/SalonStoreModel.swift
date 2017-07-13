@@ -18,12 +18,13 @@ class SalonStoreModel: NSObject {
     var latitude: Float!
     var longitude: Float!
 
-    init(salonId: Int, name: String, address: String, distance: Float, image: String, latitude: Float, longitude: Float) {
+    init(salonId: Int, name: String, address: String, description: String, distance: Float, image: String, latitude: Float, longitude: Float) {
 
         super.init()
         self.salonId = salonId
         self.name = name
         self.address = address
+        self.descriptionText = description
         self.distance = distance
         self.image = image
         self.latitude = latitude

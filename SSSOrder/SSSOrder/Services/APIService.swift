@@ -15,6 +15,7 @@ enum APIService {
     case getStoreByGPS(lat: String, long: String)
     case getCategoriesByStore(storeId: Int)
     case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status:  String, note: String, customerName: String, customerPhone: String, timer: String, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
+    case getStaffSchedule(date: String, storeId: Int, productListId: [Int])
 }
 
 // MARK: - TargetType Protocol Implementation
@@ -34,12 +35,14 @@ extension APIService: TargetType {
             return "/api/Category/GetCategories"
         case .createOrder:
             return "/api/Order/CreateOrder"
+        case .getStaffSchedule:
+            return "/api/staff/GetStaffSchedule"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .login, .register, .createOrder:
+        case .login, .register, .createOrder, .getStaffSchedule:
             return .post
         case .getStoreByGPS, .getCategoriesByStore:
             return .get
@@ -63,6 +66,11 @@ extension APIService: TargetType {
             return params
         case .getCategoriesByStore(let storeId):
             return ["storeId": storeId]
+        case .getStaffSchedule(let date, let storeId, let productList):
+
+            return ["Date": date as Any,
+                    "Store": storeId as Any,
+                    "Services": productList as Any]
         case .createOrder(let customerId, let storeId, let amount, let bookedDate, let status, let note, let customerName, let customerPhone, let timer, let productList, let staff, let payment):
             // Get Product data
             var orderDetail: [[String:Any]] = []
@@ -74,35 +82,36 @@ extension APIService: TargetType {
                 orderItem["total"] = 0
                 orderDetail.append(orderItem)
             }
-            var params = ["customerId": customerId,
-                          "storeId": storeId,
-                          "totalAmount": amount,
-                          "bookingDate": bookedDate,
-                          "status": status,
-                          "note": note,
-                          "paymentMethod": payment.type.rawValue,
-                          "customerNameOrder": customerName,
-                          "phoneNumberOrder": customerPhone,
-                          "pickupTime": timer,
-                          "orderDetails": orderDetail ] as [String : Any]
 
-                return ["customerId": customerId,
-                "storeId": storeId,
-                "totalAmount": amount,
-                "bookingDate": bookedDate,
-                "status": status,
-                "note": note,
-                "paymentMethod": payment.type.rawValue,
-                "customerNameOrder": customerName,
-                "phoneNumberOrder": customerPhone,
-                "pickupTime": timer,
-                "orderDetails": orderDetail ]
+            let params = ["customerId": customerId,
+             "storeId": storeId,
+             "totalAmount": amount,
+             "bookingDate": bookedDate,
+             "status": status,
+             "note": note,
+             "paymentMethod": payment.type.rawValue,
+             "customerNameOrder": customerName,
+             "phoneNumberOrder": customerPhone,
+             "pickupTime": timer,
+             "orderDetails": orderDetail ] as [String : Any]
+
+            return ["customerId": customerId,
+                    "storeId": storeId,
+                    "totalAmount": amount,
+                    "bookingDate": bookedDate,
+                    "status": status,
+                    "note": note,
+                    "paymentMethod": payment.type.rawValue,
+                    "customerNameOrder": customerName,
+                    "phoneNumberOrder": customerPhone,
+                    "pickupTime": timer,
+                    "orderDetails": orderDetail ]
         }
     }
 
     var parameterEncoding: ParameterEncoding {
         switch self {
-        case .login, .register, .createOrder:
+        case .login, .register, .createOrder, .getStaffSchedule:
             return JSONEncoding.default
         case .getStoreByGPS, .getCategoriesByStore:
             return URLEncoding.default
@@ -119,12 +128,14 @@ extension APIService: TargetType {
             return "{\"message\":\"success\",\"data\":[{\"Name\":\"Nails and Spa\",\"CreatedDate\":\"2017-06-28T11:24:11.953\",\"UpdatedDate\": \"2017-06-28T11:24:11.953\",\"IsActive\": true,\"Description\": \"Nails and Spa\",\"Products\": [{\"CategoryId\": 16,\"Name\": \"Eyebrow Wax Clean Up\",\"Image\": \"null\",\"Description\": \"\",\"Price\": 100,\"Time\": \"10:0\",\"IsActive\": true,\"TimeHour\": 0,\"TimeMinute\": 0,\"Staffs\": [{\"Name\": \"Staff 01\",\"Surname\": \"ss\",\"UserName\": \"Staff\",\"FullName\":\"Staff 01 ss\",\"EmailAddress\": \"Staff01@gmail.com\",\"IsEmailConfirmed\": false,\"LastLoginTime\": null,\"IsActive\": true,\"CreationTime\":\"2017-06-28T16:20:17.537\",\"Id\": 10012}],\"Id\": 1024}],\"Id\": 16}],\"status\": 200}".data(using: .utf8)!
         case .createOrder:
             return "".data(using: .utf8)!
+        case .getStaffSchedule:
+            return "".data(using: .utf8)!
         }
     }
 
     var task: Task {
         switch self {
-
+            
         default:
             return .request
         }

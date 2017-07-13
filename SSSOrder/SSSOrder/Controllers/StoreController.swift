@@ -48,7 +48,9 @@ class StoreController: NSObject {
                             else {
                                 break
                             }
-                        let salon = SalonStoreModel(salonId: id, name: name, address: address, distance: distance, image: image, latitude: latP, longitude: longP)
+                        let description = item["Description"] as? String
+
+                        let salon = SalonStoreModel(salonId: id, name: name, address: address, description: description != nil ? description!:"", distance: distance, image: image, latitude: latP, longitude: longP)
                         list.append(salon)
                     }
                     callback(list, nil)

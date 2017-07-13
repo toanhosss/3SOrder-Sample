@@ -118,7 +118,7 @@ class BaseController: UIViewController {
             return
         }
 
-        let backLabel = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.0375, width: ScreenSize.ScreenWidth*0.075, height: ScreenSize.ScreenWidth*0.075))
+        let backLabel = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.025, y: ScreenSize.ScreenHeight*0.04, width: ScreenSize.ScreenWidth*0.075, height: ScreenSize.ScreenWidth*0.075))
         backLabel.image = ImageConstant.IconBack
         backLabel.contentMode = .scaleAspectFit
 
@@ -225,6 +225,7 @@ class BaseController: UIViewController {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = CGRect(x: 0, y: 0, width: overlayView.bounds.width*0.1, height: overlayView.bounds.width*0.1)
         activityIndicator.activityIndicatorViewStyle = indicatorViewStyle
+        activityIndicator.color = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
         activityIndicator.center = CGPoint(x: overlayView.bounds.width / 2, y: overlayView.bounds.height / 2)
         overlayView.addSubview(activityIndicator)
         self.view.addSubview(overlayView)

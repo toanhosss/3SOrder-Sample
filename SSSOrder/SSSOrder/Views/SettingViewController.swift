@@ -11,8 +11,8 @@ import UIKit
 class SettingViewController: BaseController {
 
     let settingItemList = [
-        [ SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI?.withRenderingMode(.alwaysTemplate), type: 1)],
-        [SettingItem(name: "Sign out", icon: ImageConstant.IconSignout?.withRenderingMode(.alwaysTemplate), type: 0)]
+        [ SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI, type: 1),
+          SettingItem(name: "Sign out", icon: ImageConstant.IconSignout, type: 0)]
     ]
 
     var tableView: UITableView!
@@ -55,6 +55,7 @@ class SettingViewController: BaseController {
         tableView.tableFooterView = UIView(frame: .zero)
         tableView.tableFooterView?.isHidden = true
         tableView.backgroundColor = .clear
+        tableView.separatorStyle = .none
         self.view.addSubview(tableView)
     }
 
@@ -94,17 +95,20 @@ extension SettingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let settingItem = self.settingItemList[indexPath.section][indexPath.row]
         let cell = SettingItemTableViewCell(style: .default, reuseIdentifier: "settingCell")
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.069)
         cell.accessoryType = .disclosureIndicator
         cell.icon.image = settingItem.icon
-        cell.icon.tintColor = ColorConstant.ButtonPrimary
         cell.name.text = settingItem.name
+
+        if indexPath.row == (self.settingItemList[indexPath.section].count - 1) {
+            cell.isLast = true
+        }
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.1
+        return ScreenSize.ScreenHeight*0.069
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

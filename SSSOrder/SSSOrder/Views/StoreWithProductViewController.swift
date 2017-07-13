@@ -62,9 +62,10 @@ class StoreWithProductViewController: BaseController {
     }
 
     func addCartIconToNavigationBar() {
-        let width = ScreenSize.ScreenWidth*0.075
-        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.89, y: ScreenSize.ScreenHeight*0.045, width: width, height: width))
+        let width = ScreenSize.ScreenWidth*0.1
+        cartButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.87, y: ScreenSize.ScreenHeight*0.0375, width: width, height: width))
         cartButton.setImage(ImageConstant.IconCart, for: .normal)
+        cartButton.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         cartButton.addTarget(self, action: #selector(cartButtonNavigationTouched(sender:)), for: .touchUpInside)
         self.navigationBarView?.addSubview(cartButton)
     }
@@ -77,7 +78,7 @@ class StoreWithProductViewController: BaseController {
         let widthLabel = number.getWidthFromText(maxSize: max, minSize: min, font: UIFont.systemFont(ofSize: 12))
         var notificationNumber: UILabel?
         if cartButton.viewWithTag(2) == nil {
-            notificationNumber = UILabel(frame: CGRect(x: cartButton.frame.width - widthLabel*0.5, y: -cartButton.frame.height*0.2, width: widthLabel, height: ScreenSize.ScreenWidth*0.04))
+            notificationNumber = UILabel(frame: CGRect(x: cartButton.frame.width - widthLabel*0.75, y: -cartButton.frame.height*0.1, width: widthLabel, height: ScreenSize.ScreenWidth*0.04))
         } else {
             notificationNumber = cartButton.viewWithTag(2) as? UILabel
         }
@@ -145,7 +146,6 @@ class StoreWithProductViewController: BaseController {
             if listPage != nil {
                 listPage?.reloadData()
             }
-
         }
 
         self.updateNumberItemInCart(number: "\(self.productSelected.count)")
@@ -204,7 +204,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.26)
 
         if item.image != "" {
-            cell.imageProduct.kf.setImage(with: URL(string: item.image))
+            cell.imageProduct.setKingfisherImage(with: URL(string: item.image), placeholder: ImageConstant.IconNoImage)
         }
         cell.salonProduct = item
         cell.backgroundColor = .clear

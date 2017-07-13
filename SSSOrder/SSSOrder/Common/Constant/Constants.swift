@@ -48,6 +48,8 @@ enum ImageConstant {
     static let IconClose = UIImage(named: "close")
     static let IconBack = UIImage(named: "back")
     static let IconLocation = UIImage(named: "location")
+    static let IconDown = UIImage(named: "down")
+    static let IconNoImage = UIImage(named: "no_image")
 
 }
 

@@ -36,9 +36,14 @@ class OrderModel: NSObject {
         self.productList = productList
     }
 
-    func getDatefromBookingDate() -> Date {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "EEEE, MMMM dd, yyyy"
-        return dateFormat.date(from: bookingDate)!
+    func getDatefromBookingDate() -> Date? {
+        let formatList = ["EEEE, MMMM dd, yyyy", "yyyy-MM-dd'T'HH:mm:ss.sssZ", "yyyy-MM-dd"]
+        var date: Date?
+        for i in 0..<formatList.count {
+            let formater = DateFormatter()
+            formater.dateFormat = formatList[i]
+            date = formater.date(from: bookingDate)
+        }
+        return date
     }
 }

@@ -38,20 +38,25 @@ class CartViewController: BaseController {
     }
 
     func createTotalPrice() {
-        var totalPrice: Double = 0
-        for item in self.listDataBooking {
-            totalPrice += item.price
-        }
+
         let totalView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.064, y: ScreenSize.ScreenHeight*0.72, width: ScreenSize.ScreenWidth*0.872, height: ScreenSize.ScreenHeight*0.084707))
 
         let totalName = UILabel(frame: CGRect(x: totalView.frame.width*0.1, y: 0, width: totalView.frame.width*0.2, height: totalView.frame.height))
         totalName.text = "Total: "
         totalLabel = UILabel(frame: CGRect(x: totalView.frame.width*0.45, y: 0, width: totalView.frame.width*0.5, height: totalView.frame.height))
-        totalLabel.text = "\(totalPrice) " + NSLocalizedString("price", comment: "price value name")
+        totalLabel.text = NSLocalizedString("price", comment: "price value name") + getCurrentTotalPriceOfCart()
         totalLabel.textAlignment = .right
         totalView.addSubview(totalLabel)
         totalView.addSubview(totalName)
         self.view.addSubview(totalView)
+    }
+
+    func getCurrentTotalPriceOfCart() -> String {
+        var totalPrice: Double = 0
+        for item in self.listDataBooking {
+            totalPrice += item.price
+        }
+        return "\(totalPrice)"
     }
 
     func createButtonContinue() {
@@ -118,7 +123,7 @@ extension CartViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.itemData = item
         cell.nameProduct.text = item.name
-        cell.priceLabel.text = "$\(Int(item.price)) " + NSLocalizedString("price", comment: "price value name")
+        cell.priceLabel.text = NSLocalizedString("price", comment: "price value name") + "\(Int(item.price))"
         cell.durationLabel.text = "Duration: \(item.duration!)"
 
         return cell
@@ -149,6 +154,8 @@ extension CartViewController: CartItemDelegate {
             listDataBooking.remove(at: index)
             self.tableView.reloadData()
         }
+
+        totalLabel.text = NSLocalizedString("price", comment: "price value name") + getCurrentTotalPriceOfCart()
 
         if listDataBooking.count <= 0 {
             self.continueButton.isEnabled = false

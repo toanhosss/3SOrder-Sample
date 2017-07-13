@@ -14,16 +14,6 @@ class StaffViewController: BaseController {
     var productList: [SalonProductModel]!
     var storeBooked: SalonStoreModel!
     var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
-//    var staffList: [StaffModel] = [
-//        StaffModel(name: "Any Staff", avatar: ""),
-//        StaffModel(name: "Staff A", avatar: ""),
-//        StaffModel(name: "Staff B", avatar: ""),
-//        StaffModel(name: "Staff C", avatar: ""),
-//        StaffModel(name: "Staff D", avatar: ""),
-//        StaffModel(name: "Staff E", avatar: ""),
-//        StaffModel(name: "Staff F", avatar: ""),
-//        StaffModel(name: "Staff G", avatar: "")
-//    ]
 
     var schedulerData: [MyCalendarObject] = []
     var dateSelectedIndex: Int = 3 // current date always at index 3
@@ -35,6 +25,8 @@ class StaffViewController: BaseController {
     var scheduleCollectionView: UICollectionView!
     var calendar: FSCalendar!
     var dateSelected: String?
+    var titleCalendar: UILabel!
+    var dropDownButton: UIImageView!
 
     fileprivate lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -90,38 +82,81 @@ class StaffViewController: BaseController {
         selectedFullDate.layer.borderWidth = 0.5
         selectedFullDate.text = schedulerData[self.dateSelectedIndex].dateFull
 
-        let time = orderController.getFreeTimeOfStaff(date: self.schedulerData[self.dateSelectedIndex].dateData)
-
-        for staff in self.staffList {
-            staff.getFreeTime(time: time)
-        }
+        updateStaffList(date: self.schedulerData[self.dateSelectedIndex].dateData)
 
         self.view.addSubview(scheduleCollectionView)
         self.view.addSubview(selectedFullDate)
     }
 
     func createFSCalendarRow() {
-        schedulerData = orderController.getSchedulerData() // Get schedule from current date
         calendar = FSCalendar(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.5))
         calendar.allowsMultipleSelection = false
         self.view.addGestureRecognizer(self.scopeGesture)
         calendar.scope = .week
         calendar.appearance.titleFont = UIFont.systemFont(ofSize: 18)
+        calendar.backgroundColor = .white
         calendar.appearance.titleDefaultColor = UIColor.hexStringToUIColor("#808080")
         calendar.appearance.weekdayTextColor = UIColor.hexStringToUIColor("#808080")
         calendar.appearance.headerTitleColor = UIColor.hexStringToUIColor("#808080")
+        calendar.appearance.selectionColor = ColorConstant.ButtonPrimary
+        calendar.appearance.headerDateFormat = "MMM yyyy"
         calendar.appearance.headerMinimumDissolvedAlpha = 0
+        calendar.appearance.todayColor = .clear
+        calendar.appearance.titleTodayColor = ColorConstant.BackgroundColor
         calendar.select(Date())
-        calendar.today = nil
         calendar.dataSource = self
         calendar.delegate = self
 
-        let time = orderController.getFreeTimeOfStaff(date: Date())
+        let formater = DateFormatter()
+        formater.dateFormat = "EEE"
+        let weekdayName = formater.string(from: Date())
 
-        for staff in self.staffList {
-            staff.getFreeTime(time: time)
+        switch weekdayName {
+        case "Mon":
+            calendar.calendarWeekdayView.weekdayLabels[0].textColor = ColorConstant.BackgroundColor
+        case "Tue":
+            calendar.calendarWeekdayView.weekdayLabels[1].textColor = ColorConstant.BackgroundColor
+        case "Wed":
+            calendar.calendarWeekdayView.weekdayLabels[2].textColor = ColorConstant.BackgroundColor
+        case "Thu":
+            calendar.calendarWeekdayView.weekdayLabels[3].textColor = ColorConstant.BackgroundColor
+        case "Fri":
+            calendar.calendarWeekdayView.weekdayLabels[4].textColor = ColorConstant.BackgroundColor
+        case "Sat":
+            calendar.calendarWeekdayView.weekdayLabels[4].textColor = ColorConstant.BackgroundColor
+        default:
+            calendar.calendarWeekdayView.weekdayLabels[0].textColor = ColorConstant.BackgroundColor
         }
+
+        self.dateSelected = self.dateFormatter.string(from: calendar.selectedDate!)
+        updateStaffList(date: calendar.selectedDate!)
         self.view.addSubview(calendar)
+
+        // Add toogle button to header calendar
+        addHeaderCalendar()
+    }
+
+    func addHeaderCalendar() {
+        let headerView = UIView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.0625))
+        headerView.backgroundColor = .white
+        titleLabel = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.4, y: 0, width: ScreenSize.ScreenWidth*0.2, height: ScreenSize.ScreenHeight*0.0625))
+        titleLabel!.textColor = UIColor.hexStringToUIColor("#808080")
+        titleLabel!.font = calendar.appearance.headerTitleFont
+        titleLabel!.text = getTitleDateFormat(date: calendar.currentPage)
+
+        dropDownButton = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.6, y: ScreenSize.ScreenHeight*0.0234375, width: ScreenSize.ScreenHeight*0.02604375, height: ScreenSize.ScreenHeight*0.015625))
+        dropDownButton.image = ImageConstant.IconDown?.withRenderingMode(.alwaysTemplate)
+        dropDownButton.tintColor = ColorConstant.BackgroundColor
+        dropDownButton.contentMode = .scaleAspectFit
+        let button = UIButton(frame: CGRect(x: dropDownButton.frame.origin.x, y: 0, width: ScreenSize.ScreenHeight*0.0625, height: ScreenSize.ScreenHeight*0.0625))
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(switchScopeCalendar(sender:)), for: .touchUpInside)
+
+        headerView.addSubview(titleLabel!)
+        headerView.addSubview(dropDownButton)
+        headerView.addSubview(button)
+
+        self.view.addSubview(headerView)
     }
 
     func createStaffTableView() {
@@ -136,7 +171,42 @@ class StaffViewController: BaseController {
         self.view.addSubview(tableView)
     }
 
+    func updateStaffList(date: Date) {
+
+        self.showOverlayLoading()
+        DispatchQueue.main.async {
+            self.orderController.getFreeTimeOfStaff(date: date, storeId: self.storeBooked.salonId, listSerVice: self.productList, callback: { (staffList, error) in
+                self.removeOverlayLoading()
+                if error != nil {
+                    self.showErrorMessage(error!)
+                } else {
+                    self.staffList = staffList
+                    if self.tableView != nil {
+                        self.tableView.reloadData()
+                    }
+                }
+            })
+        }
+    }
+
+    func getTitleDateFormat(date: Date) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "MMM yyyy"
+        return dateFormat.string(from: date)
+    }
+
     // MARK: handler Button touched
+    @objc func switchScopeCalendar(sender: UIButton) {
+
+        if self.calendar.scope == .month {
+            AnimationUtil.animationRotateView(view: dropDownButton, to: 0)
+            self.calendar.setScope(.week, animated: true)
+        } else {
+            AnimationUtil.animationRotateView(view: dropDownButton, to: CGFloat.pi)
+            self.calendar.setScope(.month, animated: true)
+        }
+    }
+
     @objc func closePopupTouched(sender: UIButton) {
         confirmPopup!.removeFromSuperview()
     }
@@ -147,9 +217,10 @@ class StaffViewController: BaseController {
         self.showOverlayLoading()
         DispatchQueue.main.async {
             let user = UserDefaultUtils.getUser()
+            let dateBooked = self.dateSelected != nil ? self.dateSelected!:self.schedulerData[self.dateSelectedIndex].dateFull
             let order = OrderModel(orderId: -1, storeId: self.storeBooked.salonId, customerId: user!.userId,
                                    status: "New", note: self.noteTextView!.text!,
-                                   bookingDate: self.schedulerData[self.dateSelectedIndex].dateFull, isCheckedIn: false,
+                                   bookingDate: dateBooked, isCheckedIn: false,
                                    isCheckedOut: false, timePickup: self.timeSelected, productList: self.productList)
             order.staff = self.staffSelected
             self.orderController.createOrder(order: order, paymentMethod: PaymentModel(type: PaymentType.cash), callback: { (status, error) in
@@ -223,30 +294,37 @@ extension StaffViewController: FSCalendarDataSource {
 }
 
 extension StaffViewController: FSCalendarDelegate {
+
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        let itemSelected = self.dateFormatter.string(from: date)
+        let currentDate = self.dateFormatter.string(from: Date())
+        if DateUtil.calicuateDaysBetweenTwoDates(start: self.dateFormatter.date(from: currentDate)!, end: self.dateFormatter.date(from: itemSelected)!) < 0 {
+            self.showErrorMessage(NSLocalizedString("select date error", comment: ""))
+            return false
+        }
+
+        return true
+    }
+
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
 
         if monthPosition == .next || monthPosition == .previous {
             calendar.setCurrentPage(date, animated: true)
         }
-        let selectedDates = calendar.selectedDates.map({self.dateFormatter.string(from: $0)})
 
         guard let itemSelected = calendar.selectedDate else {
             return
         }
 
-        if itemSelected < Date() {
-            self.showErrorMessage(NSLocalizedString("select date error", comment: ""))
-            calendar.select(Date())
-        } else {
-            print(selectedDates)
+        self.dateSelected = self.dateFormatter.string(from: itemSelected)
+        updateStaffList(date: itemSelected)
+        self.tableView.reloadData()
 
-            let time = orderController.getFreeTimeOfStaff(date: itemSelected)
+    }
 
-            for staff in self.staffList {
-                staff.getFreeTime(time: time)
-            }
-        }
-
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+         print("\(self.dateFormatter.string(from: calendar.currentPage))")
+        titleLabel!.text = getTitleDateFormat(date: calendar.currentPage)
     }
 }
 
@@ -258,8 +336,10 @@ extension StaffViewController: UIGestureRecognizerDelegate {
             let velocity = self.scopeGesture.velocity(in: self.view)
             switch self.calendar.scope {
             case .month:
+                AnimationUtil.animationRotateView(view: dropDownButton, to: 0) // Animation to week
                 return velocity.y < 0
             case .week:
+                AnimationUtil.animationRotateView(view: dropDownButton, to: CGFloat.pi) // Animation to month
                 return velocity.y > 0
             }
         }
@@ -279,11 +359,9 @@ extension StaffViewController: UICollectionViewDelegate {
         self.dateSelectedIndex = indexPath.row
         selectedFullDate.text = schedulerData[self.dateSelectedIndex].dateFull
         // Todo: Call API to update staff data
-        let time = orderController.getFreeTimeOfStaff(date: item.dateData)
-        for staff in self.staffList {
-            staff.getFreeTime(time: time)
-        }
-        collectionView.reloadData()
+        updateStaffList(date: item.dateData)
+        self.tableView.reloadData()
+
     }
 }
 
@@ -300,7 +378,7 @@ extension StaffViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = staffList[indexPath.row]
+        let item = staffList[indexPath.section]
 //        let cell = UITableViewCell(style: .default, reuseIdentifier: "StaffCell")
 //        cell.textLabel!.text = item.name
 
@@ -310,7 +388,7 @@ extension StaffViewController: UITableViewDataSource {
         cell.staff = item
         cell.contentView.layer.cornerRadius = 10
         cell.layer.cornerRadius = 10
-        cell.avatar.kf.setImage(with: URL(string: item.avatar))
+        cell.avatar.setKingfisherImage(with: URL(string: item.avatar), placeholder: ImageConstant.IconNoImage)
         cell.name.text = item.name
         cell.rating.rating = item.ratingStar
         cell.delegate = self
@@ -336,9 +414,25 @@ extension StaffViewController: UITableViewDataSource {
 
 extension StaffViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        staffSelected = staffList[indexPath.row]
+        staffSelected = staffList[indexPath.section]
 //        print("Item selected \(indexPath.row)")
 //        self.performSegue(withIdentifier: SegueNameConstant.StaffToSubmit, sender: nil)
+    }
+}
+
+extension StaffViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Add a note..."
+            textView.textColor = UIColor.lightGray
+        }
     }
 }
 
@@ -352,7 +446,7 @@ extension StaffViewController: StaffItemDelegate {
 
     func createPopupView() {
         confirmPopup = UIView(frame: CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight))
-        confirmPopup!.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.8)
+        confirmPopup!.backgroundColor = UIColor.hexStringToUIColor("#000000", alpha: 0.5)
 
         let height = ScreenSize.ScreenHeight*0.1
         let width = ScreenSize.ScreenWidth
@@ -361,46 +455,68 @@ extension StaffViewController: StaffItemDelegate {
 
         let popupView = UIView(frame: CGRect(x: 0.1*width, y: ScreenSize.ScreenHeight*0.25, width: 0.8*width, height: popupHeight))
         popupView.backgroundColor = UIColor.white
-        popupView.layer.cornerRadius = height*0.1
+        popupView.layer.cornerRadius = height*0.12
         popupView.clipsToBounds = true
 
         // init title popup
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: 0.8*width, height: height))
 
-        let popupLabel = UILabel(frame: CGRect(x: 0.05*titleView.frame.size.width, y: 0, width: 0.8*titleView.frame.size.width, height: height))
-        popupLabel.textColor = UIColor.white
+        let popupLabel = UILabel(frame: CGRect(x: 0.05*titleView.frame.size.width, y: 0, width: 0.9*titleView.frame.size.width, height: height))
+        popupLabel.textColor = .black
+        popupLabel.text = "Confirm Booking"
+        popupLabel.font = UIFont.boldSystemFont(ofSize: 18)
         popupLabel.textAlignment = .center
         titleView.addSubview(popupLabel)
 
-        let closeIcon = UIImageView(frame: CGRect(x: width*0.65, y: height*0.25, width: titleView.frame.size.width*0.1, height: height*0.5))
-        closeIcon.image = ImageConstant.IconClose?.withRenderingMode(.alwaysTemplate)
-        closeIcon.tintColor = UIColor.white
-        closeIcon.contentMode = .scaleAspectFit
-        titleView.backgroundColor = ColorConstant.BackgroundColor
-        titleView.addSubview(closeIcon)
-
-        let closeButton = UIButton(frame: CGRect(x: width*0.6, y: 0, width: titleView.frame.size.width*0.15, height: height))
-        closeButton.addTarget(self, action: #selector(closePopupTouched(sender:)), for: .touchUpInside)
-        titleView.addSubview(closeButton)
+//        let closeIcon = UIImageView(frame: CGRect(x: width*0.675, y: height*0.125, width: titleView.frame.size.width*0.1, height: height*0.25))
+//        closeIcon.image = ImageConstant.IconClose?.withRenderingMode(.alwaysTemplate)
+//        closeIcon.tintColor = UIColor.white
+//        closeIcon.contentMode = .scaleAspectFit
+//        titleView.backgroundColor = ColorConstant.BackgroundColor
+//        titleView.addSubview(closeIcon)
+//        let closeButton = UIButton(frame: CGRect(x: width*0.6, y: 0, width: titleView.frame.size.width*0.15, height: height))
+//        closeButton.addTarget(self, action: #selector(closePopupTouched(sender:)), for: .touchUpInside)
+//        titleView.addSubview(closeButton)
 
         popupView.addSubview(titleView)
 
         // init content
-        let noteLabel = UILabel(frame: CGRect(x: width*0.05, y: height*1.1, width: width*0.7, height: height*0.5))
-        noteLabel.text = NSLocalizedString("note", comment: "")
-        noteTextView = UITextView(frame: CGRect(x: width*0.05, y: height*1.65, width: width*0.7, height: height*2.3))
+        let dateBooking = UILabel(frame: CGRect(x: width*0.05, y: height*0.8, width: width*0.7, height: height*0.5))
+        dateBooking.text = "Booked on"
+        dateBooking.textAlignment = .center
+        dateBooking.font = UIFont.systemFont(ofSize: 15)
+        let dateValue = UILabel(frame: CGRect(x: width*0.05, y: height*1.2, width: width*0.7, height: height*0.5))
+        dateValue.text = "\(DateUtil.convertDateToFullLongDate(with: self.dateSelected!, formatInput: self.dateFormatter.dateFormat)!) \(self.timeSelected)"
+        dateValue.font = UIFont.systemFont(ofSize: 14)
+        dateValue.textAlignment = .center
+        popupView.addSubview(dateBooking)
+        popupView.addSubview(dateValue)
+
+        noteTextView = UITextView(frame: CGRect(x: width*0.05, y: height*1.7, width: width*0.7, height: height*2))
         noteTextView!.layer.borderWidth = 1
         noteTextView!.layer.borderColor = UIColor.black.cgColor
-        popupView.addSubview(noteLabel)
+        noteTextView!.font = UIFont.systemFont(ofSize: 12)
+        noteTextView!.text = "Add a note..."
+        noteTextView!.textColor = UIColor.lightGray
+        noteTextView!.delegate = self
         popupView.addSubview(noteTextView!)
 
-        let bookingButton = UIButton(frame: CGRect(x: width*0.05, y: height*4.1, width: width*0.7, height: height*0.8))
+        let footerButtonView = UIView(frame: CGRect(x: 0, y: height*4, width: popupView.frame.width, height: height))
+        footerButtonView.backgroundColor = UIColor.lightGray
+        popupView.addSubview(footerButtonView)
+
+        let cancelButton = UIButton(frame: CGRect(x: 0, y: 1, width: width*0.4 - 0.5, height: height - 1))
+        cancelButton.setTitle("Cancel", for: .normal)
+        cancelButton.setTitleColor(ColorConstant.ButtonPrimary, for: .normal)
+        cancelButton.backgroundColor = .white
+        cancelButton.addTarget(self, action: #selector(closePopupTouched(sender:)), for: .touchUpInside)
+        footerButtonView.addSubview(cancelButton)
+
+        let bookingButton = UIButton(frame: CGRect(x: width*0.4 + 1, y: 1, width: width*0.4 - 0.5, height: height - 1))
         bookingButton.setTitle("Booking", for: .normal)
-        bookingButton.titleLabel?.textColor = .white
         bookingButton.backgroundColor = ColorConstant.ButtonPrimary
-        bookingButton.layer.cornerRadius = height*0.08
         bookingButton.addTarget(self, action: #selector(bookingButtonTouched(sender:)), for: .touchUpInside)
-        popupView.addSubview(bookingButton)
+        footerButtonView.addSubview(bookingButton)
 
         confirmPopup!.addSubview(popupView)
         self.view.addSubview(confirmPopup!)
