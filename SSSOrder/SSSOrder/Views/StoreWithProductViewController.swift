@@ -72,6 +72,14 @@ class StoreWithProductViewController: BaseController {
 
     func updateNumberItemInCart(number: String) {
 
+        if number == "0" {
+            guard let view = cartButton.viewWithTag(2) else {
+                return
+            }
+            view.removeFromSuperview()
+            return
+        }
+
         let max = CGSize(width: ScreenSize.ScreenWidth*0.1, height: ScreenSize.ScreenWidth*0.04)
         let min = CGSize(width: ScreenSize.ScreenWidth*0.04, height: ScreenSize.ScreenWidth*0.04)
 
@@ -213,12 +221,13 @@ extension StoreWithProductViewController: UITableViewDataSource {
         cell.descriptionView.text = item.descriptionText
         cell.priceLabel.text = "Prices: $\(item.price)"
         cell.durationLabel.text = "Duration: \(item.duration!)"
-        cell.addButton.isHidden = checkProductIsSelected(data: item)
+        cell.isExisted = checkProductIsSelected(data: item)
+
         return cell
     }
 
     private func checkProductIsSelected(data: SalonProductModel) -> Bool {
-        for item in self.productSelected where item.name == data.name { return true }
+        for item in self.productSelected where item.productId == data.productId { return true }
         return false
     }
 
@@ -239,5 +248,16 @@ extension StoreWithProductViewController: ProductItemDelegate {
     func addProductData(data: SalonProductModel) {
         self.productSelected.append(data)
         self.updateNumberItemInCart(number: "\(self.productSelected.count)")
+    }
+
+    func removeProductData(data: SalonProductModel) {
+        let index = self.productSelected.index { (item) -> Bool in
+            return item.productId == data.productId
+        }
+
+        if index != nil {
+            self.productSelected.remove(at: index!)
+            self.updateNumberItemInCart(number: "\(self.productSelected.count)")
+        }
     }
 }

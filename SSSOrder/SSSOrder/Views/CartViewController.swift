@@ -150,17 +150,24 @@ extension CartViewController: UITableViewDelegate {
 
 extension CartViewController: CartItemDelegate {
     func removeItem(data: SalonProductModel) {
-        if let index = listDataBooking.index(of: data) {
-            listDataBooking.remove(at: index)
-            self.tableView.reloadData()
+
+        let alertCtrl = PopupUtil.showInformationPopup("", message: NSLocalizedString("confirm remove", comment: ""), actionConfirm: {
+            if let index = self.listDataBooking.index(of: data) {
+                self.listDataBooking.remove(at: index)
+                self.tableView.reloadData()
+            }
+
+            self.totalLabel.text = NSLocalizedString("price", comment: "price value name") + self.getCurrentTotalPriceOfCart()
+
+            if self.listDataBooking.count <= 0 {
+                self.continueButton.isEnabled = false
+            }
+
+            NotificationCenter.default.post(name: ObserveNameConstant.CartNotificationUpdate, object: nil, userInfo: ["cart": self.listDataBooking])
+        }) {
+            return
         }
 
-        totalLabel.text = NSLocalizedString("price", comment: "price value name") + getCurrentTotalPriceOfCart()
-
-        if listDataBooking.count <= 0 {
-            self.continueButton.isEnabled = false
-        }
-
-        NotificationCenter.default.post(name: ObserveNameConstant.CartNotificationUpdate, object: nil, userInfo: ["cart": listDataBooking])
+        self.present(alertCtrl, animated: true, completion: nil)
     }
 }

@@ -172,10 +172,10 @@
             </objects>
             <point key="canvasLocation" x="3119" y="85"/>
         </scene>
-        <!--View Controller-->
+        <!--Booking History View Controller-->
         <scene sceneID="xXN-iQ-aUr">
             <objects>
-                <viewController id="BC2-7h-biC" sceneMemberID="viewController">
+                <viewController id="BC2-7h-biC" customClass="BookingHistoryViewController" customModule="SSSOrder" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D2J-xU-64M"/>
                         <viewControllerLayoutGuide type="bottom" id="V9i-QO-4ZL"/>

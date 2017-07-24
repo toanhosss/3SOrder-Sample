@@ -22,6 +22,12 @@ class ProductTableViewCell: UITableViewCell {
 
     var salonProduct: SalonProductModel!
 
+    var isExisted = true {
+        didSet {
+            updateIcon()
+        }
+    }
+
     weak var delegate: ProductItemDelegate?
 
     override func awakeFromNib() {
@@ -70,7 +76,7 @@ class ProductTableViewCell: UITableViewCell {
 
         priceLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.62, width: nameLabel.frame.width*0.75, height: heightTopView*0.2))
         priceLabel.font = UIFont.systemFont(ofSize: 12)
-        priceLabel.textAlignment = .right
+        priceLabel.textAlignment = .left
         priceLabel.textColor = ColorConstant.ButtonPrimary
 
         durationLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.82, width: nameLabel.frame.width*0.75, height: heightTopView*0.2))
@@ -116,13 +122,38 @@ class ProductTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    /// Update Icon when isExisted changed
+    func updateIcon() {
+        if self.isExisted {
+            addButton.setImage(ImageConstant.IconRemove?.withRenderingMode(.alwaysTemplate), for: .normal)
+            addButton.contentMode = .scaleAspectFit
+            addButton.tintColor = .red
+            addButton.removeTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)
+            addButton.addTarget(self, action: #selector(removeButtonTouched(sender:)), for: .touchUpInside)
+        } else {
+            addButton.setImage(ImageConstant.IconAdd?.withRenderingMode(.alwaysTemplate), for: .normal)
+            addButton.contentMode = .scaleAspectFit
+            addButton.tintColor = ColorConstant.ButtonPrimary
+            addButton.removeTarget(self, action: #selector(removeButtonTouched(sender:)), for: .touchUpInside)
+            addButton.addTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)
+        }
+    }
+
     @objc func addButtonTouched(sender: UIButton) {
         self.delegate?.addProductData(data: salonProduct)
-        self.addButton.isHidden = true
+//        self.addButton.isHidden = true
+        isExisted = true
+    }
+
+    @objc func removeButtonTouched(sender: UIButton) {
+        self.delegate?.removeProductData(data: salonProduct)
+        //        self.addButton.isHidden = true
+        isExisted = false
     }
 
 }
 
 protocol ProductItemDelegate: class {
     func addProductData(data: SalonProductModel)
+    func removeProductData(data: SalonProductModel)
 }

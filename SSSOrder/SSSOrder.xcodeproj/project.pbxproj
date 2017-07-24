@@ -24,6 +24,8 @@
 		1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747E32C1EFE151900325011 /* HomeViewController.swift */; };
 		17AB183B1F1687A9007AA423 /* AnimationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183A1F1687A9007AA423 /* AnimationUtil.swift */; };
 		17AB183D1F171E8A007AA423 /* ImageView+KingFisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */; };
+		17ABBEC01F1D10E700F86DAC /* BookingHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */; };
+		17ABBEC21F1D115600F86DAC /* HistoryBookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABBEC11F1D115600F86DAC /* HistoryBookingController.swift */; };
 		17B47C001F0415B50074CB42 /* OrderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47BFF1F0415B50074CB42 /* OrderController.swift */; };
 		17B47C051F04249C0074CB42 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47C041F04249C0074CB42 /* Popover.swift */; };
 		17B47C071F042C350074CB42 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B47C061F042C350074CB42 /* OrderModel.swift */; };
@@ -105,6 +107,8 @@
 		1747E32C1EFE151900325011 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		17AB183A1F1687A9007AA423 /* AnimationUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationUtil.swift; sourceTree = "<group>"; };
 		17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageView+KingFisherExtension.swift"; sourceTree = "<group>"; };
+		17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingHistoryViewController.swift; sourceTree = "<group>"; };
+		17ABBEC11F1D115600F86DAC /* HistoryBookingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryBookingController.swift; sourceTree = "<group>"; };
 		17B47BFF1F0415B50074CB42 /* OrderController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderController.swift; sourceTree = "<group>"; };
 		17B47C041F04249C0074CB42 /* Popover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
 		17B47C061F042C350074CB42 /* OrderModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
@@ -361,6 +365,7 @@
 				17B81E921F0017A10058875D /* StaffViewController.swift */,
 				17B81E941F0017BA0058875D /* SubmitOrderViewController.swift */,
 				17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */,
+				17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -374,6 +379,7 @@
 				38E439E01F03AB2800F4129E /* ProductController.swift */,
 				17B47BFF1F0415B50074CB42 /* OrderController.swift */,
 				38EA1E701F0B3E1000BB3BCC /* NotificationController.swift */,
+				17ABBEC11F1D115600F86DAC /* HistoryBookingController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -663,6 +669,7 @@
 				17B81E891EFEEBEA0058875D /* SettingViewController.swift in Sources */,
 				17F6B5231EFDA45300183139 /* RegisterViewController.swift in Sources */,
 				17B81E991F001CCA0058875D /* StaffTableViewCell.swift in Sources */,
+				17ABBEC01F1D10E700F86DAC /* BookingHistoryViewController.swift in Sources */,
 				17FE29661F1225D800997E13 /* MyTabbar.swift in Sources */,
 				172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */,
 				17208CD71F0F651900B3903A /* YoshikoTextField.swift in Sources */,
@@ -682,6 +689,7 @@
 				17B81E871EFEC2820058875D /* ProductTableViewCell.swift in Sources */,
 				17B47C051F04249C0074CB42 /* Popover.swift in Sources */,
 				17B47C071F042C350074CB42 /* OrderModel.swift in Sources */,
+				17ABBEC21F1D115600F86DAC /* HistoryBookingController.swift in Sources */,
 				17B81E9D1F00578A0058875D /* NotificationModel.swift in Sources */,
 				17B81E851EFEBB550058875D /* SalonProductModel.swift in Sources */,
 				17B81E8B1EFEECA40058875D /* CartViewController.swift in Sources */,

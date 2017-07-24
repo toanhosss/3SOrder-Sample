@@ -35,7 +35,7 @@ class NotificationViewController: BaseController {
                 self.showErrorMessage(error!)
             } else {
                 self.listData = listNotification
-                self.createLabelHeaderTitle()
+//                self.createLabelHeaderTitle()
                 self.createListCollectionProduct()
             }
         }
@@ -56,21 +56,21 @@ class NotificationViewController: BaseController {
     }
 
     func createListCollectionProduct() {
-        pageScrollCollection = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.19, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73))
+        pageScrollCollection = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73))
         pageScrollCollection.isPagingEnabled = true
         pageScrollCollection.delegate = self
         pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73)
 
-        for i in 0..<notificationController.notificationType.count {
-            let tableViewList = UITableView(frame: CGRect(x: CGFloat(i)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
+//        for i in 0..<notificationController.notificationType.count {
+            let tableViewList = UITableView(frame: CGRect(x: CGFloat(0)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
             tableViewList.backgroundColor = .clear
-            tableViewList.tag = i
+//            tableViewList.tag = i
             tableViewList.dataSource = self
             tableViewList.delegate = self
             tableViewList.separatorStyle = .none
             tableViewList.rowHeight = pageScrollCollection.frame.size.height/3
             self.pageScrollCollection.addSubview(tableViewList)
-        }
+//        }
 
         self.view.addSubview(pageScrollCollection)
     }
@@ -143,12 +143,13 @@ extension NotificationViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //        return 1
-        let index = tableView.tag
-        if index == 0 {
-            return listData.filter({ $0.type == "Promotion"}).count
-        } else {
-            return listData.filter({ $0.type == "System"}).count
-        }
+//        let index = tableView.tag
+//        if index == 0 {
+//            return listData.filter({ $0.type == "Promotion"}).count
+//        } else {
+//            return listData.filter({ $0.type == "System"}).count
+//        }
+        return listData.count
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -159,24 +160,25 @@ extension NotificationViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var data: [NotificationModel]
-        if tableView.tag == 0 {
-            data = listData.filter({ $0.type == "Promotion"})
-        } else {
-            data = listData.filter({ $0.type == "System"})
-        }
+//        if tableView.tag == 0 {
+//            data = listData.filter({ $0.type == "Promotion"})
+//        } else {
+//            data = listData.filter({ $0.type == "System"})
+//        }
+        data = listData
 
-        let item = data[indexPath.section]
+        let item = listData[indexPath.row]
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
         //        cell.backgroundColor = .clear
-        cell.data = item
-        cell.backgroundColor = item.isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
-        //        cell.layerNew.backgroundColor = item.isReadable ? UIColor.white:UIColor.green
-        //        cell.icon.image = item.icon.withRenderingMode(.alwaysTemplate)
-        //        cell.icon.tintColor = .black
-        cell.name.text = item.name
-        cell.time.text = item.dateString
+        cell.data = listData[indexPath.row]
+        cell.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
+        cell.cardView.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.green
+        cell.icon.image = listData[indexPath.row].icon.withRenderingMode(.alwaysTemplate)
+        cell.icon.tintColor = .black
+        cell.name.text = listData[indexPath.row].name
+        cell.time.text = listData[indexPath.row].dateString
         return cell
     }
 

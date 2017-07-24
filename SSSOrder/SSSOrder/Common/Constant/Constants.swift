@@ -38,6 +38,7 @@ enum ImageConstant {
     static let IconMail = UIImage(named: "mail")
     static let IconNear = UIImage(named: "near")
     static let IconAdd = UIImage(named: "add")
+    static let IconRemove = UIImage(named: "delete")
     static let IconCart = UIImage(named: "cart")
     static let IconExpand = UIImage(named: "expand")
     static let IconSignout = UIImage(named: "signout")
