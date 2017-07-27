@@ -16,6 +16,8 @@ class NotificationModel: NSObject {
     var isReadable: Bool
     var dateString: String
     var content: String
+    var isConfirmOder: Bool = false
+    var orderId: Int? = nil
 
     init(name: String, icon: UIImage, content: String, type: String, dateString: String, isRead: Bool) {
         self.name = name

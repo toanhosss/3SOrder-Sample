@@ -16,6 +16,9 @@ enum APIService {
     case getCategoriesByStore(storeId: Int)
     case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status:  String, note: String, customerName: String, customerPhone: String, timer: String, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
     case getStaffSchedule(date: String, storeId: Int, productListId: [Int])
+    case getListOrderToday(customerId: Int)
+    case checkInCheckoutOrderQRCode(orderList:[OrderModel])
+    case getNotificationList(customerId: Int)
 }
 
 // MARK: - TargetType Protocol Implementation
@@ -37,20 +40,29 @@ extension APIService: TargetType {
             return "/api/Order/CreateOrder"
         case .getStaffSchedule:
             return "/api/staff/GetStaffSchedule"
+        case .getNotificationList:
+            return "/api/Notification/GetNotificationsByCustomerId"
+        case .getListOrderToday:
+            let url = URLConstant.qrUrl.components(separatedBy: "?")
+            return url[0].replacingOccurrences(of: URLConstant.baseURL, with: "")
+        case .checkInCheckoutOrderQRCode:
+            return "/api/Order/CheckInCheckOutOrdersByQRCode"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .login, .register, .createOrder, .getStaffSchedule:
+        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode:
             return .post
-        case .getStoreByGPS, .getCategoriesByStore:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList:
             return .get
         }
     }
 
     var parameters: [String : Any]? {
+
         switch self {
+
         case .login(let phone, let password, let token):
             let user = ["Name": "", "PhoneNumber": phone, "Password": password, "DeviceToken": token]
             return ["customer": user,
@@ -105,15 +117,43 @@ extension APIService: TargetType {
                     "customerNameOrder": customerName,
                     "phoneNumberOrder": customerPhone,
                     "pickupTime": timer,
-                    "orderDetails": orderDetail ]
+                    "orderDetails": orderDetail]
+
+        case .getListOrderToday(let customerId):
+            var params: [String: Any] = [:]
+            params["customerId"] = customerId as Any
+            return params
+
+        case .checkInCheckoutOrderQRCode(let orderList):
+            var param: [String:Any] = [:]
+            var orderListParam = [[String: Any]]()
+            for order in orderList {
+                var orderParams: [String:Any] = [:]
+                orderParams["id"] = order.orderId as Any
+                orderParams["customerId"] = order.customerId as Any
+                orderParams["storeId"] = order.storeId as Any
+                orderParams["status"] = order.status as Any
+                orderParams["bookingDate"] = order.bookingDate as Any
+                orderParams["pickupTime"] = order.timePickup as Any
+                orderParams["totalAmount"] = order.totalPrice as Any
+
+                orderListParam.append(orderParams)
+            }
+
+            param["orders"] = orderListParam
+
+            return param
+
+        case .getNotificationList(let customerId):
+            return ["customerId": customerId as Any]
         }
     }
 
     var parameterEncoding: ParameterEncoding {
         switch self {
-        case .login, .register, .createOrder, .getStaffSchedule:
+        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode:
             return JSONEncoding.default
-        case .getStoreByGPS, .getCategoriesByStore:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList:
             return URLEncoding.default
         }
     }
@@ -130,14 +170,24 @@ extension APIService: TargetType {
             return "".data(using: .utf8)!
         case .getStaffSchedule:
             return "".data(using: .utf8)!
+        case .getListOrderToday:
+            return "".data(using: .utf8)!
+        case .checkInCheckoutOrderQRCode, .getNotificationList:
+            return "".data(using: .utf8)!
         }
     }
 
     var task: Task {
         switch self {
-            
+
         default:
             return .request
         }
+    }
+}
+
+private extension String {
+    var urlEscaped: String {
+        return self.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
     }
 }

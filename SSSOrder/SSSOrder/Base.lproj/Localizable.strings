@@ -37,3 +37,5 @@
 "price" = "$";
 "select date error" = "You cannot book the previous dates";
 "confirm remove" = "This service will be removed from cart.\n Are you sure?";
+"ScanQRCode" = "Scan QR";
+"Error cast ReadableObject" = "Can't parse to AVMetadataMachineReadableCodeObject object";

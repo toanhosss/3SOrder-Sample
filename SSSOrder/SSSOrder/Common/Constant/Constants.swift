@@ -49,8 +49,10 @@ enum ImageConstant {
     static let IconClose = UIImage(named: "close")
     static let IconBack = UIImage(named: "back")
     static let IconLocation = UIImage(named: "location")
+    static let IconChecked = UIImage(named: "checked")
     static let IconDown = UIImage(named: "down")
     static let IconNoImage = UIImage(named: "no_image")
+    static let IconScanQR = UIImage(named: "scan_qr")
 
 }
 
@@ -64,6 +66,8 @@ enum ColorConstant {
     static let ButtonPrimary = UIColor.hexStringToUIColor("#00bcd4")
     static let ButtonSecond = UIColor.hexStringToUIColor("#3B5998")
     static let NavigationBG = UIColor.hexStringToUIColor("#00bcd4")
+
+    static let NotificationNewColor = UIColor.hexStringToUIColor("#E4F1FE")
 
     static let ShadowColor = UIColor.hexStringToUIColor("#D9E2E9", alpha: 0.5)
 }
@@ -86,6 +90,7 @@ enum SegueNameConstant {
     static let StaffToSubmit = "staff_to_submit"
     static let NotificationToNotificationItem = "noti_to_item"
     static let SettingToLogin = "setting_to_login"
+    static let SettingToScanQR = "setting_to_scanqrcode"
 }
 
 /// Observe Name Notification
@@ -97,4 +102,5 @@ enum ObserveNameConstant {
 /// URL Constant
 enum URLConstant {
     static var baseURL = "http://3sorder.success-ss.com.vn:8889"
+    static var qrUrl = ""
 }

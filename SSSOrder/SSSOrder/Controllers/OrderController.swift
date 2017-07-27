@@ -27,8 +27,9 @@ class OrderController: NSObject {
             return
         }
 
-        let timeBooked = order.timePickup
+//        let timeBooked = DateUtil.convertDateTimeFromStringWithFormatInputOutput(with: order.timePickup, input: "hh:mm a", output: "HH:mm")
 
+        let timeBooked = order.timePickup
 
         let user = UserDefaultUtils.getUser()
         let formatter = DateFormatter()
@@ -80,6 +81,10 @@ class OrderController: NSObject {
         }
 
         return listItem
+    }
+
+    func getFreeTimeOfStoreOnDate(storeId: Int, on date: Date, callback: @escaping (_ listTime: [String],_ error: String?) -> Void) {
+        callback(["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"], nil)
     }
 
     /// Get FreeTime Of Staff list
@@ -161,5 +166,73 @@ class OrderController: NSObject {
         }
 
         return newTime
+    }
+
+    func checkInCheckoutOrder(listOrder: [OrderModel], callback: @escaping (_ listOrder: [OrderModel], _ error: String?) -> Void) {
+        self.provider.request(.checkInCheckoutOrderQRCode(orderList: listOrder)) { (result) in
+            switch result {
+            case .success(let response):
+                var listOrder = [OrderModel]()
+                do {
+                    let json = try response.mapJSON() as? [[String:Any]]
+                    for item in json! {
+                        let order = self.migrateOrderData(jsonData: item)
+                        if order != nil {
+                            listOrder.append(order!)
+                        }
+                    }
+                    callback(listOrder, nil)
+                } catch {
+                    let error = "Cannot map data"
+                    callback([], error)
+                }
+            case .failure(let error):
+                let errorString = error.errorDescription
+                callback([], errorString)
+            }
+        }
+    }
+
+    func getListOrderToday(callback: @escaping (_ staffList: [OrderModel], _ error: String?) -> Void) {
+        let user = UserDefaultUtils.getUser()
+        self.provider.request(.getListOrderToday(customerId: user!.userId)) { (result) in
+            switch result {
+            case .success(let response):
+                var listOrder = [OrderModel]()
+                do {
+                    let json = try response.mapJSON() as? [[String:Any]]
+                    for item in json! {
+                        let order = self.migrateOrderData(jsonData: item)
+                        if order != nil {
+                            listOrder.append(order!)
+                        }
+                    }
+                    callback(listOrder, nil)
+                } catch {
+                    let error = "Cannot map data"
+                    callback([], error)
+                }
+            case .failure(let error):
+                let errorString = error.errorDescription
+                callback([], errorString)
+            }
+        }
+    }
+
+    func migrateOrderData(jsonData: [String:Any]) -> OrderModel? {
+        guard let storeId = jsonData["storeId"] as? Int,
+            let customerId = jsonData["customerId"] as? Int,
+            let status = jsonData["status"] as? String,
+            let bookingDate = jsonData["bookingDate"] as? String,
+            let totalPrice = jsonData["totalAmount"] as? Double,
+            let bookingTime = jsonData["pickupTime"] as? String,
+            let orderId = jsonData["id"] as? Int else {
+            return nil
+        }
+
+        let order = OrderModel(orderId: orderId, storeId: storeId, customerId: customerId, status: status, note: "", bookingDate: bookingDate, timePickup: bookingTime, productList: [])
+        order.totalPrice = totalPrice
+
+        return  order
     }
 }

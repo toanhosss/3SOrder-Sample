@@ -39,4 +39,18 @@ class DateUtil: NSObject {
 
         return outputFormat.string(from: date!)
     }
+
+    static func convertDateTimeFromStringWithFormatInputOutput(with stringDateTime: String, input: String, output: String) -> String? {
+
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = input
+        let date = dateformat.date(from: stringDateTime)
+        if date == nil {
+            return nil
+        }
+        let outputFormat = DateFormatter()
+        outputFormat.dateFormat = output
+
+        return outputFormat.string(from: date!)
+    }
 }

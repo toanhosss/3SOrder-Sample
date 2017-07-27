@@ -29,14 +29,18 @@ class NotificationViewController: BaseController {
 
     /// Get Data
     func getData() {
-        notificationController.getListNotification { (listNotification, error) in
+        self.showOverlayLoading()
+        DispatchQueue.main.async {
+            self.notificationController.getListNotification { (listNotification, error) in
+                self.removeOverlayLoading()
 
-            if error != nil {
-                self.showErrorMessage(error!)
-            } else {
-                self.listData = listNotification
-//                self.createLabelHeaderTitle()
-                self.createListCollectionProduct()
+                if error != nil {
+                    self.showErrorMessage(error!)
+                } else {
+                    self.listData = listNotification
+                    //                self.createLabelHeaderTitle()
+                    self.createListCollectionProduct()
+                }
             }
         }
     }
@@ -159,22 +163,29 @@ extension NotificationViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var data: [NotificationModel]
+//        var data: [NotificationModel]
 //        if tableView.tag == 0 {
 //            data = listData.filter({ $0.type == "Promotion"})
 //        } else {
 //            data = listData.filter({ $0.type == "System"})
 //        }
-        data = listData
+//        data = listData
 
         let item = listData[indexPath.row]
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
+        if item.type == "2" && item.isConfirmOder && !item.isReadable {
+            cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
+            cell.isOrderConfirm = false
+        } else {
+            cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
+            cell.isOrderConfirm = true
+        }
         //        cell.backgroundColor = .clear
         cell.data = listData[indexPath.row]
-        cell.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
-        cell.cardView.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.green
+//        cell.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
+//        cell.cardView.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.green
+        cell.status = item.isReadable
         cell.icon.image = listData[indexPath.row].icon.withRenderingMode(.alwaysTemplate)
         cell.icon.tintColor = .black
         cell.name.text = listData[indexPath.row].name
@@ -183,6 +194,13 @@ extension NotificationViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+        let item = self.listData[indexPath.row]
+
+        if item.type == "2" && item.isConfirmOder && !item.isReadable {
+            return ScreenSize.ScreenHeight*0.15
+        }
+
         return ScreenSize.ScreenHeight*0.1
     }
 

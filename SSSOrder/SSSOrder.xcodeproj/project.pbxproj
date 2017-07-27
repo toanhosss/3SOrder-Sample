@@ -47,6 +47,7 @@
 		17B81E9D1F00578A0058875D /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B81E9C1F00578A0058875D /* NotificationModel.swift */; };
 		17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B81E9E1F005B320058875D /* NotificationTableViewCell.swift */; };
 		17B81EA11F0061ED0058875D /* NotificationItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */; };
+		17CB95371F27264F00F40C5B /* ScanQRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CB95361F27264F00F40C5B /* ScanQRCodeViewController.swift */; };
 		17E810F322D4518575B2BD46 /* Pods_SSSOrder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B7073DD9A428B32E4966881 /* Pods_SSSOrder.framework */; };
 		17F6B5191EFD6E8A00183139 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B5181EFD6E8A00183139 /* LoginViewController.swift */; };
 		17F6B51C1EFD778000183139 /* CustomInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F6B51B1EFD778000183139 /* CustomInputField.swift */; };
@@ -130,6 +131,7 @@
 		17B81E9C1F00578A0058875D /* NotificationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 		17B81E9E1F005B320058875D /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationItemViewController.swift; sourceTree = "<group>"; };
+		17CB95361F27264F00F40C5B /* ScanQRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanQRCodeViewController.swift; sourceTree = "<group>"; };
 		17F6B5181EFD6E8A00183139 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		17F6B51B1EFD778000183139 /* CustomInputField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInputField.swift; sourceTree = "<group>"; };
 		17F6B5201EFD832B00183139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				17B81E941F0017BA0058875D /* SubmitOrderViewController.swift */,
 				17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */,
 				17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */,
+				17CB95361F27264F00F40C5B /* ScanQRCodeViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				17B81E9F1F005B320058875D /* NotificationTableViewCell.swift in Sources */,
 				38E439E51F04D39F00F4129E /* PaymentModel.swift in Sources */,
 				38E476EE1F02624900274CE8 /* APIService.swift in Sources */,
+				17CB95371F27264F00F40C5B /* ScanQRCodeViewController.swift in Sources */,
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
 				17B81E931F0017A10058875D /* StaffViewController.swift in Sources */,

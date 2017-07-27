@@ -40,6 +40,17 @@ final class PopupUtil {
         return alertController
     }
 
+    static func showInformationPopupWithOnlyOKButton(_ title: String, message: String, actionConfirm: @escaping () -> Void) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        let confirm: UIAlertAction = UIAlertAction(title: "OK", style: .default) { (_) in
+            actionConfirm()
+        }
+
+        alertController.addAction(confirm)
+        return alertController
+    }
+
     static func showInformationPopup(_ title: String, message: String, actionConfirm: @escaping () -> Void, actionCancel: @escaping () -> Void) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .default) { (_) in

@@ -38,10 +38,10 @@ class StaffTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        let width = ScreenSize.ScreenWidth*0.98
-        let height = ScreenSize.ScreenHeight*0.45
+        let width = ScreenSize.ScreenWidth
+        let height = ScreenSize.ScreenHeight*0.15
 
-        backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
+        backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.95 - 6, height: height - 6))
         backgroundCardView.backgroundColor = .white
         backgroundCardView.layer.cornerRadius = 3
         backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
@@ -50,7 +50,7 @@ class StaffTableViewCell: UITableViewCell {
         backgroundCardView.layer.shadowOpacity = 1
         backgroundCardView.layer.shadowPath = UIBezierPath(roundedRect: backgroundCardView.bounds, cornerRadius: 3).cgPath
 
-        let cardView = UIView(frame: CGRect(x: 0, y: 0, width: width*0.975 - 6, height: height - 6))
+        let cardView = UIView(frame: CGRect(x: 0, y: 0, width: width*0.9 - 6, height: height - 6))
         cardView.layer.masksToBounds = true
         cardView.layer.cornerRadius = 3
         backgroundCardView.addSubview(cardView)
@@ -58,18 +58,18 @@ class StaffTableViewCell: UITableViewCell {
         // create header card view
         createHeaderItem(containview: cardView)
 
-        let line = UIView(frame: CGRect(x: 0, y: height*0.35, width: width, height: 1))
-        line.backgroundColor = ColorConstant.BackgroundColor
-        cardView.addSubview(line)
+//        let line = UIView(frame: CGRect(x: 0, y: height*0.35, width: width, height: 1))
+//        line.backgroundColor = ColorConstant.BackgroundColor
+//        cardView.addSubview(line)
 
         // create body card view
-        createBodyItem(containView: cardView)
+//        createBodyItem(containView: cardView)
 
         contentView.addSubview(backgroundCardView)
     }
 
     func createHeaderItem(containview: UIView) {
-        let width = ScreenSize.ScreenWidth*0.98
+        let width = ScreenSize.ScreenWidth*0.95 - 6
         let height = ScreenSize.ScreenHeight*0.45
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height*0.3))
 

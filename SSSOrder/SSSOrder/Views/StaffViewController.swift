@@ -15,8 +15,6 @@ class StaffViewController: BaseController {
     var storeBooked: SalonStoreModel!
     var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
 
-    var schedulerData: [MyCalendarObject] = []
-    var dateSelectedIndex: Int = 3 // current date always at index 3
     var timeSelected: String = ""
 
     var staffSelected: StaffModel?
@@ -27,6 +25,11 @@ class StaffViewController: BaseController {
     var dateSelected: String?
     var titleCalendar: UILabel!
     var dropDownButton: UIImageView!
+
+    var timeScroll: UIScrollView! // time slider group
+    var listTimeFree: [TimerButton]! //
+
+    var confirmPopup: UIView?
 
     fileprivate lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -46,8 +49,6 @@ class StaffViewController: BaseController {
     var selectedFullDate: UILabel!
     var noteTextView: UITextView?
 
-    var confirmPopup: UIView?
-
     let orderController = OrderController.SharedInstance
 
     override func setLayoutPage() {
@@ -55,37 +56,8 @@ class StaffViewController: BaseController {
         self.titlePage = NSLocalizedString("staff", comment: "")
         self.backTitle = NSLocalizedString("back", comment: "")
 
-//        createCalendarRow()
         createFSCalendarRow()
         createStaffTableView()
-    }
-
-    func createCalendarRow() {
-        schedulerData = orderController.getSchedulerData() // Get schedule from current date
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.itemSize = CGSize(width: ScreenSize.ScreenWidth/7, height: ScreenSize.ScreenHeight*0.1)
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumLineSpacing = 0
-        flowLayout.minimumInteritemSpacing = 0
-        scheduleCollectionView = UICollectionView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1), collectionViewLayout: flowLayout)
-        scheduleCollectionView.dataSource = self
-        scheduleCollectionView.delegate = self
-        scheduleCollectionView.backgroundColor = .clear
-        scheduleCollectionView.showsHorizontalScrollIndicator = false
-        scheduleCollectionView.allowsMultipleSelection = false
-        scheduleCollectionView.allowsSelection = true
-        scheduleCollectionView.register(CalendarCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-
-        selectedFullDate = UILabel(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.2, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.05))
-        selectedFullDate.textAlignment = .center
-        selectedFullDate.layer.borderColor = UIColor.black.cgColor
-        selectedFullDate.layer.borderWidth = 0.5
-        selectedFullDate.text = schedulerData[self.dateSelectedIndex].dateFull
-
-        updateStaffList(date: self.schedulerData[self.dateSelectedIndex].dateData)
-
-        self.view.addSubview(scheduleCollectionView)
-        self.view.addSubview(selectedFullDate)
     }
 
     func createFSCalendarRow() {
@@ -129,7 +101,9 @@ class StaffViewController: BaseController {
         }
 
         self.dateSelected = self.dateFormatter.string(from: calendar.selectedDate!)
-        updateStaffList(date: calendar.selectedDate!)
+//        updateStaffList(date: calendar.selectedDate!)
+        timeScroll = UIScrollView(frame: CGRect(x: 0, y: self.calendar.frame.height + ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1))
+        loadFreeTimeForSelect(date: calendar.selectedDate!)
         self.view.addSubview(calendar)
 
         // Add toogle button to header calendar
@@ -159,23 +133,64 @@ class StaffViewController: BaseController {
         self.view.addSubview(headerView)
     }
 
+    /// Generate free time slider
+    func loadFreeTimeForSelect(date: Date) {
+
+        self.showOverlayLoading()
+        DispatchQueue.main.async {
+            self.orderController.getFreeTimeOfStoreOnDate(storeId: self.storeBooked.salonId, on: date, callback: { (listTime, error) in
+                self.removeOverlayLoading()
+                if error != nil {
+                    self.showErrorMessage(error!)
+                } else {
+                    self.addTimerButtonToSlider(listTime: listTime)
+                }
+            })
+        }
+    }
+
+    func addTimerButtonToSlider(listTime: [String]) {
+
+        self.listTimeFree = []
+        let width = ScreenSize.ScreenWidth*0.25
+        let height = ScreenSize.ScreenHeight*0.1
+        self.timeScroll = UIScrollView(frame: CGRect(x: 0, y: self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: height))
+        self.timeScroll.contentSize = CGSize(width: (width*1.16)*CGFloat(listTime.count) + ScreenSize.ScreenWidth*0.04, height: ScreenSize.ScreenHeight*0.1)
+
+        for i in 0..<listTime.count {
+            let spaceLeft = ScreenSize.ScreenWidth*0.04*CGFloat(i+1)
+            let newButton = TimerButton(frame: CGRect(x: spaceLeft + width*CGFloat(i), y: height*0.1, width: width, height: height*0.8))
+            newButton.name = listTime[i]
+            newButton.backgroundColor = ColorConstant.ButtonPrimary
+            newButton.isStatus = false
+            newButton.layer.cornerRadius = height*0.08
+            newButton.addTarget(self, action: #selector(selectTimerButton(sender:)), for: .touchUpInside)
+            self.listTimeFree.append(newButton)
+            self.timeScroll.addSubview(newButton)
+        }
+
+        self.listTimeFree[0].isStatus = true
+        updateStaffList(time: self.listTimeFree[0].name)
+
+        self.view.addSubview(timeScroll)
+    }
+
     func createStaffTableView() {
-        tableView = UITableView(frame: CGRect(x: 0, y: self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.12, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.62))
+        tableView = UITableView(frame: CGRect(x: 0, y: self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.22, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.5))
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .singleLine
-        tableView.allowsSelection = false
-        tableView.rowHeight = ScreenSize.ScreenHeight*0.05
+        tableView.allowsSelection = true
         self.tableView.panGestureRecognizer.require(toFail: self.scopeGesture)
         self.view.addSubview(tableView)
     }
 
-    func updateStaffList(date: Date) {
+    func updateStaffList(time: String) {
 
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.orderController.getFreeTimeOfStaff(date: date, storeId: self.storeBooked.salonId, listSerVice: self.productList, callback: { (staffList, error) in
+            self.orderController.getFreeTimeOfStaff(date: self.calendar.selectedDate!, storeId: self.storeBooked.salonId, listSerVice: self.productList, callback: { (staffList, error) in
                 self.removeOverlayLoading()
                 if error != nil {
                     self.showErrorMessage(error!)
@@ -196,6 +211,20 @@ class StaffViewController: BaseController {
     }
 
     // MARK: handler Button touched
+    @objc func selectTimerButton(sender: TimerButton) {
+        self.timeSelected = sender.name
+
+        for button in self.listTimeFree {
+            if button.name == sender.name {
+                button.isStatus = true
+            } else {
+                button.isStatus = false
+            }
+        }
+
+        updateStaffList(time: self.timeSelected)
+    }
+
     @objc func switchScopeCalendar(sender: UIButton) {
 
         if self.calendar.scope == .month {
@@ -217,20 +246,18 @@ class StaffViewController: BaseController {
         self.showOverlayLoading()
         DispatchQueue.main.async {
             let user = UserDefaultUtils.getUser()
-            let dateBooked = self.dateSelected != nil ? self.dateSelected!:self.schedulerData[self.dateSelectedIndex].dateFull
+            let dateBooked = self.dateSelected!
             let order = OrderModel(orderId: -1, storeId: self.storeBooked.salonId, customerId: user!.userId,
                                    status: "New", note: self.noteTextView!.text!,
-                                   bookingDate: dateBooked, isCheckedIn: false,
-                                   isCheckedOut: false, timePickup: self.timeSelected, productList: self.productList)
+                                   bookingDate: dateBooked, timePickup: self.timeSelected, productList: self.productList)
             order.staff = self.staffSelected
             self.orderController.createOrder(order: order, paymentMethod: PaymentModel(type: PaymentType.cash), callback: { (status, error) in
                 self.removeOverlayLoading()
                 if status {
                     let formatter = DateFormatter()
                     formatter.dateFormat = "hh:mm, dd MMM yyyy"
-                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate,
-                                                    object: nil, userInfo: ["notification":
-                                                        NotificationModel(name: "New Booking",
+                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil,
+                                                    userInfo: ["notification": NotificationModel(name: "New Booking",
                                                                           icon: ImageConstant.IconBooking!,
                                                                           content: "You have booking success with id xxxxxx1234",
                                                                           type: "System",
@@ -266,29 +293,11 @@ class StaffViewController: BaseController {
     }
 }
 
-// Collection View DataSource
-extension StaffViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.schedulerData.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let item = self.schedulerData[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CalendarCollectionViewCell
-        cell!.isCanSelect = item.canSelected
-        cell!.day.text = "\(item.getDayNumber())"
-        cell!.dayName.text = item.getEraString()
-        cell!.updateBackground()
-        cell!.itemSelected = self.dateSelectedIndex == indexPath.row
-
-        return cell!
-    }
-}
-
 extension StaffViewController: FSCalendarDataSource {
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         self.calendar.frame.size.height = bounds.height
-        self.tableView.frame.origin.y = self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.12
+        self.timeScroll.frame.origin.y = self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.1
+        self.tableView.frame.origin.y = self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.22
         self.view.layoutIfNeeded()
     }
 }
@@ -317,7 +326,7 @@ extension StaffViewController: FSCalendarDelegate {
         }
 
         self.dateSelected = self.dateFormatter.string(from: itemSelected)
-        updateStaffList(date: itemSelected)
+        loadFreeTimeForSelect(date: itemSelected)
         self.tableView.reloadData()
 
     }
@@ -348,23 +357,6 @@ extension StaffViewController: UIGestureRecognizerDelegate {
 
 }
 
-// Collection View Delegate
-extension StaffViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = self.schedulerData[indexPath.row]
-        if !item.canSelected {
-            self.showInfoMessage(NSLocalizedString("select date error", comment: ""))
-            return
-        }
-        self.dateSelectedIndex = indexPath.row
-        selectedFullDate.text = schedulerData[self.dateSelectedIndex].dateFull
-        // Todo: Call API to update staff data
-        updateStaffList(date: item.dateData)
-        self.tableView.reloadData()
-
-    }
-}
-
 extension StaffViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -384,7 +376,8 @@ extension StaffViewController: UITableViewDataSource {
 
         let cell = StaffTableViewCell(style: .default, reuseIdentifier: "CartCell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: ScreenSize.ScreenWidth*0.025, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.45)
+        cell.backgroundColor = .clear
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
         cell.staff = item
         cell.contentView.layer.cornerRadius = 10
         cell.layer.cornerRadius = 10
@@ -392,19 +385,19 @@ extension StaffViewController: UITableViewDataSource {
         cell.name.text = item.name
         cell.rating.rating = item.ratingStar
         cell.delegate = self
-        cell.amTime = item.amTime
-        cell.pmTime = item.pmTime
+//        cell.amTime = item.amTime
+//        cell.pmTime = item.pmTime
         return cell
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
+        headerView.backgroundColor = .clear
         return headerView
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.45
+        return ScreenSize.ScreenHeight*0.15
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -415,6 +408,7 @@ extension StaffViewController: UITableViewDataSource {
 extension StaffViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         staffSelected = staffList[indexPath.section]
+        createPopupView()
 //        print("Item selected \(indexPath.row)")
 //        self.performSegue(withIdentifier: SegueNameConstant.StaffToSubmit, sender: nil)
     }
@@ -468,16 +462,6 @@ extension StaffViewController: StaffItemDelegate {
         popupLabel.textAlignment = .center
         titleView.addSubview(popupLabel)
 
-//        let closeIcon = UIImageView(frame: CGRect(x: width*0.675, y: height*0.125, width: titleView.frame.size.width*0.1, height: height*0.25))
-//        closeIcon.image = ImageConstant.IconClose?.withRenderingMode(.alwaysTemplate)
-//        closeIcon.tintColor = UIColor.white
-//        closeIcon.contentMode = .scaleAspectFit
-//        titleView.backgroundColor = ColorConstant.BackgroundColor
-//        titleView.addSubview(closeIcon)
-//        let closeButton = UIButton(frame: CGRect(x: width*0.6, y: 0, width: titleView.frame.size.width*0.15, height: height))
-//        closeButton.addTarget(self, action: #selector(closePopupTouched(sender:)), for: .touchUpInside)
-//        titleView.addSubview(closeButton)
-
         popupView.addSubview(titleView)
 
         // init content
@@ -520,5 +504,35 @@ extension StaffViewController: StaffItemDelegate {
 
         confirmPopup!.addSubview(popupView)
         self.view.addSubview(confirmPopup!)
+    }
+}
+
+class TimerButton: UIButton {
+
+    private var _status: Bool = false
+
+    var isStatus: Bool {
+        get {
+            return _status
+        }
+
+        set {
+            _status = newValue
+            if _status {
+                self.setTitleColor(.white, for: .normal)
+                self.backgroundColor = ColorConstant.ButtonPrimary
+            } else {
+                self.setTitleColor(ColorConstant.ButtonPrimary, for: .normal)
+                self.backgroundColor = .white
+                self.layer.borderColor = ColorConstant.ButtonPrimary.cgColor
+                self.layer.borderWidth = 1
+            }
+        }
+    }
+
+    var name: String = "" {
+        didSet {
+            self.setTitle(self.name, for: .normal)
+        }
     }
 }

@@ -12,7 +12,8 @@ class SettingViewController: BaseController {
 
     let settingItemList = [
         [ SettingItem(name: "Switch API URL", icon: ImageConstant.IconSwitchAPI, type: 1),
-          SettingItem(name: "Sign out", icon: ImageConstant.IconSignout, type: 0)]
+          SettingItem(name: "Sign out", icon: ImageConstant.IconSignout, type: 0),
+          SettingItem(name: "Scan QR code", icon: ImageConstant.IconScanQR, type: 0)]
     ]
 
     var tableView: UITableView!
@@ -122,6 +123,8 @@ extension SettingViewController: UITableViewDelegate {
         if settingItem.name == "Sign out" {
             UserDefaultUtils.removeUser()
             self.performSegue(withIdentifier: SegueNameConstant.SettingToLogin, sender: nil)
+        } else if settingItem.name == "Scan QR code" {
+            self.performSegue(withIdentifier: SegueNameConstant.SettingToScanQR, sender: nil)
         } else {
             createInputAlertView()
         }
