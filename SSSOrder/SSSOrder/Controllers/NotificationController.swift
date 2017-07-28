@@ -29,15 +29,28 @@ class NotificationController: NSObject {
                 let errorString = error.errorDescription
                 callback([], errorString)
             case .success(let response):
+                let notificationList = [NotificationModel(name: "Order #210", icon: ImageConstant.IconCloud!, content: "Gel clear, Polish Application", type: "2", dateString: "2017-07-28T15:30", isRead: false),
+                                        NotificationModel(name: "Order #232", icon: ImageConstant.IconCloud!, content: "Stone studded nails, Paint nails or toenails", type: "2", dateString: "2017-07-28T13:30", isRead: false),
+                NotificationModel(name: "Order #205", icon: ImageConstant.IconCloud!, content: "Pedicure, Polish toes, Spa Pedicure, Soothing Foot Massage-30 min", type: "2", dateString: "2017-07-28T9:30", isRead: false)]
                 var listNotification = [NotificationModel]()
                 do {
                     let json = try response.mapJSON() as? [[String:Any]]
-                    for item in json! {
-                        let order = self.migrateNotificationData(jsonData: item)
-                        if order != nil {
-                            listNotification.append(order!)
-                        }
+//                    for item in json! {
+//                        let order = self.migrateNotificationData(jsonData: item)
+//                        if order != nil {
+//                            listNotification.append(order!)
+//                        }
+//                    }
+                    let indexPrice: [Double] = [32, 53, 55]
+                    var index = 0
+                    for item in notificationList {
+                        item.orderId = index
+                        item.price = indexPrice[index]
+                        item.isConfirmOder = true
+                        listNotification.append(item)
+                        index+=1
                     }
+
                     callback(listNotification, nil)
                 } catch {
                     let error = "Cannot map data"
@@ -45,13 +58,12 @@ class NotificationController: NSObject {
                 }
             }
         }
-//        let notification = [ NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-//                             NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-//                             NotificationModel(name: "Use code HAPPY", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "Promotion", dateString: "09:03, 16 June, 2017", isRead: true),
-//                             NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
-//                             NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true),
-//                             NotificationModel(name: "System Notification", icon: ImageConstant.IconMail!, content: "Hurry up and use HAPPY code today to get 20% discount for your booking at Beauty Spa", type: "System", dateString: "09:03, 16 June, 2017", isRead: true)]
-//        callback(notification, nil)
+    }
+
+    /// Send confirmed Order
+    func confirmOrderAPI(orderId: Int, callback: @escaping(_ status: Bool, _ error: String?) -> Void) {
+
+        callback(true, nil)
     }
 
     func migrateNotificationData(jsonData: [String:Any]) -> NotificationModel? {
@@ -73,4 +85,5 @@ class NotificationController: NSObject {
         }
         return notification
     }
+
 }

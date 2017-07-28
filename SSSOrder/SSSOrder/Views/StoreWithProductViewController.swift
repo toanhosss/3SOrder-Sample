@@ -209,7 +209,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         let item = categories[tableView.tag].product[indexPath.section]
         let cell = ProductTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
-        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.26)
+        cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.21)
 
         if item.image != "" {
             cell.imageProduct.setKingfisherImage(with: URL(string: item.image), placeholder: ImageConstant.IconNoImage)
@@ -232,7 +232,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.26
+        return ScreenSize.ScreenHeight*0.21
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -12,10 +12,10 @@ import UIKit
 final class AnimationUtil {
 
     /// animation rotate view
-    static func animationRotateView(view: UIView, to: CGFloat) {
-        UIView.animate(withDuration: 0.5) { 
-            view.transform = CGAffineTransform(rotationAngle: to)
+    static func animationRotateView(view: UIView, to point: CGFloat) {
+        UIView.animate(withDuration: 0.5) {
+            view.transform = CGAffineTransform(rotationAngle: point)
         }
     }
-    
+
 }

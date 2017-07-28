@@ -7,11 +7,13 @@
 //
 
 import Foundation
+import DateToolsSwift
+
 class DateUtil: NSObject {
 
     static func calicuateDaysBetweenTwoDates(start: Date, end: Date) -> Int {
 
-        var currentCalendar = Calendar.current
+        let currentCalendar = Calendar.current
         guard let start = currentCalendar.ordinality(of: .day, in: .era, for: start) else {
             return 0
         }
@@ -52,5 +54,19 @@ class DateUtil: NSObject {
         outputFormat.dateFormat = output
 
         return outputFormat.string(from: date!)
+    }
+
+    static func convertDateTimeFromStringToDateTimeAgo(dateString: String, format input: String) -> String {
+
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = input
+        let date = dateformat.date(from: dateString)
+        if date == nil {
+            return dateString
+        }
+
+        let outPut = date!.timeAgoSinceNow
+
+        return outPut
     }
 }

@@ -17,6 +17,7 @@ class NotificationViewController: BaseController {
 
     var segmentHeader: HMSegmentedControl!
     var pageScrollCollection: UIScrollView!
+    var tableViewList: UITableView!
 
     let notificationController = NotificationController.SharedInstance
 
@@ -66,7 +67,7 @@ class NotificationViewController: BaseController {
         pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73)
 
 //        for i in 0..<notificationController.notificationType.count {
-            let tableViewList = UITableView(frame: CGRect(x: CGFloat(0)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
+            tableViewList = UITableView(frame: CGRect(x: CGFloat(0)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
             tableViewList.backgroundColor = .clear
 //            tableViewList.tag = i
             tableViewList.dataSource = self
@@ -126,13 +127,13 @@ class NotificationViewController: BaseController {
 
 }
 
-extension NotificationViewController: UIScrollViewDelegate {
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let currentIndex: Int = (Int)(self.pageScrollCollection.contentOffset.x / self.pageScrollCollection.frame.size.width + 0.5)
-        self.segmentHeader.setSelectedSegmentIndex(UInt(currentIndex), animated: true)
-    }
-}
+//extension NotificationViewController: UIScrollViewDelegate {
+//
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        let currentIndex: Int = (Int)(self.pageScrollCollection.contentOffset.x / self.pageScrollCollection.frame.size.width + 0.5)
+//        self.segmentHeader.setSelectedSegmentIndex(UInt(currentIndex), animated: true)
+//    }
+//}
 
 extension NotificationViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -172,24 +173,26 @@ extension NotificationViewController: UITableViewDataSource {
 //        data = listData
 
         let item = listData[indexPath.row]
+
         let cell = NotificationTableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = .none
+        cell.data = item
         if item.type == "2" && item.isConfirmOder && !item.isReadable {
             cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.15)
-            cell.isOrderConfirm = false
+            cell.isOrderConfirm = true
         } else {
             cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.1)
-            cell.isOrderConfirm = true
+            cell.isOrderConfirm = false
         }
         //        cell.backgroundColor = .clear
-        cell.data = listData[indexPath.row]
 //        cell.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.hexStringToUIColor("#C5EFF7")
 //        cell.cardView.backgroundColor = listData[indexPath.row].isReadable ? UIColor.white:UIColor.green
         cell.status = item.isReadable
         cell.icon.image = listData[indexPath.row].icon.withRenderingMode(.alwaysTemplate)
-        cell.icon.tintColor = .black
+        cell.icon.tintColor = ColorConstant.ButtonPrimary
         cell.name.text = listData[indexPath.row].name
         cell.time.text = listData[indexPath.row].dateString
+        cell.delegate = self
         return cell
     }
 
@@ -211,13 +214,8 @@ extension NotificationViewController: UITableViewDataSource {
 
 extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var data: [NotificationModel]
-        if tableView.tag == 0 {
-            data = listData.filter({ $0.type == "Promotion"})
-        } else {
-            data = listData.filter({ $0.type == "System"})
-        }
-        self.notificationItemSelected = data[indexPath.section]
+
+        self.notificationItemSelected = self.listData[indexPath.row]
         let index = self.listData.index(of: self.notificationItemSelected!)
         self.listData[index!].isReadable = true
         tableView.reloadData()
@@ -232,5 +230,28 @@ extension NotificationViewController: UITableViewDelegate {
 
         self.performSegue(withIdentifier: SegueNameConstant.NotificationToNotificationItem, sender: nil)
 
+    }
+}
+
+extension NotificationViewController: NotificationItemDelegate {
+    func submitOrCancelOrder(item: NotificationModel, isCancel: Bool) {
+        self.showOverlayLoading()
+        DispatchQueue.main.async {
+            self.notificationController.confirmOrderAPI(orderId: item.orderId!, callback: { (_, error) in
+                self.removeOverlayLoading()
+                if error != nil {
+                    self.showErrorMessage(error!)
+                } else {
+                    self.showInfoMessage("You have been \(isCancel ? "cancelled":"confirmed") this order.")
+                    item.isConfirmOder = false
+                    item.isReadable = true
+                    let index = self.listData.index(of: item)
+                    if index != nil {
+                        let indexPath = IndexPath(row: index!, section: 0)
+                        self.tableViewList.reloadRows(at: [indexPath], with: .fade)
+                    }
+                }
+            })
+        }
     }
 }

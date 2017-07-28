@@ -53,6 +53,7 @@ enum ImageConstant {
     static let IconDown = UIImage(named: "down")
     static let IconNoImage = UIImage(named: "no_image")
     static let IconScanQR = UIImage(named: "scan_qr")
+    static let IconCloud = UIImage(named: "cloud")
 
 }
 

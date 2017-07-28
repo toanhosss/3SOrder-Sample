@@ -78,22 +78,22 @@ class StaffTableViewCell: UITableViewCell {
         avatar.clipsToBounds = true
         avatar.backgroundColor = .gray
 
-        name = UILabel(frame: CGRect(x: width*0.3, y: height*0.03, width: width*0.5, height: height*0.12))
+        name = UILabel(frame: CGRect(x: width*0.3, y: height*0.03, width: width*0.5, height: height*0.22))
         name.font = UIFont.boldSystemFont(ofSize: 16)
 
-        rating = FloatRatingView(frame: CGRect(x: width*0.3, y: height*0.15, width: width*0.25, height: height*0.1))
-        rating.emptyImage = ImageConstant.IconStarEmpty?.withRenderingMode(.alwaysTemplate)
-        rating.emptyImageTintColor = .lightGray
-        rating.fullImage = ImageConstant.IconStarFull?.withRenderingMode(.alwaysTemplate)
-        rating.fullImageTintColor = ColorConstant.BackgroundColor
-        rating.maxRating = 5
-        rating.minRating = 1
-        rating.editable = false
-        rating.floatRatings = true
+//        rating = FloatRatingView(frame: CGRect(x: width*0.3, y: height*0.15, width: width*0.25, height: height*0.1))
+//        rating.emptyImage = ImageConstant.IconStarEmpty?.withRenderingMode(.alwaysTemplate)
+//        rating.emptyImageTintColor = .lightGray
+//        rating.fullImage = ImageConstant.IconStarFull?.withRenderingMode(.alwaysTemplate)
+//        rating.fullImageTintColor = ColorConstant.BackgroundColor
+//        rating.maxRating = 5
+//        rating.minRating = 1
+//        rating.editable = false
+//        rating.floatRatings = true
 
         headerView.addSubview(avatar)
         headerView.addSubview(name)
-        headerView.addSubview(rating)
+//        headerView.addSubview(rating)
 
         containview.addSubview(headerView)
     }

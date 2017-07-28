@@ -154,6 +154,12 @@ class StaffViewController: BaseController {
         self.listTimeFree = []
         let width = ScreenSize.ScreenWidth*0.25
         let height = ScreenSize.ScreenHeight*0.1
+
+        if self.timeScroll != nil {
+            self.timeScroll.removeFromSuperview()
+            self.timeScroll = nil
+        }
+
         self.timeScroll = UIScrollView(frame: CGRect(x: 0, y: self.calendar.frame.size.height + ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: height))
         self.timeScroll.contentSize = CGSize(width: (width*1.16)*CGFloat(listTime.count) + ScreenSize.ScreenWidth*0.04, height: ScreenSize.ScreenHeight*0.1)
 
@@ -383,7 +389,7 @@ extension StaffViewController: UITableViewDataSource {
         cell.layer.cornerRadius = 10
         cell.avatar.setKingfisherImage(with: URL(string: item.avatar), placeholder: ImageConstant.IconNoImage)
         cell.name.text = item.name
-        cell.rating.rating = item.ratingStar
+//        cell.rating.rating = item.ratingStar
         cell.delegate = self
 //        cell.amTime = item.amTime
 //        cell.pmTime = item.pmTime
@@ -401,7 +407,7 @@ extension StaffViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return ScreenSize.ScreenHeight*0.03
+        return ScreenSize.ScreenHeight*0.00
     }
 }
 

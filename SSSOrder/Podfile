@@ -10,6 +10,7 @@ target 'SSSOrder' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'Kingfisher', '~> 3.0'
+  pod 'DateToolsSwift'
   pod 'HMSegmentedControl'
   pod 'FSCalendar'
   pod 'Moya'

@@ -39,8 +39,8 @@ class ProductTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         let width = ScreenSize.ScreenWidth*0.98
-        let heightTopView = ScreenSize.ScreenHeight*0.25
-        let height = ScreenSize.ScreenHeight*0.26
+        let heightTopView = ScreenSize.ScreenHeight*0.2
+        let height = ScreenSize.ScreenHeight*0.21
 
         backgroundCardView = UIView(frame: CGRect(x: width*0.025 + 3, y: 3, width: width*0.975 - 6, height: height - 6))
 
@@ -127,7 +127,7 @@ class ProductTableViewCell: UITableViewCell {
         if self.isExisted {
             addButton.setImage(ImageConstant.IconRemove?.withRenderingMode(.alwaysTemplate), for: .normal)
             addButton.contentMode = .scaleAspectFit
-            addButton.tintColor = .red
+            addButton.tintColor = UIColor.hexStringToUIColor("#E57C27")
             addButton.removeTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)
             addButton.addTarget(self, action: #selector(removeButtonTouched(sender:)), for: .touchUpInside)
         } else {
