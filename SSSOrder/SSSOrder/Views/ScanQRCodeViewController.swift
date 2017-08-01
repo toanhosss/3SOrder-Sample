@@ -19,7 +19,8 @@ class ScanQRCodeViewController: BaseController {
 
     let supportedCodeTypes = [AVMetadataObjectTypeQRCode]
 
-    var orderListSubmit = [OrderModel]()
+    var orderListSubmit = [OrderModel]() // OrderList user selected for submit
+    var orderListQRCode = [OrderModel]() // orderList Full From QR code
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -147,23 +148,20 @@ class ScanQRCodeViewController: BaseController {
     }
 
     func adjustDataListOrder(listOrder: [OrderModel]) -> [OrderModel] {
-        var orders: [OrderModel] = []
 
-        for item in listOrder {
-            if self.orderListSubmit.contains(where: { (order) -> Bool in
-                return order.orderId == item.orderId
-            }) {
-                if item.status == "Proccessing" {
-                    item.status = "Checked out"
-                } else {
-                    item.status = "Checked in"
-                }
+        for order in self.orderListQRCode {
+            if listOrder.contains(where: { (item) -> Bool in
+                return item.orderId == order.orderId
+            }) == false {
+                order.status = "Checked out"
+            } else {
+                order.status = listOrder.first(where: { (item) -> Bool in
+                    return item.orderId == order.orderId
+                })!.status
             }
-
-            orders.append(item)
         }
 
-        return orders
+        return self.orderListQRCode
     }
 
     func createMessageOrderSubmitted(listOrder: [OrderModel]) -> String {
@@ -219,12 +217,17 @@ class ScanQRCodeViewController: BaseController {
         restartScan()
     }
 
+    @objc func closeAndBackPopup(sender: UIButton) {
+        listOrderPopup!.removeFromSuperview()
+        _ = self.navigationController?.popViewController(animated: true)
+    }
+
     @objc func addOrderToListSubmit(sender: OrderItemAddButton) {
 
         if !self.orderListSubmit.contains(sender.itemData) {
             self.orderListSubmit.append(sender.itemData)
             sender.setImage(ImageConstant.IconRemove?.withRenderingMode(.alwaysTemplate), for: .normal)
-            sender.tintColor = .red
+            sender.tintColor = UIColor.hexStringToUIColor("#E57C27")
             sender.removeTarget(self, action: #selector(addOrderToListSubmit(sender:)), for: .touchUpInside)
             sender.addTarget(self, action: #selector(removeOrderFromListSubmit(sender:)), for: .touchUpInside)
         }
@@ -298,6 +301,7 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
                 if error != nil {
                     self.showErrorPopupScan(error: error!)
                 } else {
+                    self.orderListQRCode = orderList
                     if orderList.count > 1 {
                         self.createPopupShowListOrder(listOrder: orderList)
                     } else if orderList.count == 1 {
@@ -356,7 +360,7 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             okButton.setTitle("OK", for: .normal)
             okButton.setTitleColor(ColorConstant.ButtonPrimary, for: .normal)
             okButton.backgroundColor = .white
-            okButton.addTarget(self, action: #selector(closePopup(sender:)), for: .touchUpInside)
+            okButton.addTarget(self, action: #selector(closeAndBackPopup(sender:)), for: .touchUpInside)
             footerButtonView.addSubview(okButton)
         } else {
             let cancelButton = UIButton(frame: CGRect(x: 0, y: 1, width: width*0.4 - 0.5, height: height - 1))
@@ -404,6 +408,13 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
         let orderStatus = UILabel(frame: CGRect(x: infoView.frame.width*0.6, y: height*0.35, width: infoView.frame.width*0.4, height: height*0.5))
 
         orderStatus.text = order.status
+        if order.status == "Confirmed" {
+            orderStatus.textColor = ColorConstant.OrderConfirm
+        } else if order.status == "Proccessing" {
+            orderStatus.textColor = ColorConstant.OrderProccessing
+        } else {
+            orderStatus.textColor = ColorConstant.OrderFinished
+        }
 
         orderStatus.textAlignment = .right
         orderStatus.font = UIFont.boldSystemFont(ofSize: 11)
@@ -422,12 +433,12 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             selectButton.contentMode = .scaleAspectFit
             orderItemView.addSubview(selectButton)
         }
-
-        let line = UIView(frame: CGRect(x: 0, y: height - 1, width: 0.8*ScreenSize.ScreenWidth, height: 1))
-        line.backgroundColor = UIColor.lightGray
-
+        if index < self.orderListQRCode.count - 1 {
+            let line = UIView(frame: CGRect(x: 0, y: height - 1, width: 0.8*ScreenSize.ScreenWidth, height: 1))
+            line.backgroundColor = UIColor.lightGray
+            orderItemView.addSubview(line)
+        }
         orderItemView.addSubview(infoView)
-        orderItemView.addSubview(line)
 
         return orderItemView
     }

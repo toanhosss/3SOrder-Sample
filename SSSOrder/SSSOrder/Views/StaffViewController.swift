@@ -49,6 +49,7 @@ class StaffViewController: BaseController {
     var selectedFullDate: UILabel!
     var noteTextView: UITextView?
 
+    var orderDetail: OrderConfirmDetailViewController!
     let orderController = OrderController.SharedInstance
 
     override func setLayoutPage() {
@@ -177,6 +178,7 @@ class StaffViewController: BaseController {
 
         self.listTimeFree[0].isStatus = true
         updateStaffList(time: self.listTimeFree[0].name)
+        self.timeSelected = self.listTimeFree[0].name
 
         self.view.addSubview(timeScroll)
     }
@@ -193,10 +195,11 @@ class StaffViewController: BaseController {
     }
 
     func updateStaffList(time: String) {
-
+//        self.showOrderDetailPopup(orderId: 274)
+//        return
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.orderController.getFreeTimeOfStaff(date: self.calendar.selectedDate!, storeId: self.storeBooked.salonId, listSerVice: self.productList, callback: { (staffList, error) in
+            self.orderController.getFreeTimeOfStaff(date: self.calendar.selectedDate!, time: time, storeId: self.storeBooked.salonId, listSerVice: self.productList, callback: { (staffList, error) in
                 self.removeOverlayLoading()
                 if error != nil {
                     self.showErrorMessage(error!)
@@ -257,23 +260,38 @@ class StaffViewController: BaseController {
                                    status: "New", note: self.noteTextView!.text!,
                                    bookingDate: dateBooked, timePickup: self.timeSelected, productList: self.productList)
             order.staff = self.staffSelected
-            self.orderController.createOrder(order: order, paymentMethod: PaymentModel(type: PaymentType.cash), callback: { (status, error) in
+            self.orderController.createOrder(order: order, paymentMethod: PaymentModel(type: PaymentType.cash), callback: { (status, orderId, error) in
                 self.removeOverlayLoading()
                 if status {
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "hh:mm, dd MMM yyyy"
+//                    _ = self.navigationController?.popToRootViewController(animated: true)
                     NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil,
-                                                    userInfo: ["notification": NotificationModel(name: "New Booking",
-                                                                          icon: ImageConstant.IconBooking!,
-                                                                          content: "You have booking success with id xxxxxx1234",
-                                                                          type: "System",
-                                                                          dateString: formatter.string(from: Date()),
-                                                                          isRead: false)])
-                    _ = self.navigationController?.popToRootViewController(animated: true)
-                    self.showInfoMessage("Your Order has been submitted successfully.")
+                                                    userInfo: nil)
+//                    self.showInfoMessage("Your Order has been submitted successfully.")
+                    self.showOrderDetailPopup(orderId: orderId!)
                 } else {
                     self.showErrorMessage(error!)
                 }
+            })
+        }
+    }
+
+    func showOrderDetailPopup(orderId: Int) {
+        DispatchQueue.main.async {
+            self.orderController.getOrderDetail(orderId: orderId, callback: { (json, error) in
+                if error != nil {
+                    self.showErrorMessage(error!)
+                    return
+                }
+
+                guard let popupController = self.storyboard?.instantiateViewController(withIdentifier: StoryBoardConstant.OrderDetailVCID) as? OrderConfirmDetailViewController else {
+                    self.showErrorMessage("Can't show order detail")
+                    return
+                }
+                self.orderDetail = popupController
+                popupController.titleName = "Order #228"
+                popupController.delegate = self
+                popupController.showInView(self.view, withData: json!, animated: true)
+
             })
         }
     }
@@ -472,11 +490,11 @@ extension StaffViewController: StaffItemDelegate {
 
         // init content
         let dateBooking = UILabel(frame: CGRect(x: width*0.05, y: height*0.8, width: width*0.7, height: height*0.5))
-        dateBooking.text = "Booked on"
+        dateBooking.text = self.staffSelected!.name
         dateBooking.textAlignment = .center
         dateBooking.font = UIFont.systemFont(ofSize: 15)
         let dateValue = UILabel(frame: CGRect(x: width*0.05, y: height*1.2, width: width*0.7, height: height*0.5))
-        dateValue.text = "\(DateUtil.convertDateToFullLongDate(with: self.dateSelected!, formatInput: self.dateFormatter.dateFormat)!) \(self.timeSelected)"
+        dateValue.text = "on \(DateUtil.convertDateToFullLongDate(with: self.dateSelected!, formatInput: self.dateFormatter.dateFormat)!) \(self.timeSelected)"
         dateValue.font = UIFont.systemFont(ofSize: 14)
         dateValue.textAlignment = .center
         popupView.addSubview(dateBooking)
@@ -510,6 +528,14 @@ extension StaffViewController: StaffItemDelegate {
 
         confirmPopup!.addSubview(popupView)
         self.view.addSubview(confirmPopup!)
+    }
+}
+
+extension StaffViewController: OrderConfirmDetailDelegate {
+    func closePopup(popup: UIView) {
+        AnimationUtil.removePopupAnimate(self.orderDetail.view)
+        self.orderDetail = nil
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

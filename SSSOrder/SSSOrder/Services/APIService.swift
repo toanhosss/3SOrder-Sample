@@ -14,11 +14,13 @@ enum APIService {
     case register(name: String, phone: String, password: String, token: String)
     case getStoreByGPS(lat: String, long: String)
     case getCategoriesByStore(storeId: Int)
-    case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status:  String, note: String, customerName: String, customerPhone: String, timer: String, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
-    case getStaffSchedule(date: String, storeId: Int, productListId: [Int])
+    case getOrderDetail(orderId: Int)
+    case createOrder(customerId: Int, storeId: Int, amount: Double, bookedDate: String, status:  String, note: String, customerName: String, customerPhone: String, timer: Int64, productList: [SalonProductModel], staff: StaffModel, payment: PaymentModel)
+    case getStaffSchedule(date: String, time: Int64, storeId: Int, productListId: [Int])
     case getListOrderToday(customerId: Int)
     case checkInCheckoutOrderQRCode(orderList:[OrderModel])
     case getNotificationList(customerId: Int)
+    case confirmOrRejectOrder(notificationItem: NotificationModel, customerId: Int, action: Int)
 }
 
 // MARK: - TargetType Protocol Implementation
@@ -31,30 +33,34 @@ extension APIService: TargetType {
     var path: String {
         switch self {
         case .login, .register:
-            return "/api/UserMobile/LoginOrRegister"
+            return "/api/Account/LoginOrRegister"
         case .getStoreByGPS:
             return "/api/Store/GetStoreByGPS"
         case .getCategoriesByStore:
             return "/api/Category/GetCategories"
         case .createOrder:
             return "/api/Order/CreateOrder"
+        case .getOrderDetail:
+            return "/api/Order/GetDetail"
         case .getStaffSchedule:
             return "/api/staff/GetStaffSchedule"
         case .getNotificationList:
-            return "/api/Notification/GetNotificationsByCustomerId"
+            return "/api/Notification/GetNotifications"
         case .getListOrderToday:
             let url = URLConstant.qrUrl.components(separatedBy: "?")
             return url[0].replacingOccurrences(of: URLConstant.baseURL, with: "")
         case .checkInCheckoutOrderQRCode:
-            return "/api/Order/CheckInCheckOutOrdersByQRCode"
+            return "/api/Order/CheckInCheckOutOrder"
+        case .confirmOrRejectOrder:
+            return "/api/Order/ConfirmRejectOrder"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode:
+        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode, .confirmOrRejectOrder:
             return .post
-        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail:
             return .get
         }
     }
@@ -64,13 +70,13 @@ extension APIService: TargetType {
         switch self {
 
         case .login(let phone, let password, let token):
-            let user = ["Name": "", "PhoneNumber": phone, "Password": password, "DeviceToken": token]
+            let user = ["name": "", "phoneNumber": phone, "password": password, "deviceToken": token]
             return ["customer": user,
-                    "IsRegister": false]
+                    "isRegister": false]
         case .register(let name, let phone, let password, let token):
-            let user = ["Name": name, "PhoneNumber": phone, "Password": password, "DeviceToken": token]
+            let user = ["name": name, "phoneNumber": phone, "password": password, "deviceToken": token]
             return ["customer": user,
-                    "IsRegister": true]
+                    "isRegister": true]
         case .getStoreByGPS(let lat, let long):
             var params: [String : AnyObject] = [:]
             params["longitude"] = long as AnyObject?
@@ -78,11 +84,11 @@ extension APIService: TargetType {
             return params
         case .getCategoriesByStore(let storeId):
             return ["storeId": storeId]
-        case .getStaffSchedule(let date, let storeId, let productList):
-
-            return ["Date": date as Any,
-                    "Store": storeId as Any,
-                    "Services": productList as Any]
+        case .getStaffSchedule(let date, let time, let storeId, let productList):
+            return ["date": date as Any,
+                    "store": storeId as Any,
+                    "services": productList as Any,
+                    "time": time as Any]
         case .createOrder(let customerId, let storeId, let amount, let bookedDate, let status, let note, let customerName, let customerPhone, let timer, let productList, let staff, let payment):
             // Get Product data
             var orderDetail: [[String:Any]] = []
@@ -94,18 +100,6 @@ extension APIService: TargetType {
                 orderItem["total"] = 0
                 orderDetail.append(orderItem)
             }
-
-            let params = ["customerId": customerId,
-             "storeId": storeId,
-             "totalAmount": amount,
-             "bookingDate": bookedDate,
-             "status": status,
-             "note": note,
-             "paymentMethod": payment.type.rawValue,
-             "customerNameOrder": customerName,
-             "phoneNumberOrder": customerPhone,
-             "pickupTime": timer,
-             "orderDetails": orderDetail ] as [String : Any]
 
             return ["customerId": customerId,
                     "storeId": storeId,
@@ -119,6 +113,8 @@ extension APIService: TargetType {
                     "pickupTime": timer,
                     "orderDetails": orderDetail]
 
+        case .getOrderDetail(let orderId):
+            return ["orderId": orderId as Any]
         case .getListOrderToday(let customerId):
             var params: [String: Any] = [:]
             params["customerId"] = customerId as Any
@@ -146,14 +142,29 @@ extension APIService: TargetType {
 
         case .getNotificationList(let customerId):
             return ["customerId": customerId as Any]
+
+        case .confirmOrRejectOrder(let notificationItem, let customerId, let action):
+            let notificationParam = ["id": notificationItem.notificationId as Any,
+                                     "title": notificationItem.title as Any,
+                                     "customerId": customerId as Any,
+                                     "createDate": notificationItem.getRawDateString() as Any,
+                                     "status": notificationItem.isReadable as Any,
+                                     "isConfirmOrder": notificationItem.isConfirmOder as Any,
+                                     "orderId": notificationItem.orderId as Any,
+                                     "description": notificationItem.content as Any,
+                                     "notificationType": notificationItem.type as Any]
+            let params = ["Notification": notificationParam as Any,
+                          "OrderId": notificationItem.orderId as Any,
+                          "Action": action as Any]
+            return params
         }
     }
 
     var parameterEncoding: ParameterEncoding {
         switch self {
-        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode:
+        case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode, .confirmOrRejectOrder:
             return JSONEncoding.default
-        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail:
             return URLEncoding.default
         }
     }
@@ -172,7 +183,7 @@ extension APIService: TargetType {
             return "".data(using: .utf8)!
         case .getListOrderToday:
             return "".data(using: .utf8)!
-        case .checkInCheckoutOrderQRCode, .getNotificationList:
+        default:
             return "".data(using: .utf8)!
         }
     }

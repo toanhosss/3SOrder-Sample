@@ -39,7 +39,7 @@ class LoginController: NSObject {
                     let status = data!["status"] as? Int
                     if status! == 200 {
                         let userData = data!["customerInfor"] as? [String:Any]
-                        let user = User(userId: (userData!["Id"] as? Int)!, name: (userData!["Name"] as? String)!, phone: (userData!["PhoneNumber"] as? String)!)
+                        let user = User(userId: (userData!["id"] as? Int)!, name: (userData!["name"] as? String)!, phone: (userData!["phoneNumber"] as? String)!)
                         UserDefaultUtils.storeUser(user: user)
                         callback(user, nil)
 

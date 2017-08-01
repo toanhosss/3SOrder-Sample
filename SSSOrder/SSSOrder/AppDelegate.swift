@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        application.applicationIconBadgeNumber = 0
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -110,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func createNotificatonBanner(title: String, content: String) {
         var announcement = Announcement(title: title, subtitle: content, image: ImageConstant.AppLogo)
-        announcement.duration = 3.0
+        announcement.duration = 10.0
         if self.window?.rootViewController != nil {
             ColorList.Shout.background = UIColor.darkGray
             ColorList.Shout.title = .white
@@ -143,6 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let notification = aps!["alert"] as? [String:Any]
         let title = notification!["title"] as? String
         let content = notification!["body"] as? String
+        let badge = aps!["badge"] as? Int
 
         createNotificatonBanner(title: title!, content: content!)
     }

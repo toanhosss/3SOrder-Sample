@@ -28,4 +28,6 @@ class SalonProductModel: NSObject {
         self.duration = duration
         self.descriptionText = description
     }
+
+    
 }

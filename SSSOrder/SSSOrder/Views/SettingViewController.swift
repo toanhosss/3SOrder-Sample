@@ -82,6 +82,16 @@ class SettingViewController: BaseController {
         self.view.endEditing(true)
 //        self.inputAPIField.endEditing(true)
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueNameConstant.SettingToLogin {
+            let nextVC = segue.destination as? LoginViewController
+            if nextVC != nil {
+                nextVC!.hidesBottomBarWhenPushed = true
+                nextVC!.tabBarController?.tabBar.isHidden = true
+            }
+        }
+    }
 }
 
 extension SettingViewController: UITableViewDataSource {

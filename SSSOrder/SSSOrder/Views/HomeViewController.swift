@@ -27,34 +27,6 @@ class HomeViewController: BaseController {
 
     let homeController = StoreController.SharedInstance
 
-//    var dataSource: [SalonStoreModel] = [
-//        SalonStoreModel(name: "The Upkeep Shoppe",
-//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-//                        distance: 1,
-//                        image: "https://www.mallcribbs.com/images/storeprofile/store-image/store-image-regis-salon",
-//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-//        SalonStoreModel(name: "The Upkeep Shoppe",
-//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-//                        distance: 1.1,
-//                        image: "http://www.cpp-luxury.com/wp-content/uploads/2016/07/Harry-Winston-salon-store-Houston-at-River-Oaks-3.jpg",
-//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-//        SalonStoreModel(name: "The Upkeep Shoppe",
-//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-//                        distance: 1.3,
-//                        image: "https://s-media-cache-ak0.pinimg.com/originals/64/fb/ee/64fbee1b276fcfcc1025144d9bd4e18b.jpg",
-//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-//        SalonStoreModel(name: "The Upkeep Shoppe",
-//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-//                        distance: 1.5,
-//                        image: "https://s-media-cache-ak0.pinimg.com/originals/0d/b1/6d/0db16df7e8fdb33f28cd21e7ca461e4f.jpg",
-//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed."),
-//        SalonStoreModel(name: "The Upkeep Shoppe",
-//                        address: "358 Preston Street Ottawa, ON K1S 4M6 (613) 695-9100",
-//                        distance: 2.1,
-//                        image: "https://www.intelligentnutrients.com/media/extendware/ewimageopt/media/template/4d/7/where-to-buy-horst-and-friends-img.jpg",
-//                        description: "Open Hour: Mon-Fri 10am-8pm, Sat 1pm-8pm, Sun Closed.")
-//    ]
-
     override func setLayoutPage() {
         super.setLayoutPage()
 
@@ -271,6 +243,30 @@ class HomeViewController: BaseController {
             destVC!.dataItem = item
         }
 
+    }
+
+    override func setEventAndDelegate() {
+        NotificationCenter.default.addObserver(self, selector: #selector(notificationUpdateNumber(notification:)), name: ObserveNameConstant.NewNotificationUpdate, object: nil)
+    }
+
+    // MARK: Handler Notification
+    @objc func notificationUpdateNumber(notification: Notification) {
+        DispatchQueue.main.async {
+            NotificationController.SharedInstance.getListNotification { (listNotification, error) in
+
+                if error != nil {
+                    self.showErrorMessage(error!)
+                } else {
+                    var number = 0
+                    if self.tabBarController?.tabBar.items?[1].badgeValue != nil {
+                        number = Int((self.tabBarController?.tabBar.items?[1].badgeValue)!)!
+                    }
+                    number += 1
+                    self.tabBarController?.tabBar.items?[1].badgeValue = "\(number)"
+
+                }
+            }
+        }
     }
 }
 

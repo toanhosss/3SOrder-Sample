@@ -13,8 +13,6 @@ class StaffModel: NSObject {
     var name: String!
     var ratingStar: Float = 0.0
     var avatar: String!
-    var amTime: [String] = []
-    var pmTime: [String] = []
 
     init(staffId: Int, name: String, avatar: String) {
         self.staffId = staffId
@@ -22,13 +20,4 @@ class StaffModel: NSObject {
         self.avatar = avatar
     }
 
-    func getFreeTime(time: [String]) {
-        for item in time {
-            if item.contains("AM") {
-                amTime.append(item)
-            } else {
-                pmTime.append(item)
-            }
-        }
-    }
 }

@@ -42,6 +42,17 @@ class DateUtil: NSObject {
         return outputFormat.string(from: date!)
     }
 
+    static func getcurrentTimeStamp(with stringDateTime: String, input: String) -> Int64? {
+        let dateformat = DateFormatter()
+        dateformat.dateFormat = input
+        let date = dateformat.date(from: stringDateTime)
+        if date == nil {
+            return nil
+        }
+
+        return Int64(date!.timeIntervalSince1970 * 1000)
+    }
+
     static func convertDateTimeFromStringWithFormatInputOutput(with stringDateTime: String, input: String, output: String) -> String? {
 
         let dateformat = DateFormatter()

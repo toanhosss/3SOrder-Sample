@@ -23,5 +23,13 @@ class MyTabbar: UITabBar {
 
         return sizeThatFits
     }
+}
 
+extension MyTabbar: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let navigation = viewController as? UINavigationController
+        if navigation != nil && navigation!.viewControllers.first is NotificationViewController {
+            tabBarController.tabBar.items?[1].badgeValue = nil
+        }
+    }
 }

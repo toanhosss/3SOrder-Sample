@@ -166,6 +166,24 @@
             </objects>
             <point key="canvasLocation" x="4916" y="83.208395802098963"/>
         </scene>
+        <!--Order Confirm Detail View Controller-->
+        <scene sceneID="0N7-6x-6U3">
+            <objects>
+                <viewController storyboardIdentifier="orderDetail" id="jgF-en-t7a" customClass="OrderConfirmDetailViewController" customModule="SSSOrder" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vDA-hG-E5y"/>
+                        <viewControllerLayoutGuide type="bottom" id="iBP-Ps-xEo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vcg-Lt-LUD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOg-a1-WW3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5996" y="405"/>
+        </scene>
         <!--Setting View Controller-->
         <scene sceneID="2sd-t5-S5P">
             <objects>
@@ -302,6 +320,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="delegate" destination="ld2-bj-eF5" id="Mpv-4g-NQI"/>
                         <segue destination="dG7-uf-3g0" kind="relationship" relationship="viewControllers" id="wR5-Ul-nFG"/>
                         <segue destination="H5S-6n-AaM" kind="relationship" relationship="viewControllers" id="gEV-RF-gbM"/>
                         <segue destination="BC2-7h-biC" kind="relationship" relationship="viewControllers" id="nAo-Fv-5qI"/>
@@ -367,7 +386,7 @@
                         <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                     </tabBarItem>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gsu-WQ-5gN">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="gsu-WQ-5gN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

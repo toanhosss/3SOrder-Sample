@@ -53,6 +53,7 @@ final class PopupUtil {
 
     static func showInformationPopup(_ title: String, message: String, actionConfirm: @escaping () -> Void, actionCancel: @escaping () -> Void) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
         let cancel: UIAlertAction = UIAlertAction(title: "Cancel", style: .default) { (_) in
             actionCancel()
         }
@@ -60,8 +61,21 @@ final class PopupUtil {
         let confirm: UIAlertAction = UIAlertAction(title: "OK", style: .default) { (_) in
             actionConfirm()
         }
-
         alertController.addAction(confirm)
+
+        return alertController
+    }
+
+    static func showInformationPopup(_ title: String, message: String, with actionButton: [(label: String, action: () -> Void)]) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+
+        for action in actionButton {
+            let button: UIAlertAction = UIAlertAction(title: action.label, style: .default, handler: { (_) in
+                action.action()
+            })
+            alertController.addAction(button)
+        }
+
         return alertController
     }
 

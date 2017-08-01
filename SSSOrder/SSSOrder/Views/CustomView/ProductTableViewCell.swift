@@ -82,8 +82,9 @@ class ProductTableViewCell: UITableViewCell {
         durationLabel = UILabel(frame: CGRect(x: nameLabel.frame.origin.x, y: heightTopView*0.82, width: nameLabel.frame.width*0.75, height: heightTopView*0.2))
         durationLabel.font = UIFont.systemFont(ofSize: 12)
 
-        addButton = UIButton(frame: CGRect(x: width*0.85, y: priceLabel.frame.origin.y + heightTopView*0.05, width: width*0.06, height: width*0.16))
+        addButton = UIButton(frame: CGRect(x: width*0.85, y: priceLabel.frame.origin.y, width: width*0.1, height: width*0.1))
         addButton.setImage(ImageConstant.IconAdd?.withRenderingMode(.alwaysTemplate), for: .normal)
+        addButton.imageEdgeInsets = UIEdgeInsets(top: width*0.02, left: width*0.02, bottom: width*0.02, right: width*0.02)
         addButton.contentMode = .scaleAspectFit
         addButton.tintColor = ColorConstant.ButtonPrimary
         addButton.addTarget(self, action: #selector(addButtonTouched(sender:)), for: .touchUpInside)

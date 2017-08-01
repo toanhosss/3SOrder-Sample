@@ -47,9 +47,11 @@ class RegisterViewController: BaseController {
         let height = ScreenSize.ScreenHeight*0.0749625
 
         nameInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.3027586, width: width, height: height))
-
+        nameInput.tag = 1
+        nameInput.delegate = self
         nameInput.borderActiveColor = ColorConstant.BackgroundColor
         nameInput.tintColor = ColorConstant.BackgroundColor
+        nameInput.returnKeyType = .next
         nameInput.borderInactiveColor = .gray
 
         nameInput.placeholder = NSLocalizedString("name", comment: "user label")
@@ -57,9 +59,11 @@ class RegisterViewController: BaseController {
         nameInput.placeholderColor = .gray
 
         mobileNumberInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.412518, width: width, height: height))
-
+        mobileNumberInput.tag = 2
+        mobileNumberInput.delegate = self
         mobileNumberInput.borderActiveColor = ColorConstant.BackgroundColor
         mobileNumberInput.borderInactiveColor = .gray
+        mobileNumberInput.returnKeyType = .next
         mobileNumberInput.tintColor = ColorConstant.BackgroundColor
 
         mobileNumberInput.placeholder = NSLocalizedString("phone", comment: "user label")
@@ -68,7 +72,9 @@ class RegisterViewController: BaseController {
 
         passwordInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.50997,
                                                            width: width, height: height))
-
+        passwordInput.tag = 3
+        passwordInput.delegate = self
+        passwordInput.returnKeyType = .next
         passwordInput.borderActiveColor = ColorConstant.BackgroundColor
         passwordInput.borderInactiveColor = .gray
         passwordInput.isSecureTextEntry = true
@@ -79,7 +85,9 @@ class RegisterViewController: BaseController {
         passwordInput.placeholderColor = .gray
 
         confirmPassInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.6074212, width: width, height: height))
-
+        confirmPassInput.tag = 4
+        confirmPassInput.delegate = self
+        confirmPassInput.returnKeyType = .done
         confirmPassInput.borderActiveColor = ColorConstant.BackgroundColor
         confirmPassInput.borderInactiveColor = .gray
         confirmPassInput.isSecureTextEntry = true
@@ -156,9 +164,7 @@ class RegisterViewController: BaseController {
 
     override func keyboardWillHide(_ notification: Notification) {
         super.keyboardWillHide(notification)
-        self.nameInput.endEditing(true)
-        self.mobileNumberInput.endEditing(true)
-        self.passwordInput.endEditing(true)
         self.confirmPassInput.endEditing(true)
+
     }
 }

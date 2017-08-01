@@ -11,10 +11,11 @@ import UIKit
 import DateToolsSwift
 
 class NotificationModel: NSObject {
-    var name: String
-    var icon: UIImage
-    var type: String
-    var isReadable: Bool
+    var notificationId: Int
+    var title: String
+    var type: Int
+    var isReadable: Bool // Status
+
     private var _dateString: String
     var dateString: String {
         get {
@@ -26,24 +27,64 @@ class NotificationModel: NSObject {
         }
     }
 
-    var content: String
+    var icon: UIImage { return setIconByType() }
+
+    var notificationName: String {return setNotificationName() }
+
+    var content: String?
     var price: Double = 0
     var isConfirmOder: Bool = false
     var orderId: Int?
+    var services: String?
 
-    init(name: String, icon: UIImage, content: String, type: String, dateString: String, isRead: Bool) {
-        self.name = name
-        self.icon = icon
+    init(notificationId: Int, title: String, type: Int, dateString: String, isRead: Bool) {
+
+        self.notificationId = notificationId
+        self.title = title
         self.type = type
         self.isReadable = isRead
         self._dateString = dateString
-        self.content = content
     }
 
+    ///
+    /// Get content for notication
+    ///
+    /// - Returns: string value
+    func getContentForNotification() -> String {
+        if type == 2 {
+            return self.services!
+        }
+        return self.content!
+    }
+
+    /// Get date time ago
+    ///
+    /// - Parameter dateString: string value of date
+    /// - Returns: value was formatted by dateTimeAgo
     private func getDateString(dateString: String) -> String {
 
-        let result = DateUtil.convertDateTimeFromStringToDateTimeAgo(dateString: dateString, format: "yyyy-MM-dd'T'HH:mm")
+        let result = DateUtil.convertDateTimeFromStringToDateTimeAgo(dateString: dateString, format: "yyyy-MM-dd'T'HH:mm:ss.SSS")
 
         return result
+    }
+
+    func getRawDateString() -> String { return _dateString }
+
+    private func setIconByType() -> UIImage {
+        switch type {
+        case 2:
+            return ImageConstant.IconCloud!
+        default:
+            return ImageConstant.IconCloud!
+        }
+
+    }
+
+    private func setNotificationName() -> String {
+        if type == 2 && title == "Create Order" && isConfirmOder {
+            return "Order #\(orderId!)"
+        }
+
+        return title
     }
 }

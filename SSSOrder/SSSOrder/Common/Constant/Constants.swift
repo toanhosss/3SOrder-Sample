@@ -71,6 +71,11 @@ enum ColorConstant {
     static let NotificationNewColor = UIColor.hexStringToUIColor("#E4F1FE")
 
     static let ShadowColor = UIColor.hexStringToUIColor("#D9E2E9", alpha: 0.5)
+
+    /// Order Status
+    static let OrderConfirm = UIColor.hexStringToUIColor("#f2b274")
+    static let OrderProccessing = UIColor.hexStringToUIColor("#f69187")
+    static let OrderFinished = UIColor.hexStringToUIColor("#c298c6")
 }
 
 enum FontConstant {
@@ -92,6 +97,10 @@ enum SegueNameConstant {
     static let NotificationToNotificationItem = "noti_to_item"
     static let SettingToLogin = "setting_to_login"
     static let SettingToScanQR = "setting_to_scanqrcode"
+}
+
+enum StoryBoardConstant {
+    static let OrderDetailVCID = "orderDetail"
 }
 
 /// Observe Name Notification

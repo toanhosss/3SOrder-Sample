@@ -18,18 +18,16 @@ class OrderController: NSObject {
 
     let provider = MoyaProvider<APIService>()
 
-//    func createOrder(nameCustomer: String?, note: String?, phoneNumber: String?, bookingDate: Date?,
-//                     timePickup: String?, storeId: Int, productList: [SalonProductModel], staffSelected: StaffModel,
-    func createOrder(order: OrderModel, paymentMethod: PaymentModel, callback: @escaping (_ status: Bool, _ error: String?) -> Void) {
+    func createOrder(order: OrderModel, paymentMethod: PaymentModel, callback: @escaping (_ status: Bool, _ orderId: Int?, _ error: String?) -> Void) {
 
         guard let dateBooked = order.getDatefromBookingDate() else {
-            callback(false, "FormatDate Invalid")
+            callback(false, nil, "FormatDate Invalid")
             return
         }
 
 //        let timeBooked = DateUtil.convertDateTimeFromStringWithFormatInputOutput(with: order.timePickup, input: "hh:mm a", output: "HH:mm")
 
-        let timeBooked = order.timePickup
+        let timeBooked = DateUtil.getcurrentTimeStamp(with: order.timePickup, input: "HH:mm")
 
         let user = UserDefaultUtils.getUser()
         let formatter = DateFormatter()
@@ -41,20 +39,51 @@ class OrderController: NSObject {
             sum += item.price
         }
 
-        self.provider.request(.createOrder(customerId: user!.userId, storeId: order.storeId, amount: sum, bookedDate: dateString, status: "New", note: order.note, customerName: user!.name, customerPhone: user!.phone, timer: timeBooked, productList: order.productList, staff: order.staff != nil ? order.staff!:StaffModel(staffId: -1, name: "", avatar: ""), payment: paymentMethod)) { (result) in
+        callback(true, 275, nil)
+        return
+
+//        self.provider.request(.createOrder(customerId: user!.userId, storeId: order.storeId, amount: sum, bookedDate: dateString, status: "New", note: order.note, customerName: user!.name, customerPhone: user!.phone, timer: timeBooked!, productList: order.productList, staff: order.staff != nil ? order.staff!:StaffModel(staffId: -1, name: "", avatar: ""), payment: paymentMethod)) { (result) in
+//            switch result {
+//            case .success(let response):
+//                do {
+//                    let json = try response.mapJSON() as? [String:Any]
+//                    guard let order = json!["order"] as? [String:Any] else {
+//                        let error = "Cannot map data"
+//                        callback(false, nil, error)
+//                        return
+//                    }
+//
+//                    let id = order["Id"] as? Int
+//
+//                    callback(true, id!, nil)
+//                } catch {
+//                    let error = "Cannot map data"
+//                    callback(false, nil, error)
+//                }
+//            case .failure(let error):
+//                let errorString = error.errorDescription
+//                callback(false, nil, errorString)
+//            }
+//        }
+    }
+
+    /// Get order detail
+    func getOrderDetail(orderId: Int, callback: @escaping (_ order: [String:Any]?, _ error: String?) -> Void) {
+
+        self.provider.request(.getOrderDetail(orderId: orderId)) { (result) in
             switch result {
-            case .success(let response):
-                do {
-                    _ = try response.mapJSON() as? [String:Any]
-//                    print(data!["message"])
-                    callback(true, nil)
-                } catch {
-                    let error = "Cannot map data"
-                    callback(false, error)
-                }
             case .failure(let error):
                 let errorString = error.errorDescription
-                callback(false, errorString)
+                callback(nil, errorString)
+            case .success(let response):
+                do {
+                    let json = try response.mapJSON() as? [String:Any]
+                    callback(json, nil)
+
+                } catch {
+                    let error = "Cannot map data"
+                    callback(nil, error)
+                }
             }
         }
     }
@@ -88,23 +117,26 @@ class OrderController: NSObject {
     }
 
     /// Get FreeTime Of Staff list
-    func getFreeTimeOfStaff(date: Date, storeId: Int, listSerVice: [SalonProductModel], callback: @escaping (_ staffList: [StaffModel], _ error: String?) -> Void) {
+    func getFreeTimeOfStaff(date: Date, time: String, storeId: Int, listSerVice: [SalonProductModel], callback: @escaping (_ staffList: [StaffModel], _ error: String?) -> Void) {
         // TODO: call API get free time data
         var listServiceId = [Int]()
         for service in listSerVice {
             listServiceId.append(service.productId)
         }
         let dateFormat = DateFormatter()
-        dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.sssZ"
+        dateFormat.timeZone = TimeZone(identifier: "GMT")
+        dateFormat.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
-        self.provider.request(.getStaffSchedule(date: dateFormat.string(from: date), storeId: storeId, productListId: listServiceId)) { (result) in
+        let timeBooked = DateUtil.getcurrentTimeStamp(with: time, input: "HH:mm")
+//        let timeBooked = DateUtil.convertDateTimeFromStringWithFormatInputOutput(with: time, input: "HH:mm", output: "HH:mm:ss")
+
+        self.provider.request(.getStaffSchedule(date: dateFormat.string(from: date), time: timeBooked!, storeId: storeId, productListId: listServiceId)) { (result) in
             switch result {
             case .success(let response):
                 do {
-                    let json = try response.mapJSON() as? [[String: Any]]
-                    let data = json![0]
-                    guard let date = data["date"] as? String,
-                        let staffData = data["staffs"] as? [[String:Any]] else {
+                    let data = try response.mapJSON() as? [String: Any]
+                    guard let date = data!["date"] as? String,
+                        let staffData = data!["staffs"] as? [[String:Any]] else {
                             callback([], "Cannot map Data Staff")
                             return
                     }
@@ -130,22 +162,18 @@ class OrderController: NSObject {
 //        "12:00 PM","12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM"]
     }
 
-    private func migrateDataStaff(data:[[String:Any]]) -> [StaffModel]? {
+    private func migrateDataStaff(data: [[String:Any]]) -> [StaffModel]? {
         var staffList: [StaffModel] = []
         for itemData in data {
-            guard let staffID = itemData["staffID"] as? Int,
+            guard let staffID = itemData["staffId"] as? Int,
                 let profileImage = itemData["profileImageUrl"] as? String,
                 let name = itemData["name"] as? String,
-                let rating = itemData["rating"] as? Float,
-                let amTime = itemData["availableTimeMorning"] as? [String],
-                let pmTime = itemData["availableTimeAfternoon"] as? [String]
+                let rating = itemData["rating"] as? Float
             else {
                 return nil
             }
             let staff = StaffModel(staffId: staffID, name: name, avatar: profileImage)
             staff.ratingStar = rating
-            staff.amTime = convertFormatTimeDate(listTime: amTime)
-            staff.pmTime = convertFormatTimeDate(listTime: pmTime)
             staffList.append(staff)
         }
 

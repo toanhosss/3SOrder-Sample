@@ -84,6 +84,8 @@ class LoginViewController: BaseController {
         passwordInput = HoshiTextField(frame: CGRect(x: left, y: ScreenSize.ScreenHeight*0.45020989, width: width, height: height))
 
         passwordInput.borderActiveColor = ColorConstant.BackgroundColor
+        passwordInput.returnKeyType = .done
+        passwordInput.delegate = self
         passwordInput.borderInactiveColor = .gray
         passwordInput.isSecureTextEntry = true
         passwordInput.tintColor = ColorConstant.BackgroundColor
@@ -176,6 +178,7 @@ class LoginViewController: BaseController {
 
     override func setEventAndDelegate() {
         // Set event to hide keyboard
+        super.setEventAndDelegate()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
@@ -222,4 +225,15 @@ class LoginViewController: BaseController {
         print("FORGOT PASSWORD")
     }
 
+    override func keyboardWillShow(_ notification: Notification) {
+        let tapInputKeyboard2: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapInputKeyboard2.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapInputKeyboard2)
+
+    }
+
+    override func keyboardWillHide(_ notification: Notification) {
+        super.keyboardWillHide(notification)
+        self.passwordInput.endEditing(true)
+    }
 }

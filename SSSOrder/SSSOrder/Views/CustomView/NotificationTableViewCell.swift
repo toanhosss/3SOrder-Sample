@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NotificationItemDelegate: class {
-    func submitOrCancelOrder(item: NotificationModel, isCancel: Bool)
+    func submitOrCancelOrder(item: NotificationModel, isAgree: Bool)
 }
 
 class NotificationTableViewCell: UITableViewCell {
@@ -50,9 +50,9 @@ class NotificationTableViewCell: UITableViewCell {
         let width = ScreenSize.ScreenWidth*0.98
         let height = ScreenSize.ScreenHeight*0.1
 
-        backgroundCardView = UIView(frame: CGRect(x: 3, y: 3, width: width*0.975 - 6, height: height - 6))
+//        backgroundCardView = UIView(frame: CGRect(x: 3, y: 3, width: width*0.975 - 6, height: height - 6))
 
-        backgroundCardView.backgroundColor = .white
+//        backgroundCardView.backgroundColor = .white
 //        backgroundCardView.layer.cornerRadius = 3
 //        backgroundCardView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
 //        backgroundCardView.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -70,7 +70,7 @@ class NotificationTableViewCell: UITableViewCell {
         cardView.layer.masksToBounds = true
         cardView.layer.cornerRadius = 3
         cardView.backgroundColor = .white
-        backgroundCardView.addSubview(cardView)
+//        backgroundCardView.addSubview(cardView)
 
         icon = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.05, y: height*0.25, width: height*0.5, height: height*0.5))
         icon.contentMode = .scaleAspectFit
@@ -85,14 +85,14 @@ class NotificationTableViewCell: UITableViewCell {
         time.textAlignment = .right
         time.textColor = UIColor.lightGray
 
-        lineView = UIView(frame: CGRect(x: 0, y: cardView.frame.height - 0.5, width: width, height: 0.5))
+        lineView = UIView(frame: CGRect(x: 0, y: contentView.frame.height - 0.5, width: width, height: 0.5))
         lineView.backgroundColor = UIColor.lightGray
-        cardView.addSubview(lineView)
+        contentView.addSubview(lineView)
 
         cardView.addSubview(icon)
         cardView.addSubview(name)
         cardView.addSubview(time)
-        contentView.addSubview(backgroundCardView)
+        contentView.addSubview(cardView)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -108,8 +108,12 @@ class NotificationTableViewCell: UITableViewCell {
     func updatebackgroundColor() {
         if status {
             cardView.backgroundColor = .white
+            self.contentView.backgroundColor = .white
+//            self.backgroundColor = .white
         } else {
             cardView.backgroundColor = ColorConstant.NotificationNewColor
+            self.contentView.backgroundColor = ColorConstant.NotificationNewColor
+//            self.backgroundColor = ColorConstant.NotificationNewColor
         }
     }
 
@@ -125,36 +129,36 @@ class NotificationTableViewCell: UITableViewCell {
 
         if !isOrderConfirm {
 
-            backgroundCardView.frame.size = CGSize(width: width, height: height)
+//            backgroundCardView.frame.size = CGSize(width: width, height: height)
             cardView.frame.size = CGSize(width: width, height: height)
-            lineView.frame = CGRect(x: 0, y: cardView.frame.height - 0.5, width: width, height: 0.5)
+            lineView.frame = CGRect(x: 0, y: cardView.frame.height - 1, width: width, height: 1)
 
             createContent()
 
         } else {
 
-            backgroundCardView.frame.size = CGSize(width: width, height: height*1.5)
+//            backgroundCardView.frame.size = CGSize(width: width, height: height*1.5)
             cardView.frame.size = CGSize(width: width, height: height*1.5)
-            lineView.frame = CGRect(x: 0, y: cardView.frame.height - 0.5, width: width, height: 0.5)
+            lineView.frame = CGRect(x: 0, y: contentView.frame.height - 1, width: width, height: 1)
 
             createContent()
 
-            actionView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: height, width: ScreenSize.ScreenWidth*0.73, height: height*0.5))
-            let confirmButton = UIButton(frame: CGRect(x: 0, y: height*0.1, width: actionView!.frame.width*0.3, height: height*0.3))
+            actionView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: height*0.95, width: ScreenSize.ScreenWidth*0.7, height: height*0.5))
+            let confirmButton = UIButton(frame: CGRect(x: 0, y: height*0.05, width: actionView!.frame.width*0.3, height: height*0.4))
             confirmButton.setTitle("Agree", for: .normal)
             confirmButton.setTitleColor(.white, for: .normal)
             confirmButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
             confirmButton.backgroundColor = ColorConstant.ButtonPrimary
-            confirmButton.layer.cornerRadius = height*0.15
+            confirmButton.layer.cornerRadius = height*0.2
             confirmButton.addTarget(self, action: #selector(confirmButtonClicked(sender:)), for: .touchUpInside)
 
-            let cancelButton = UIButton(frame: CGRect(x: actionView!.frame.width*0.33, y: height*0.1, width: actionView!.frame.width*0.3, height: height*0.3))
+            let cancelButton = UIButton(frame: CGRect(x: actionView!.frame.width*0.33, y: height*0.05, width: actionView!.frame.width*0.3, height: height*0.4))
             cancelButton.setTitle("Cancel", for: .normal)
             cancelButton.setTitleColor(ColorConstant.ButtonPrimary, for: .normal)
             cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 12)
             cancelButton.layer.borderColor = ColorConstant.ButtonPrimary.cgColor
             cancelButton.layer.borderWidth = 1
-            cancelButton.layer.cornerRadius = height*0.15
+            cancelButton.layer.cornerRadius = height*0.2
             cancelButton.addTarget(self, action: #selector(cancelButtonClicked(sender:)), for: .touchUpInside)
 
             actionView!.addSubview(confirmButton)
@@ -166,8 +170,8 @@ class NotificationTableViewCell: UITableViewCell {
 
     func createContent() {
         let width = ScreenSize.ScreenWidth*0.805
-        let height = ScreenSize.ScreenHeight*0.049
-        let content = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: ScreenSize.ScreenHeight*0.05, width: width, height: height))
+        let height = ScreenSize.ScreenHeight*0.045
+        let content = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: ScreenSize.ScreenHeight*0.048, width: width, height: height))
 
         let priceLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width*0.2, height: height))
         priceLabel.text = "$\(self.data.price)"
@@ -175,7 +179,7 @@ class NotificationTableViewCell: UITableViewCell {
         priceLabel.font = UIFont.boldSystemFont(ofSize: 14)
 
         let stringContent = UILabel(frame: CGRect(x: width*0.2, y: 0, width: width*0.8, height: height))
-        stringContent.text = self.data.content
+        stringContent.text = self.data.getContentForNotification()
         stringContent.numberOfLines = 2
         stringContent.font = UIFont.systemFont(ofSize: 12)
 
@@ -187,10 +191,10 @@ class NotificationTableViewCell: UITableViewCell {
 
     // Mark: Handel Item button clicked
     @objc func confirmButtonClicked(sender: UIButton) {
-        delegate?.submitOrCancelOrder(item: self.data, isCancel: false)
+        delegate?.submitOrCancelOrder(item: self.data, isAgree: true)
     }
 
     @objc func cancelButtonClicked(sender: UIButton) {
-        delegate?.submitOrCancelOrder(item: self.data, isCancel: true)
+        delegate?.submitOrCancelOrder(item: self.data, isAgree: false)
     }
 }

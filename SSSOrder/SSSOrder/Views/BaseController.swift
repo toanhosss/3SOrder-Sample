@@ -262,8 +262,6 @@ class BaseController: UIViewController {
         self.navigationController!.popViewController(animated: true)
     }
 
-    // MARK: - NOTIFICATION CENTER OBSERVE
-
 }
 
 extension BaseController: UITextFieldDelegate {
@@ -297,6 +295,15 @@ extension BaseController: UITextFieldDelegate {
      * Delegate set action for each text field
      */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField.returnKeyType {
+        case .next:
+            let nextTag = textField.tag + 1
+            jumpToNextTextField(textField, withTag: nextTag)
+        case .done:
+            NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        default:
+            textField.resignFirstResponder()
+        }
         return false
     }
 

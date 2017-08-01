@@ -52,7 +52,7 @@ class CartTableViewCell: UITableViewCell {
 
         priceLabel = UILabel(frame: CGRect(x: width*0.75, y: 0, width: width*0.2, height: height*0.5))
         priceLabel.textColor = ColorConstant.ButtonPrimary
-        priceLabel.textAlignment = .right
+        priceLabel.textAlignment = .center
 
         durationLabel = UILabel(frame: CGRect(x: width*0.025, y: height*0.5, width: width*0.725, height: height*0.5))
 

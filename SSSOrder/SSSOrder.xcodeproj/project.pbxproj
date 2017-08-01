@@ -22,6 +22,7 @@
 		172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141C51EFD56F4005B1CC2 /* Constants.swift */; };
 		172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141CA1EFD5844005B1CC2 /* ColorExtension.swift */; };
 		1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747E32C1EFE151900325011 /* HomeViewController.swift */; };
+		17821D6D1F2DD332007E0405 /* OrderConfirmDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17821D6C1F2DD332007E0405 /* OrderConfirmDetailViewController.swift */; };
 		17AB183B1F1687A9007AA423 /* AnimationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183A1F1687A9007AA423 /* AnimationUtil.swift */; };
 		17AB183D1F171E8A007AA423 /* ImageView+KingFisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */; };
 		17ABBEC01F1D10E700F86DAC /* BookingHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */; };
@@ -106,6 +107,7 @@
 		172141C51EFD56F4005B1CC2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		172141CA1EFD5844005B1CC2 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		1747E32C1EFE151900325011 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		17821D6C1F2DD332007E0405 /* OrderConfirmDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderConfirmDetailViewController.swift; sourceTree = "<group>"; };
 		17AB183A1F1687A9007AA423 /* AnimationUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationUtil.swift; sourceTree = "<group>"; };
 		17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageView+KingFisherExtension.swift"; sourceTree = "<group>"; };
 		17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingHistoryViewController.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				17B81EA01F0061ED0058875D /* NotificationItemViewController.swift */,
 				17ABBEBF1F1D10E700F86DAC /* BookingHistoryViewController.swift */,
 				17CB95361F27264F00F40C5B /* ScanQRCodeViewController.swift */,
+				17821D6C1F2DD332007E0405 /* OrderConfirmDetailViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				17ABBEC01F1D10E700F86DAC /* BookingHistoryViewController.swift in Sources */,
 				17FE29661F1225D800997E13 /* MyTabbar.swift in Sources */,
 				172141BE1EFD55DB005B1CC2 /* SplashScreenViewController.swift in Sources */,
+				17821D6D1F2DD332007E0405 /* OrderConfirmDetailViewController.swift in Sources */,
 				17208CD71F0F651900B3903A /* YoshikoTextField.swift in Sources */,
 				17B81E8F1EFEF5220058875D /* StringExtension.swift in Sources */,
 				17B81E971F0018F20058875D /* StaffModel.swift in Sources */,
