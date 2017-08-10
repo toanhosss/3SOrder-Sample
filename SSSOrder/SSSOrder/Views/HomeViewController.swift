@@ -42,8 +42,9 @@ class HomeViewController: BaseController {
     }
 
     func getData() {
-        let location = appDelegate?.currentLocation
-//        let location = (lat: "1234", long: "12341234")
+        var location = appDelegate?.currentLocation
+        //49.687447, -95.322750
+        location = (lat: "53.456765", long: "-113.481539") // Hard location in Canada to see all salon
         if location != nil {
             self.showOverlayLoading()
             DispatchQueue.main.async {
@@ -55,6 +56,8 @@ class HomeViewController: BaseController {
                         if self.dataSource.count > 0 {
                             self.createListDataSource()
                             self.insertMarkerToMap()
+                        } else {
+                            self.showErrorEmptySalon(error: "Don't have any salon near you.")
                         }
                     } else {
                         print("Got Error")
@@ -67,18 +70,29 @@ class HomeViewController: BaseController {
         }
     }
 
+    private func showErrorEmptySalon(error: String) {
+        let popup = UIAlertController(title: title, message: error, preferredStyle: .alert)
+
+        let confirm: UIAlertAction = UIAlertAction(title: "Try again", style: .default) { (_) in
+            self.getData()
+        }
+        popup.addAction(confirm)
+
+        present(popup, animated: true, completion: nil)
+    }
+
     /// create map view
     func initMapView() {
 
         // TODOs: get current location and load map
-                let currentLocation = appDelegate?.currentLocation
-//        let currentLocation = CLLocationCoordinate2D(latitude: 32.878626, longitude: -90.41112)
+                var currentLocation = appDelegate?.currentLocation
+        currentLocation = (lat: "53.456765", long: "-113.481539") // Hard location in Canada to see all salon
 
-        let locationCamera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(Double(currentLocation!.lat)!), longitude: CLLocationDegrees(Double(currentLocation!.long)!), zoom: 12)
+        let locationCamera = GMSCameraPosition.camera(withLatitude: CLLocationDegrees(Double(currentLocation!.lat)!), longitude: CLLocationDegrees(Double(currentLocation!.long)!), zoom: 10)
         mapView = GMSMapView.map(withFrame: CGRect(x: 0,
                                                    y: ScreenSize.ScreenHeight*0.1,
                                                    width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.51), camera: locationCamera)
-        mapView.isMyLocationEnabled = true
+        mapView.isMyLocationEnabled = false
         mapView.layer.cornerRadius = 10
 
         self.view.addSubview(mapView)
@@ -107,10 +121,17 @@ class HomeViewController: BaseController {
             dataMarker.append(itemMarker)
         }
 
-        let currentLocation = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.lat)!), longitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.long)!))
-        bounds = bounds.includingCoordinate(currentLocation)
         (self.dataMarker[0].iconView as? MyMarkerMap)!.updateMarkerHighlight(status: true)
         self.dataMarker[0].map = self.mapView
+//        let currentLocation = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.lat)!), longitude: CLLocationDegrees(Double(appDelegate!.currentLocation!.long)!))
+        let currentLocation = CLLocationCoordinate2D(latitude: 53.456765, longitude: -113.481539)
+        let itemMarker = GMSMarker(position: currentLocation)
+        let icon = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
+        icon.layer.cornerRadius = 8
+        icon.backgroundColor = UIColor.hexStringToUIColor("#19B5FE")
+        itemMarker.iconView = icon
+        itemMarker.map = self.mapView
+        bounds = bounds.includingCoordinate(currentLocation)
         mapView.animate(with: GMSCameraUpdate.fit(bounds))
         let locationCamera = GMSCameraPosition.camera(withTarget: currentLocation, zoom: mapView.camera.zoom)
         mapView.animate(to: locationCamera)
@@ -136,14 +157,13 @@ class HomeViewController: BaseController {
         listItemView.contentSize = CGSize(width: itemWidth*CGFloat(dataSource.count), height: itemHeight)
 
         for i in 0..<dataSource.count {
-            let container = UIView(frame: CGRect(x: CGFloat(i)*itemWidth, y: 0, width: itemWidth, height: itemHeight))
+            let container = StoreView(frame: CGRect(x: CGFloat(i)*itemWidth, y: 0, width: itemWidth, height: itemHeight), storeModel: dataSource[i])
             container.tag = i
             container.backgroundColor = .clear
             let tapStoreRecognizer = UITapGestureRecognizer(target: self, action: #selector(loadStoreProduct(sender:)))
             container.isUserInteractionEnabled = true
             container.addGestureRecognizer(tapStoreRecognizer)
 
-            loadDataSource(item: dataSource[i], container: container)
             listItemView.addSubview(container)
         }
 
@@ -157,70 +177,6 @@ class HomeViewController: BaseController {
 
         self.view.addSubview(listItemView)
         self.view.addSubview(pageControl)
-    }
-
-    // create data Source
-    func loadDataSource(item: SalonStoreModel, container: UIView) {
-
-        let shadowView = UIView(frame: CGRect(x: 3, y: 3, width: container.frame.width - 6, height: container.frame.height - 6))
-
-        shadowView.backgroundColor = .white
-        shadowView.layer.cornerRadius = shadowView.frame.height*0.1
-        shadowView.layer.shadowColor = ColorConstant.ShadowColor.cgColor
-        shadowView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        shadowView.layer.shadowRadius = 3
-        shadowView.layer.shadowOpacity = 1
-        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: 3).cgPath
-
-        let cardView = UIView(frame: CGRect(x: 0, y: 0, width: container.frame.width - 6, height: container.frame.height - 6))
-        cardView.layer.masksToBounds = true
-        cardView.layer.cornerRadius = cardView.frame.height*0.1
-        shadowView.addSubview(cardView)
-
-        let imageStore = UIImageView(frame: CGRect(x: 0.03*container.frame.width, y: container.frame.height*0.1, width: container.frame.height*0.5, height: container.frame.height*0.5))
-        imageStore.setKingfisherImage(with: URL(string: item.image), placeholder: ImageConstant.IconNoImage)
-        imageStore.layer.cornerRadius = imageStore.frame.height*0.1
-        imageStore.clipsToBounds = true
-
-        let nameLabel = UILabel(frame: CGRect(x: container.frame.width*0.3, y: container.frame.height*0.1,
-                                                width: container.frame.width*0.48, height: container.frame.height*0.168))
-        nameLabel.text = item.name
-        nameLabel.sizeToFit()
-        nameLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        nameLabel.backgroundColor = .clear
-
-        let descriptionLabel = UITextView(frame: CGRect(x: container.frame.width*0.3, y: container.frame.height*0.268,
-                                              width: container.frame.width*0.5, height: container.frame.height*0.332))
-        descriptionLabel.text = item.description
-        descriptionLabel.font = UIFont.systemFont(ofSize: 12)
-        descriptionLabel.backgroundColor = .clear
-
-        let locationImage = UIImageView(frame: CGRect(x: container.frame.width*0.03, y: container.frame.height*0.7,
-                                                width: imageStore.frame.origin.y, height: container.frame.height*0.15))
-        locationImage.image = ImageConstant.IconLocation?.withRenderingMode(.alwaysTemplate)
-        locationImage.tintColor = .black
-        locationImage.contentMode = .scaleAspectFit
-
-        let infodata = UILabel(frame: CGRect(x: container.frame.width*0.1, y: container.frame.height*0.67, width: container.frame.width*0.6, height: container.frame.height*0.2))
-        infodata.numberOfLines = 2
-        infodata.text = item.address
-        infodata.font = UIFont.systemFont(ofSize: 12)
-        infodata.backgroundColor = .clear
-
-        let distanceData = UILabel(frame: CGRect(x: container.frame.width*0.78, y: container.frame.height*0.7, width: container.frame.width*0.16, height: container.frame.height*0.15))
-        distanceData.text = "\(item.distance!) km"
-        distanceData.adjustsFontSizeToFitWidth = true
-        distanceData.layer.masksToBounds = true
-        distanceData.backgroundColor = UIColor.hexStringToUIColor("#A8B4C4")
-        distanceData.layer.cornerRadius = distanceData.frame.height*0.2
-        distanceData.textColor = .white
-
-        cardView.addSubview(imageStore)
-        cardView.addSubview(nameLabel)
-        cardView.addSubview(locationImage)
-        cardView.addSubview(infodata)
-        cardView.addSubview(distanceData)
-        container.addSubview(shadowView)
     }
 
     // MARK: Event handler touched

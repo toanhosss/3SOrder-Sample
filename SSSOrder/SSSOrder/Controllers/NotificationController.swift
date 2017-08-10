@@ -20,9 +20,10 @@ class NotificationController: NSObject {
 
     let notificationType = ["Promotion", "System Notification"]
 
+    let user = UserDefaultUtils.getUser()
+
     /// Get list notification
     func getListNotification(callback: @escaping(_ notifications: [NotificationModel], _ error: String?) -> Void) {
-        let user = UserDefaultUtils.getUser()
         self.provider.request(.getNotificationList(customerId: user!.userId)) { (result) in
             switch result {
             case .failure(let error):
@@ -60,9 +61,29 @@ class NotificationController: NSObject {
         }
     }
 
+    func updateStatusNotification(notificationId: Int, callback: @escaping(_ listNotification: NotificationModel?, _ error: String?) -> Void) {
+
+        self.provider.request(.updateNotificationStatus(customerId: user!.userId, notificationId: notificationId)) { (result) in
+            switch result {
+            case .success(let response):
+                do {
+                    let json = try response.mapJSON() as? [[String:Any]]
+
+
+                    callback(nil, nil)
+                } catch {
+                    let error = "Cannot map data"
+                    callback(nil, error)
+                }
+            case .failure(let error):
+                let errorString = error.errorDescription
+                callback(nil, errorString)
+            }
+        }
+    }
+
     /// Send confirmed Order
     func confirmOrderAPI(notificationItem: NotificationModel, action: Int, callback: @escaping(_ listNotification: [NotificationModel], _ error: String?) -> Void) {
-        let user = UserDefaultUtils.getUser()
         self.provider.request(.confirmOrRejectOrder(notificationItem: notificationItem, customerId: user!.userId, action: action)) { (result) in
             switch result {
             case .failure(let error):

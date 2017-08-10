@@ -218,9 +218,7 @@ extension StoreWithProductViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.21)
 
-        if item.image != "" {
-            cell.imageProduct.setKingfisherImage(with: URL(string: item.image), placeholder: ImageConstant.IconNoImage)
-        }
+        cell.imageProduct.setKingfisherImage(with: URL(string: item.image), placeholder: ImageConstant.IconNoImage)
         cell.salonProduct = item
         cell.backgroundColor = .clear
         cell.delegate = self

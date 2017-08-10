@@ -265,8 +265,8 @@ class StaffViewController: BaseController {
                 self.removeOverlayLoading()
                 if status {
 //                    _ = self.navigationController?.popToRootViewController(animated: true)
-                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil,
-                                                    userInfo: nil)
+//                    NotificationCenter.default.post(name: ObserveNameConstant.NewNotificationUpdate, object: nil,
+//                                                    userInfo: nil)
 //                    self.showInfoMessage("Your Order has been submitted successfully.")
                     self.showOrderDetailPopup(orderId: orderId!)
                 } else {

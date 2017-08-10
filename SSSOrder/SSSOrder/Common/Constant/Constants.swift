@@ -72,6 +72,9 @@ enum ColorConstant {
 
     static let ShadowColor = UIColor.hexStringToUIColor("#D9E2E9", alpha: 0.5)
 
+    /// Text Color
+    static let TextColorHighlight = UIColor.hexStringToUIColor("#E57C27")
+
     /// Order Status
     static let OrderConfirm = UIColor.hexStringToUIColor("#f2b274")
     static let OrderProccessing = UIColor.hexStringToUIColor("#f69187")
@@ -113,4 +116,5 @@ enum ObserveNameConstant {
 enum URLConstant {
     static var baseURL = "http://3sorder.success-ss.com.vn:8889"
     static var qrUrl = ""
+    static let actionPhoneCall = "tel://"
 }

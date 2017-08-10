@@ -22,6 +22,7 @@
 		172141C61EFD56F4005B1CC2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141C51EFD56F4005B1CC2 /* Constants.swift */; };
 		172141CB1EFD5844005B1CC2 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172141CA1EFD5844005B1CC2 /* ColorExtension.swift */; };
 		1747E32D1EFE151900325011 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1747E32C1EFE151900325011 /* HomeViewController.swift */; };
+		175916601F3C2FBF00F7DC06 /* StoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1759165F1F3C2FBF00F7DC06 /* StoreView.swift */; };
 		17821D6D1F2DD332007E0405 /* OrderConfirmDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17821D6C1F2DD332007E0405 /* OrderConfirmDetailViewController.swift */; };
 		17AB183B1F1687A9007AA423 /* AnimationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183A1F1687A9007AA423 /* AnimationUtil.swift */; };
 		17AB183D1F171E8A007AA423 /* ImageView+KingFisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */; };
@@ -107,6 +108,7 @@
 		172141C51EFD56F4005B1CC2 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		172141CA1EFD5844005B1CC2 /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		1747E32C1EFE151900325011 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		1759165F1F3C2FBF00F7DC06 /* StoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreView.swift; sourceTree = "<group>"; };
 		17821D6C1F2DD332007E0405 /* OrderConfirmDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderConfirmDetailViewController.swift; sourceTree = "<group>"; };
 		17AB183A1F1687A9007AA423 /* AnimationUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationUtil.swift; sourceTree = "<group>"; };
 		17AB183C1F171E8A007AA423 /* ImageView+KingFisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ImageView+KingFisherExtension.swift"; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				38E439E61F04FB9400F4129E /* SettingItemTableViewCell.swift */,
 				17FE29651F1225D800997E13 /* MyTabbar.swift */,
 				17FE29691F12483D00997E13 /* CalendarCollectionViewCell.swift */,
+				1759165F1F3C2FBF00F7DC06 /* StoreView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				17CB95371F27264F00F40C5B /* ScanQRCodeViewController.swift in Sources */,
 				17B81E9B1F0052870058875D /* PopupUtil.swift in Sources */,
 				17B81E951F0017BA0058875D /* SubmitOrderViewController.swift in Sources */,
+				175916601F3C2FBF00F7DC06 /* StoreView.swift in Sources */,
 				17B81E931F0017A10058875D /* StaffViewController.swift in Sources */,
 				17208CD11F0F651900B3903A /* JiroTextField.swift in Sources */,
 				38EA1E711F0B3E1000BB3BCC /* NotificationController.swift in Sources */,

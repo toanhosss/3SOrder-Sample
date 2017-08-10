@@ -106,6 +106,7 @@ class NotificationViewController: BaseController {
                 if self.tabBarController?.tabBar.items?[1].badgeValue != nil {
                     number = Int((self.tabBarController?.tabBar.items?[1].badgeValue)!)!
                 }
+
                 number += 1
                 self.tabBarController?.tabBar.items?[1].badgeValue = "\(number)"
 
@@ -237,21 +238,38 @@ extension NotificationViewController: UITableViewDataSource {
 extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        //        self.notificationItemSelected = self.listData[indexPath.row]
-        //        let index = self.listData.index(of: self.notificationItemSelected!)
-        //        self.listData[index!].isReadable = true
-        //        tableView.reloadData()
-        //
-        //        let count = self.listData.filter({ $0.isReadable == false }).count
-        //
-        //        if count > 0 {
-        //            self.tabBarController?.tabBar.items?[1].badgeValue = "\(count)"
-        //        } else {
-        //            self.tabBarController?.tabBar.items?[1].badgeValue = nil
-        //        }
+        if self.listData[indexPath.row].type != 3 { return }
 
-        //        self.performSegue(withIdentifier: SegueNameConstant.NotificationToNotificationItem, sender: nil)
+        callUpdateNotification(notification: self.listData[indexPath.row])
 
+        self.notificationItemSelected = self.listData[indexPath.row]
+
+        let count = self.listData.filter({ $0.isReadable == false }).count
+
+        if count > 0 {
+            self.tabBarController?.tabBar.items?[1].badgeValue = "\(count)"
+        } else {
+            self.tabBarController?.tabBar.items?[1].badgeValue = nil
+        }
+
+        self.performSegue(withIdentifier: SegueNameConstant.NotificationToNotificationItem, sender: nil)
+
+    }
+
+    func callUpdateNotification(notification: NotificationModel) {
+        DispatchQueue.main.async {
+            self.notificationController.updateStatusNotification(notificationId: notification.orderId!, callback: { (_, error) in
+                if error != nil {
+                    self.showErrorMessage(error!)
+                    return
+                }
+
+                notification.isReadable = true
+                self.tableViewList.reloadData()
+                return
+
+            })
+        }
     }
 }
 

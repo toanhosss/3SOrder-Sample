@@ -164,7 +164,7 @@ class OrderController: NSObject {
                     let data = try response.mapJSON() as? [String: Any]
                     guard let date = data!["date"] as? String,
                         let staffData = data!["staffs"] as? [[String:Any]] else {
-                            callback([], "Cannot map Data Staff")
+                            callback([], nil)
                             return
                     }
                     print("Date was booked: \(date)")
