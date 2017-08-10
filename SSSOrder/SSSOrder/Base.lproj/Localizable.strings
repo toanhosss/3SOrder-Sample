@@ -22,16 +22,16 @@
 "labelBack" = "Already have an Account? Sign in";
 
 /* title label */
-"home" = "Nearest Salon";
+"home" = "Salon List";
 "back" = "Back";
 "service" = "Services";
 "continue" = "Continue";
 "submit" = "Submit Order";
-"staff" = "Staff List";
+"staff" = "Technician List";
 "note" = "Note";
 "payment" = "Payment";
 "booking" = "Booking";
-"notification" = "Notifications";
+"notification" = "Notification";
 "history" = "Booking History";
 "setting" = "Setting";
 "price" = "$";

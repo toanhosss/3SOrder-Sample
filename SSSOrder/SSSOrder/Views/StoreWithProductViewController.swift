@@ -41,7 +41,7 @@ class StoreWithProductViewController: BaseController {
     func getData() {
         self.showOverlayLoading()
         DispatchQueue.main.async {
-            self.productController.getData(storeId: self.dataItem.salonId) { (data, staff, error) in
+            self.productController.getData(storeId: self.dataItem.salonId) { (data, error) in
                 self.removeOverlayLoading()
                 if error != nil {
                     self.showErrorMessage(error!)
@@ -52,7 +52,6 @@ class StoreWithProductViewController: BaseController {
                         categoriesHeader.append(data![i].name)
                     }
                     self.categories = data!
-                    self.staffList = staff
                     self.createLabelHeaderTitle(headers: categoriesHeader)
                     self.createListCollectionProduct(headers: categoriesHeader)
                 }
@@ -103,6 +102,10 @@ class StoreWithProductViewController: BaseController {
     }
 
     func createLabelHeaderTitle(headers: [String]) {
+        if self.segmentHeader != nil {
+            self.segmentHeader.removeFromSuperview()
+            self.segmentHeader = nil
+        }
         segmentHeader = HMSegmentedControl(sectionTitles: headers)
         segmentHeader!.frame = CGRect(x: 0, y: ScreenSize.ScreenHeight*0.1, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.075)
         segmentHeader!.autoresizingMask = [.flexibleWidth, .flexibleLeftMargin]
@@ -118,6 +121,10 @@ class StoreWithProductViewController: BaseController {
     }
 
     func createListCollectionProduct(headers: [String]) {
+        if self.pageScrollCollection != nil {
+            self.pageScrollCollection.removeFromSuperview()
+            self.pageScrollCollection = nil
+        }
         pageScrollCollection = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.19, width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73))
         pageScrollCollection.isPagingEnabled = true
         pageScrollCollection.delegate = self
@@ -175,7 +182,7 @@ class StoreWithProductViewController: BaseController {
         if destVC != nil {
             destVC!.storeBooked = self.dataItem
             destVC!.listDataBooking = self.productSelected
-            destVC!.staffList = self.staffList
+//            destVC!.staffList = self.staffList
         }
 
     }

@@ -300,7 +300,7 @@ extension BaseController: UITextFieldDelegate {
             let nextTag = textField.tag + 1
             jumpToNextTextField(textField, withTag: nextTag)
         case .done:
-            NotificationCenter.default.post(name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+            textField.endEditing(true)
         default:
             textField.resignFirstResponder()
         }

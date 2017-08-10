@@ -20,6 +20,7 @@ enum APIService {
     case getListOrderToday(customerId: Int)
     case checkInCheckoutOrderQRCode(orderList:[OrderModel])
     case getNotificationList(customerId: Int)
+    case updateNotificationStatus(customerId: Int, notificationId: Int)
     case confirmOrRejectOrder(notificationItem: NotificationModel, customerId: Int, action: Int)
 }
 
@@ -53,6 +54,8 @@ extension APIService: TargetType {
             return "/api/Order/CheckInCheckOutOrder"
         case .confirmOrRejectOrder:
             return "/api/Order/ConfirmRejectOrder"
+        case .updateNotificationStatus:
+            return "/api/Notification/Update"
         }
     }
 
@@ -60,7 +63,7 @@ extension APIService: TargetType {
         switch self {
         case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode, .confirmOrRejectOrder:
             return .post
-        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail, .updateNotificationStatus:
             return .get
         }
     }
@@ -95,13 +98,12 @@ extension APIService: TargetType {
             for item in productList {
                 var orderItem: [String: Any] = [:]
                 orderItem["productId"] = item.productId as Any
-                orderItem["staffId"] = staff.staffId as Any
                 orderItem["price"] = item.price as Any
-                orderItem["total"] = 0
+                orderItem["total"] = item.price*1 as Any
                 orderDetail.append(orderItem)
             }
 
-            return ["customerId": customerId,
+            return ["userId": customerId,
                     "storeId": storeId,
                     "totalAmount": amount,
                     "bookingDate": bookedDate,
@@ -111,13 +113,14 @@ extension APIService: TargetType {
                     "customerNameOrder": customerName,
                     "phoneNumberOrder": customerPhone,
                     "pickupTime": timer,
+                    "staffId": staff.staffId,
                     "orderDetails": orderDetail]
 
         case .getOrderDetail(let orderId):
             return ["orderId": orderId as Any]
         case .getListOrderToday(let customerId):
             var params: [String: Any] = [:]
-            params["customerId"] = customerId as Any
+            params["userId"] = customerId as Any
             return params
 
         case .checkInCheckoutOrderQRCode(let orderList):
@@ -126,7 +129,7 @@ extension APIService: TargetType {
             for order in orderList {
                 var orderParams: [String:Any] = [:]
                 orderParams["id"] = order.orderId as Any
-                orderParams["customerId"] = order.customerId as Any
+                orderParams["userId"] = order.customerId as Any
                 orderParams["storeId"] = order.storeId as Any
                 orderParams["status"] = order.status as Any
                 orderParams["bookingDate"] = order.bookingDate as Any
@@ -141,22 +144,16 @@ extension APIService: TargetType {
             return param
 
         case .getNotificationList(let customerId):
-            return ["customerId": customerId as Any]
+            return ["userId": customerId as Any]
 
         case .confirmOrRejectOrder(let notificationItem, let customerId, let action):
-            let notificationParam = ["id": notificationItem.notificationId as Any,
-                                     "title": notificationItem.title as Any,
-                                     "customerId": customerId as Any,
-                                     "createDate": notificationItem.getRawDateString() as Any,
-                                     "status": notificationItem.isReadable as Any,
-                                     "isConfirmOrder": notificationItem.isConfirmOder as Any,
-                                     "orderId": notificationItem.orderId as Any,
-                                     "description": notificationItem.content as Any,
-                                     "notificationType": notificationItem.type as Any]
-            let params = ["Notification": notificationParam as Any,
-                          "OrderId": notificationItem.orderId as Any,
+            let params = ["notificationId": notificationItem.notificationId as Any,
+                          "userId": customerId,
+                          "orderId": notificationItem.orderId as Any,
                           "Action": action as Any]
             return params
+        case .updateNotificationStatus(let customerId, let notificationId):
+            return ["notificationId": notificationId, "userId": customerId]
         }
     }
 
@@ -164,7 +161,7 @@ extension APIService: TargetType {
         switch self {
         case .login, .register, .createOrder, .getStaffSchedule, .checkInCheckoutOrderQRCode, .confirmOrRejectOrder:
             return JSONEncoding.default
-        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail:
+        case .getStoreByGPS, .getCategoriesByStore, .getListOrderToday, .getNotificationList, .getOrderDetail, .updateNotificationStatus:
             return URLEncoding.default
         }
     }

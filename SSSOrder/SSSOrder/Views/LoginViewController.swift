@@ -231,9 +231,4 @@ class LoginViewController: BaseController {
         self.view.addGestureRecognizer(tapInputKeyboard2)
 
     }
-
-    override func keyboardWillHide(_ notification: Notification) {
-        super.keyboardWillHide(notification)
-        self.passwordInput.endEditing(true)
-    }
 }

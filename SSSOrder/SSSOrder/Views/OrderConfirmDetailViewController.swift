@@ -22,7 +22,7 @@ class OrderConfirmDetailViewController: BaseController {
     var staffName = ""
     var dateBook: Date = Date()
     var timeBook = ""
-    let width = ScreenSize.ScreenWidth*0.6
+    let width = ScreenSize.ScreenWidth*0.8
     let height = ScreenSize.ScreenHeight*0.5
 
     weak var delegate: OrderConfirmDetailDelegate?
@@ -35,7 +35,7 @@ class OrderConfirmDetailViewController: BaseController {
 
     func showInView(_ aView: UIView!, withData data: [String:Any], animated: Bool) {
 
-        self.popupView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.2, y: ScreenSize.ScreenHeight*0.25, width: width, height: height))
+        self.popupView = UIView(frame: CGRect(x: ScreenSize.ScreenWidth*0.1, y: ScreenSize.ScreenHeight*0.25, width: width, height: height))
         popupView.layer.cornerRadius = height*0.03
         popupView.clipsToBounds = true
         self.popupView.backgroundColor = .white
@@ -44,16 +44,14 @@ class OrderConfirmDetailViewController: BaseController {
         guard let orderId = data["id"] as? Int,
         let total = data["total"] as? Double,
         let orderDetail = data["orderDetails"] as? [[String:Any]],
+        let staff = data["staffName"] as? String,
         let bookingDate = data["bookingDate"] as? String
         else {
             self.showErrorMessage("Can't map data")
             delegate?.closePopup(popup: self.popupView)
             return
         }
-
-        if orderDetail.count > 0 {
-            staffName = (orderDetail[0]["staffName"] as? String)!
-        }
+        staffName = staff
 
         let dateBooking = DateUtil.convertDateTimeFromStringWithFormatInputOutput(with: bookingDate, input: "yyyy-MM-dd'T'HH:mm:ss", output: "EEEE, MMMM dd, yyyy")
 
@@ -65,12 +63,6 @@ class OrderConfirmDetailViewController: BaseController {
         self.view.setNeedsDisplay()
         aView.addSubview(self.view)
 
-        let closeButton = UIButton(frame: CGRect(x: ScreenSize.ScreenWidth*0.4, y: ScreenSize.ScreenHeight*0.75 - height*0.05, width: ScreenSize.ScreenWidth*0.2, height: height*0.1))
-        closeButton.setTitle("Close", for: .normal)
-        closeButton.backgroundColor = UIColor.hexStringToUIColor("#DB0A5B")
-        closeButton.addTarget(self, action: #selector(closePopupButton(sender:)), for: .touchUpInside)
-        self.view.addSubview(closeButton)
-
         if animated {
             AnimationUtil.showPopupAnimate(self.view)
         }
@@ -79,11 +71,11 @@ class OrderConfirmDetailViewController: BaseController {
     func createTitle(orderId: Int) {
         let height = ScreenSize.ScreenHeight*0.05
         let titleView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        titleView.backgroundColor = ColorConstant.BackgroundColor
+//        titleView.backgroundColor = ColorConstant.BackgroundColor
         let titleLabel = UILabel(frame: CGRect(x: 0, y: height*0.1, width: width, height: height*0.7))
-        titleLabel.text = "Order #\(orderId)"
+        titleLabel.text = "Booking #\(orderId)"
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .white
+//        titleLabel.textColor = .white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         titleView.addSubview(titleLabel)
 
@@ -94,33 +86,34 @@ class OrderConfirmDetailViewController: BaseController {
 
         let height = ScreenSize.ScreenHeight*0.25
         let generalInfo = UIView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.05, width: width, height: height*0.75))
-        generalInfo.backgroundColor = ColorConstant.BackgroundColor
+//        generalInfo.backgroundColor = ColorConstant.BackgroundColor
         let priceLabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: height*0.3))
         priceLabel.text = "$\(price)"
-        priceLabel.textColor = UIColor.hexStringToUIColor("#E57C27")
+        priceLabel.textColor = ColorConstant.BackgroundColor
         priceLabel.textAlignment = .center
         priceLabel.font = UIFont.boldSystemFont(ofSize: 40)
         generalInfo.addSubview(priceLabel)
 
-        let dateBookIcon = UIImageView(frame: CGRect(x: width*0.03, y: height*0.43, width: height*0.12, height: height*0.12))
+        let dateBookIcon = UIImageView(frame: CGRect(x: width*0.1, y: height*0.43, width: height*0.12, height: height*0.12))
         dateBookIcon.image = ImageConstant.IconBooking?.withRenderingMode(.alwaysTemplate)
-        dateBookIcon.tintColor = .white
+        dateBookIcon.tintColor = .black
         generalInfo.addSubview(dateBookIcon)
 
-        let staffIcon = UIImageView(frame: CGRect(x: width*0.03, y: height*0.58, width: height*0.12, height: height*0.12))
-        staffIcon.image = ImageConstant.IconUser
+        let staffIcon = UIImageView(frame: CGRect(x: width*0.1, y: height*0.58, width: height*0.12, height: height*0.12))
+        staffIcon.image = ImageConstant.IconUser?.withRenderingMode(.alwaysTemplate)
+        staffIcon.tintColor = .black
         generalInfo.addSubview(staffIcon)
 
-        let left = width*0.05 + height*0.15
+        let left = width*0.12 + height*0.15
         let dateBookedLabel = UILabel(frame: CGRect(x: left, y: height*0.4, width: width - left, height: height*0.15))
         dateBookedLabel.text = dateBooking
-        dateBookedLabel.textColor = .white
+//        dateBookedLabel.textColor = .black
         dateBookedLabel.font = UIFont.boldSystemFont(ofSize: 12)
         generalInfo.addSubview(dateBookedLabel)
 
         let staffLabel = UILabel(frame: CGRect(x: left, y: height*0.55, width: width - left, height: height*0.15))
         staffLabel.text = staffName
-        staffLabel.textColor = .white
+//        staffLabel.textColor = .white
         staffLabel.font = UIFont.boldSystemFont(ofSize: 12)
         generalInfo.addSubview(staffLabel)
 
@@ -128,12 +121,20 @@ class OrderConfirmDetailViewController: BaseController {
     }
 
     func createServicesList(orderDetail: [[String:Any]]) {
-        let listProductView = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.2375, width: width, height: height*0.5))
+        let listProductView = UIScrollView(frame: CGRect(x: 0, y: ScreenSize.ScreenHeight*0.2375, width: width, height: height*0.3))
         listProductView.contentSize = CGSize(width: width, height: height*0.15*CGFloat(self.serviceList.count))
         for i in 0..<orderDetail.count {
             listProductView.addSubview(loadItemService(productItem: orderDetail[i], index: CGFloat(i)))
         }
         self.popupView.addSubview(listProductView)
+
+        let closeButton = UIButton(frame: CGRect(x: -1, y: self.popupView.frame.height - ScreenSize.ScreenHeight*0.1, width: width + 1, height: ScreenSize.ScreenHeight*0.1 + 1))
+        closeButton.setTitle("Close", for: .normal)
+        closeButton.layer.borderWidth = 1
+        closeButton.layer.borderColor = UIColor.lightGray.cgColor
+        closeButton.setTitleColor(ColorConstant.BackgroundColor, for: .normal)
+        closeButton.addTarget(self, action: #selector(closePopupButton(sender:)), for: .touchUpInside)
+        self.popupView.addSubview(closeButton)
     }
 
     func loadItemService(productItem: [String: Any], index: CGFloat) -> UIView {

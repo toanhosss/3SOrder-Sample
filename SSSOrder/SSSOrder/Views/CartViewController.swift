@@ -99,7 +99,7 @@ class CartViewController: BaseController {
         if destVC != nil {
             destVC!.productList = self.listDataBooking
             destVC!.storeBooked = self.storeBooked
-            destVC!.staffList += self.staffList
+//            destVC!.staffList += self.staffList
 //            destVC!.staffList += getStaffListAvailableForThisOrder()
         }
     }
@@ -123,7 +123,7 @@ extension CartViewController: UITableViewDataSource {
         cell.contentView.frame = CGRect(x: 0, y: 0, width: ScreenSize.ScreenWidth*0.95, height: ScreenSize.ScreenHeight*0.2)
         cell.itemData = item
         cell.nameProduct.text = item.name
-        cell.priceLabel.text = NSLocalizedString("price", comment: "price value name") + "\(Int(item.price))"
+        cell.priceLabel.text = NSLocalizedString("price", comment: "price value name") + "\(item.price)"
         cell.durationLabel.text = "Duration: \(item.duration!)"
 
         return cell

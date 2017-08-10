@@ -13,7 +13,8 @@ class StaffViewController: BaseController {
 
     var productList: [SalonProductModel]!
     var storeBooked: SalonStoreModel!
-    var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
+//    var staffList: [StaffModel] = [StaffModel(staffId: -1, name: "Any Staff", avatar: "")]
+    var staffList: [StaffModel] = []
 
     var timeSelected: String = ""
 
@@ -76,7 +77,7 @@ class StaffViewController: BaseController {
         calendar.appearance.headerMinimumDissolvedAlpha = 0
         calendar.appearance.todayColor = .clear
         calendar.appearance.titleTodayColor = ColorConstant.BackgroundColor
-        calendar.select(Date())
+        calendar.select(Date().hour >= 17 ? Date().tomorrow: Date())
         calendar.dataSource = self
         calendar.delegate = self
 
@@ -188,7 +189,7 @@ class StaffViewController: BaseController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.allowsSelection = true
         self.tableView.panGestureRecognizer.require(toFail: self.scopeGesture)
         self.view.addSubview(tableView)
@@ -298,12 +299,12 @@ class StaffViewController: BaseController {
 
     // MARK: handler segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destVC = segue.destination as? SubmitOrderViewController
-        if destVC != nil {
-            destVC!.storeBooked = self.storeBooked
-            destVC!.productList = self.productList
-            destVC!.staffSelected = staffSelected
+        if let destVC = segue.destination as? SubmitOrderViewController {
+            destVC.storeBooked = self.storeBooked
+            destVC.productList = self.productList
+            destVC.staffSelected = staffSelected
         }
+
     }
 
     override func keyboardWillShow(_ notification: Notification) {
@@ -331,7 +332,8 @@ extension StaffViewController: FSCalendarDelegate {
     func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
         let itemSelected = self.dateFormatter.string(from: date)
         let currentDate = self.dateFormatter.string(from: Date())
-        if DateUtil.calicuateDaysBetweenTwoDates(start: self.dateFormatter.date(from: currentDate)!, end: self.dateFormatter.date(from: itemSelected)!) < 0 {
+        let duration = DateUtil.calicuateDaysBetweenTwoDates(start: self.dateFormatter.date(from: currentDate)!, end: self.dateFormatter.date(from: itemSelected)!)
+        if duration <= 0 {
             self.showErrorMessage(NSLocalizedString("select date error", comment: ""))
             return false
         }
@@ -389,6 +391,19 @@ extension StaffViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
+
+        if staffList.count <= 0 {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height))
+            noDataLabel.text             = NSLocalizedString("There are no staff available currently.", comment: "empty offer data")
+            noDataLabel.textColor        = UIColor.black
+            noDataLabel.font = UIFont.systemFont(ofSize: 15)
+            noDataLabel.textAlignment    = .center
+            self.tableView.backgroundView = noDataLabel
+            self.tableView.separatorStyle = .none
+            return 0
+        }
+
+        self.tableView.backgroundView = nil
         return staffList.count
 //        return 1
     }
@@ -489,14 +504,25 @@ extension StaffViewController: StaffItemDelegate {
         popupView.addSubview(titleView)
 
         // init content
-        let dateBooking = UILabel(frame: CGRect(x: width*0.05, y: height*0.8, width: width*0.7, height: height*0.5))
+        let dateBookIcon = UIImageView(frame: CGRect(x: width*0.05, y: height*1.275, width: height*0.3, height: height*0.3))
+        dateBookIcon.image = ImageConstant.IconBooking?.withRenderingMode(.alwaysTemplate)
+        dateBookIcon.tintColor = .black
+        popupView.addSubview(dateBookIcon)
+
+        let staffIcon = UIImageView(frame: CGRect(x: width*0.05, y: height*0.875, width: height*0.3, height: height*0.3))
+        staffIcon.image = ImageConstant.IconUser?.withRenderingMode(.alwaysTemplate)
+        staffIcon.tintColor = .black
+        popupView.addSubview(staffIcon)
+
+        let dateBooking = UILabel(frame: CGRect(x: width*0.08 + height*0.3, y: height*0.8, width: width*0.7, height: height*0.5))
         dateBooking.text = self.staffSelected!.name
-        dateBooking.textAlignment = .center
+        dateBooking.textAlignment = .left
         dateBooking.font = UIFont.systemFont(ofSize: 15)
-        let dateValue = UILabel(frame: CGRect(x: width*0.05, y: height*1.2, width: width*0.7, height: height*0.5))
-        dateValue.text = "on \(DateUtil.convertDateToFullLongDate(with: self.dateSelected!, formatInput: self.dateFormatter.dateFormat)!) \(self.timeSelected)"
+
+        let dateValue = UILabel(frame: CGRect(x: dateBooking.frame.origin.x, y: height*1.2, width: width*0.7, height: height*0.5))
+        dateValue.text = "\(DateUtil.convertDateToFullLongDate(with: self.dateSelected!, formatInput: self.dateFormatter.dateFormat)!) \(self.timeSelected)"
         dateValue.font = UIFont.systemFont(ofSize: 14)
-        dateValue.textAlignment = .center
+        dateValue.textAlignment = .left
         popupView.addSubview(dateBooking)
         popupView.addSubview(dateValue)
 
@@ -521,7 +547,7 @@ extension StaffViewController: StaffItemDelegate {
         footerButtonView.addSubview(cancelButton)
 
         let bookingButton = UIButton(frame: CGRect(x: width*0.4 + 1, y: 1, width: width*0.4 - 0.5, height: height - 1))
-        bookingButton.setTitle("Booking", for: .normal)
+        bookingButton.setTitle("Book", for: .normal)
         bookingButton.backgroundColor = ColorConstant.ButtonPrimary
         bookingButton.addTarget(self, action: #selector(bookingButtonTouched(sender:)), for: .touchUpInside)
         footerButtonView.addSubview(bookingButton)
@@ -535,7 +561,16 @@ extension StaffViewController: OrderConfirmDetailDelegate {
     func closePopup(popup: UIView) {
         AnimationUtil.removePopupAnimate(self.orderDetail.view)
         self.orderDetail = nil
-        _ = self.navigationController?.popToRootViewController(animated: true)
+//        _ = self.navigationController?.popToRootViewController(animated: true)
+        for controller in (self.navigationController!.viewControllers as Array) where controller is StoreWithProductViewController {
+            if let storeProductVC = controller as? StoreWithProductViewController {
+                storeProductVC.productSelected = []
+                storeProductVC.updateNumberItemInCart(number: "0")
+                storeProductVC.getData()
+                self.navigationController!.popToViewController(controller, animated: true)
+            }
+        }
+
     }
 }
 

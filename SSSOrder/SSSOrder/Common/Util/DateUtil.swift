@@ -81,3 +81,9 @@ class DateUtil: NSObject {
         return outPut
     }
 }
+
+extension Date {
+    var tomorrow: Date {
+        return Calendar.current.date(byAdding: .day, value: 1, to: self)!
+    }
+}

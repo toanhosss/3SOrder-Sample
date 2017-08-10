@@ -75,13 +75,13 @@ class NotificationTableViewCell: UITableViewCell {
         icon = UIImageView(frame: CGRect(x: ScreenSize.ScreenWidth*0.05, y: height*0.25, width: height*0.5, height: height*0.5))
         icon.contentMode = .scaleAspectFit
 
-        name = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: height*0.01, width: width*0.5, height: height*0.5))
+        name = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.175, y: height*0.01, width: width*0.6, height: height*0.5))
         name.lineBreakMode = .byTruncatingTail
-        name.font = UIFont.boldSystemFont(ofSize: 16)
+        name.font = UIFont.boldSystemFont(ofSize: 15)
         name.textColor = ColorConstant.ButtonPrimary
 
         time = UILabel(frame: CGRect(x: ScreenSize.ScreenWidth*0.665, y: height*0.01, width: width*0.3, height: height*0.5))
-        time.font = UIFont.systemFont(ofSize: 12)
+        time.font = UIFont.systemFont(ofSize: 11)
         time.textAlignment = .right
         time.textColor = UIColor.lightGray
 
@@ -179,7 +179,7 @@ class NotificationTableViewCell: UITableViewCell {
         priceLabel.font = UIFont.boldSystemFont(ofSize: 14)
 
         let stringContent = UILabel(frame: CGRect(x: width*0.2, y: 0, width: width*0.8, height: height))
-        stringContent.text = self.data.getContentForNotification()
+        stringContent.text = self.data.getContentForNotification() != nil ? self.data.getContentForNotification(): ""
         stringContent.numberOfLines = 2
         stringContent.font = UIFont.systemFont(ofSize: 12)
 

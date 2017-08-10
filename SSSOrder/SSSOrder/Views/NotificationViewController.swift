@@ -41,7 +41,7 @@ class NotificationViewController: BaseController {
                 if error != nil {
                     self.showErrorMessage(error!)
                 } else {
-                    self.listData = listNotification.reversed()
+                    self.listData = listNotification
                     //                self.createLabelHeaderTitle()
                     self.createListCollectionProduct()
                 }
@@ -69,20 +69,20 @@ class NotificationViewController: BaseController {
         pageScrollCollection.delegate = self
         pageScrollCollection.contentSize = CGSize(width: ScreenSize.ScreenWidth, height: ScreenSize.ScreenHeight*0.73)
 
-//        for i in 0..<notificationController.notificationType.count {
-            tableViewList = UITableView(frame: CGRect(x: CGFloat(0)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
-            tableViewList.backgroundColor = .clear
-            tableViewList.dataSource = self
-            tableViewList.delegate = self
-            tableViewList.separatorStyle = .none
+        //        for i in 0..<notificationController.notificationType.count {
+        tableViewList = UITableView(frame: CGRect(x: CGFloat(0)*ScreenSize.ScreenWidth, y: 0, width: ScreenSize.ScreenWidth, height: pageScrollCollection.frame.height))
+        tableViewList.backgroundColor = .clear
+        tableViewList.dataSource = self
+        tableViewList.delegate = self
+        tableViewList.separatorStyle = .none
         if #available(iOS 10.0, *) {
             tableViewList.refreshControl = self.refreshControl
         } else {
             // Fallback on earlier versions
             tableViewList.addSubview(self.refreshControl)
         }
-            self.pageScrollCollection.addSubview(tableViewList)
-//        }
+        self.pageScrollCollection.addSubview(tableViewList)
+        //        }
 
         self.view.addSubview(pageScrollCollection)
     }
@@ -101,7 +101,7 @@ class NotificationViewController: BaseController {
                     return
                 }
 
-                self.listData = listNotification.reversed()
+                self.listData = listNotification
                 var number = 0
                 if self.tabBarController?.tabBar.items?[1].badgeValue != nil {
                     number = Int((self.tabBarController?.tabBar.items?[1].badgeValue)!)!
@@ -122,17 +122,17 @@ class NotificationViewController: BaseController {
     }
 
     @objc func refreshList(sender: UIRefreshControl) {
-//        self.showOverlayLoading()
+        //        self.showOverlayLoading()
         DispatchQueue.main.async {
             self.notificationController.getListNotification { (listNotification, error) in
-//                self.removeOverlayLoading()
+                //                self.removeOverlayLoading()
 
                 if error != nil {
                     self.showErrorMessage(error!)
                     return
                 }
 
-                self.listData = listNotification.reversed()
+                self.listData = listNotification
                 // tell refresh control it can stop showing up now
                 if self.refreshControl.isRefreshing { self.refreshControl.endRefreshing() }
                 self.tableViewList.reloadData()
@@ -161,23 +161,29 @@ class NotificationViewController: BaseController {
 
 extension NotificationViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
+        if listData.count <= 0 {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.tableViewList.bounds.size.width, height: self.tableViewList.bounds.size.height))
+            noDataLabel.text             = NSLocalizedString("There are no notification currently.", comment: "empty offer data")
+            noDataLabel.textColor        = UIColor.black
+            noDataLabel.font = UIFont.systemFont(ofSize: 15)
+            noDataLabel.textAlignment    = .center
+            self.tableViewList.backgroundView = noDataLabel
+            self.tableViewList.separatorStyle = .none
+            return 0
+        }
+
+        self.tableViewList.backgroundView = nil
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //        return 1
         //        let index = tableView.tag
         //        if index == 0 {
         //            return listData.filter({ $0.type == "Promotion"}).count
         //        } else {
         //            return listData.filter({ $0.type == "System"}).count
         //        }
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        return 1
-//        let index = tableView.tag
-//        if index == 0 {
-//            return listData.filter({ $0.type == "Promotion"}).count
-//        } else {
-//            return listData.filter({ $0.type == "System"}).count
-//        }
         return listData.count
     }
 
@@ -231,20 +237,20 @@ extension NotificationViewController: UITableViewDataSource {
 extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-//        self.notificationItemSelected = self.listData[indexPath.row]
-//        let index = self.listData.index(of: self.notificationItemSelected!)
-//        self.listData[index!].isReadable = true
-//        tableView.reloadData()
-//
-//        let count = self.listData.filter({ $0.isReadable == false }).count
-//
-//        if count > 0 {
-//            self.tabBarController?.tabBar.items?[1].badgeValue = "\(count)"
-//        } else {
-//            self.tabBarController?.tabBar.items?[1].badgeValue = nil
-//        }
+        //        self.notificationItemSelected = self.listData[indexPath.row]
+        //        let index = self.listData.index(of: self.notificationItemSelected!)
+        //        self.listData[index!].isReadable = true
+        //        tableView.reloadData()
+        //
+        //        let count = self.listData.filter({ $0.isReadable == false }).count
+        //
+        //        if count > 0 {
+        //            self.tabBarController?.tabBar.items?[1].badgeValue = "\(count)"
+        //        } else {
+        //            self.tabBarController?.tabBar.items?[1].badgeValue = nil
+        //        }
 
-//        self.performSegue(withIdentifier: SegueNameConstant.NotificationToNotificationItem, sender: nil)
+        //        self.performSegue(withIdentifier: SegueNameConstant.NotificationToNotificationItem, sender: nil)
 
     }
 }
@@ -281,7 +287,7 @@ extension NotificationViewController: NotificationItemDelegate {
                     self.showErrorMessage(error!)
                 } else {
                     self.showInfoMessage("You have been \(isAgree ? "confirmed":"cancelled") this order.")
-                    self.listData = listResult.reversed()
+                    self.listData = listResult
                     self.tableViewList.reloadData()
                 }
             })

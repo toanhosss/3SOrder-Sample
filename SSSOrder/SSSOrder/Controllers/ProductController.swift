@@ -19,7 +19,7 @@ class ProductController: NSObject {
     let provider = MoyaProvider<APIService>()
 
     func getData(storeId: Int,
-                 callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ staffList: [StaffModel], _ error: String?) -> Void) {
+                 callback: @escaping (_ categories: [(id: Int, name: String, product: [SalonProductModel])]?, _ error: String?) -> Void) {
         provider.request(.getCategoriesByStore(storeId: storeId)) { (result) in
             switch result {
             case .success(let response):
@@ -38,27 +38,27 @@ class ProductController: NSObject {
 
                         }
 
-                        let staffList = dataList!["Staffs"] as? [[String: Any]]
-                        var staffs: [StaffModel] = []
-                        for staff in staffList! {
-                            let staffId = staff["Id"] as? Int
-                            let staffName = staff["Name"] as? String
-                            let staffItem = StaffModel(staffId: staffId!, name: staffName!, avatar: "")
-                            staffs.append(staffItem)
-                        }
+//                        let staffList = dataList!["Staffs"] as? [[String: Any]]
+//                        var staffs: [StaffModel] = []
+//                        for staff in staffList! {
+//                            let staffId = staff["Id"] as? Int
+//                            let staffName = staff["Name"] as? String
+//                            let staffItem = StaffModel(staffId: staffId!, name: staffName!, avatar: "")
+//                            staffs.append(staffItem)
+//                        }
 
-                        callback(category, staffs, nil)
+                        callback(category, nil)
                     } else {
                         let error = data!["message"] as? String
-                        callback(nil, [], error!)
+                        callback(nil, error!)
                     }
                 } catch {
                     let error = "Cannot map data"
-                    callback(nil, [], error)
+                    callback(nil, error)
                 }
             case .failure(let error):
                 let errorString = error.errorDescription
-                callback(nil, [], errorString)
+                callback(nil, errorString)
             }
         }
     }

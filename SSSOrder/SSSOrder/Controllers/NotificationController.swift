@@ -107,11 +107,11 @@ class NotificationController: NSObject {
 
         notification.isConfirmOder = isConfirmOrder
         notification.content = description
+        notification.orderId = orderId!
+        notification.price = price!
 
         if type == 2 {
-            notification.orderId = orderId!
             notification.services = service!
-            notification.price = price!
         }
 
         return notification

@@ -252,7 +252,7 @@ class HomeViewController: BaseController {
     // MARK: Handler Notification
     @objc func notificationUpdateNumber(notification: Notification) {
         DispatchQueue.main.async {
-            NotificationController.SharedInstance.getListNotification { (listNotification, error) in
+            NotificationController.SharedInstance.getListNotification { (_, error) in
 
                 if error != nil {
                     self.showErrorMessage(error!)

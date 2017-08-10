@@ -34,7 +34,7 @@ final class AnimationUtil {
             view.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             view.alpha = 0.0
         }, completion: {(finished: Bool)  in
-            if (finished) {
+            if finished {
                 view.removeFromSuperview()
             }
         })

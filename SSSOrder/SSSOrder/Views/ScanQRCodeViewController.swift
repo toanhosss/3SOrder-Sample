@@ -168,8 +168,8 @@ class ScanQRCodeViewController: BaseController {
 
         var orderCheckIn = [Int]()
         var orderCheckOut = [Int]()
-        var checkInSuccess = "Order number "
-        var checkOutSuccess = "Order number "
+        var checkInSuccess = "Booking "
+        var checkOutSuccess = "Booking "
 
         for item in self.orderListSubmit {
             for order in listOrder {
@@ -184,12 +184,12 @@ class ScanQRCodeViewController: BaseController {
         }
 
         for i in 0..<orderCheckIn.count {
-            checkInSuccess += "\(orderCheckIn[i])"
+            checkInSuccess += "#\(orderCheckIn[i])"
             if i != (orderCheckIn.count - 1) { checkInSuccess += ", " } else { checkInSuccess += " was checked in." }
         }
 
         for i in 0..<orderCheckOut.count {
-            checkOutSuccess += "\(orderCheckOut[i])"
+            checkOutSuccess += "#\(orderCheckOut[i])"
             if i != (orderCheckOut.count - 1) { checkOutSuccess += ", " } else { checkOutSuccess += " was checked out." }
         }
 
@@ -205,7 +205,7 @@ class ScanQRCodeViewController: BaseController {
     // MARK: Handler button clicked
     @objc func submitAllOrder(sender: UIButton) {
         if self.orderListSubmit.count <= 0 {
-            self.showErrorMessage("You must have at least 1 order to submit")
+            self.showErrorMessage("You must have at least 1 booking to submit")
             return
         }
 
@@ -334,7 +334,7 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
 
         let popupLabel = UILabel(frame: CGRect(x: 0.05*titleView.frame.size.width, y: 0, width: 0.9*titleView.frame.size.width, height: height))
         popupLabel.textColor = .black
-        popupLabel.text = "Order List"
+        popupLabel.text = "Booking List"
         popupLabel.font = UIFont.boldSystemFont(ofSize: 18)
         popupLabel.textAlignment = .center
         titleView.addSubview(popupLabel)
@@ -392,7 +392,7 @@ extension ScanQRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
 
         let orderNumber = UILabel(frame: CGRect(x: infoView.frame.width*0.1, y: 0, width: infoView.frame.width*0.6, height: height*0.35))
         orderNumber.font = UIFont.boldSystemFont(ofSize: 14)
-        orderNumber.text = "Order Number: \(order.orderId!)"
+        orderNumber.text = "Booking Number: \(order.orderId!)"
         let orderPrice = UILabel(frame: CGRect(x: infoView.frame.width*0.6, y: 0, width: infoView.frame.width*0.4, height: height*0.35))
         orderPrice.text = "$\(order.totalPrice)"
         orderPrice.textAlignment = .right

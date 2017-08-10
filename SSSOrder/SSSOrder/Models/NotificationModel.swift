@@ -54,6 +54,10 @@ class NotificationModel: NSObject {
         if type == 2 {
             return self.services!
         }
+
+        if type == 3 {
+            return "Booking Completed."
+        }
         return self.content!
     }
 
@@ -81,8 +85,8 @@ class NotificationModel: NSObject {
     }
 
     private func setNotificationName() -> String {
-        if type == 2 && title == "Create Order" && isConfirmOder {
-            return "Order #\(orderId!)"
+        if type == 2 && isConfirmOder {
+            return "Booking #\(orderId!)"
         }
 
         return title

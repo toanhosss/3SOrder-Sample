@@ -251,13 +251,13 @@ open class Popover: UIView {
         var rate = 0.5
         var xPoint = fromView.frame.origin.x + (fromView.frame.size.width*CGFloat(rate))
         var realPoint = inScrollView.convert(CGPoint(x: xPoint, y: fromView.frame.origin.y), to: nil)
-        while (realPoint.x < 25) {
+        while realPoint.x < 25 {
             rate = (1 + rate)*0.5
             xPoint = fromView.frame.origin.x + fromView.frame.size.width*CGFloat(rate)
             realPoint = inScrollView.convert(CGPoint(x: xPoint, y: fromView.frame.origin.y), to: nil)
         }
 
-        while(realPoint.x > ScreenSize.ScreenWidth - 25) {
+        while realPoint.x > ScreenSize.ScreenWidth - 25 {
             rate *= 0.5
             xPoint = fromView.frame.origin.x + fromView.frame.size.width*CGFloat(rate)
             realPoint = inScrollView.convert(CGPoint(x: xPoint, y: fromView.frame.origin.y), to: nil)

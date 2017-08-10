@@ -39,32 +39,29 @@ class OrderController: NSObject {
             sum += item.price
         }
 
-        callback(true, 275, nil)
-        return
+        self.provider.request(.createOrder(customerId: user!.userId, storeId: order.storeId, amount: sum, bookedDate: dateString, status: "New", note: order.note, customerName: user!.name, customerPhone: user!.phone, timer: timeBooked!, productList: order.productList, staff: order.staff != nil ? order.staff!:StaffModel(staffId: -1, name: "", avatar: ""), payment: paymentMethod)) { (result) in
+            switch result {
+            case .success(let response):
+                do {
+                    let json = try response.mapJSON() as? [String:Any]
+                    guard let order = json!["order"] as? [String:Any] else {
+                        let error = "Cannot map data"
+                        callback(false, nil, error)
+                        return
+                    }
 
-//        self.provider.request(.createOrder(customerId: user!.userId, storeId: order.storeId, amount: sum, bookedDate: dateString, status: "New", note: order.note, customerName: user!.name, customerPhone: user!.phone, timer: timeBooked!, productList: order.productList, staff: order.staff != nil ? order.staff!:StaffModel(staffId: -1, name: "", avatar: ""), payment: paymentMethod)) { (result) in
-//            switch result {
-//            case .success(let response):
-//                do {
-//                    let json = try response.mapJSON() as? [String:Any]
-//                    guard let order = json!["order"] as? [String:Any] else {
-//                        let error = "Cannot map data"
-//                        callback(false, nil, error)
-//                        return
-//                    }
-//
-//                    let id = order["Id"] as? Int
-//
-//                    callback(true, id!, nil)
-//                } catch {
-//                    let error = "Cannot map data"
-//                    callback(false, nil, error)
-//                }
-//            case .failure(let error):
-//                let errorString = error.errorDescription
-//                callback(false, nil, errorString)
-//            }
-//        }
+                    let id = order["id"] as? Int
+
+                    callback(true, id!, nil)
+                } catch {
+                    let error = "Cannot map data"
+                    callback(false, nil, error)
+                }
+            case .failure(let error):
+                let errorString = error.errorDescription
+                callback(false, nil, errorString)
+            }
+        }
     }
 
     /// Get order detail
@@ -113,7 +110,37 @@ class OrderController: NSObject {
     }
 
     func getFreeTimeOfStoreOnDate(storeId: Int, on date: Date, callback: @escaping (_ listTime: [String],_ error: String?) -> Void) {
-        callback(["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"], nil)
+        let timeList = ["9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00"]
+
+        let currentDate = Date()
+        let dateFormat = DateFormatter()
+        dateFormat.dateStyle = .full
+        dateFormat.timeZone = TimeZone(identifier: "GMT")
+        if let current = dateFormat.date(from: date.format(with: DateFormatter.Style.full)) {
+            if DateUtil.calicuateDaysBetweenTwoDates(start: current, end: currentDate) < 0 {
+                callback(timeList, nil)
+                return
+            }
+        }
+
+        var timeAvailable = [String]()
+        for i in 0..<timeList.count {
+            let time = timeList[i]
+            let format = DateFormatter()
+            format.dateFormat = "HH:mm"
+            if let bookingTime = format.date(from: time) {
+                if bookingTime.hour > currentDate.hour {
+                    timeAvailable.append(time)
+                }
+
+                if bookingTime.hour == currentDate.hour && bookingTime.minute > currentDate.minute  {
+                    timeAvailable.append(time)
+                }
+            }
+            
+        }
+
+        callback(timeAvailable, nil)
     }
 
     /// Get FreeTime Of Staff list
@@ -249,7 +276,7 @@ class OrderController: NSObject {
 
     func migrateOrderData(jsonData: [String:Any]) -> OrderModel? {
         guard let storeId = jsonData["storeId"] as? Int,
-            let customerId = jsonData["customerId"] as? Int,
+            let customerId = jsonData["userId"] as? Int,
             let status = jsonData["status"] as? String,
             let bookingDate = jsonData["bookingDate"] as? String,
             let totalPrice = jsonData["totalAmount"] as? Double,
